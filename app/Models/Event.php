@@ -10,6 +10,12 @@ class Event extends Model
 {
     use SoftDeletes;
 
+    public const STATUS_LABELS = [
+        'draft' => 'Borrador',
+        'published' => 'Publicado',
+        'cancelled' => 'Cancelado',
+    ];
+
     protected $fillable = ['title', 'description', 'location', 'image_path', 'starts_at', 'status', 'created_by'];
 
     protected function casts(): array

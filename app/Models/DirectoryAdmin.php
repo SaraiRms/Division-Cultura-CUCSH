@@ -15,8 +15,8 @@ class DirectoryAdmin extends Model
     protected $table = 'directory_admin';
 
     protected $fillable = [
-        'full_name', 'cargo', 'email', 'phone', 'cargo_detalle', 'nivel_academico',
-        'grado_academico', 'materias', 'area_conocimiento', 'cv_summary', 'cv_path',
+        'full_name', 'cargo', 'email', 'phone', 'phone_ext', 'nivel_academico',
+        'materias', 'area_conocimiento', 'cv_summary', 'cv_path',
         'photo_path', 'created_by',
     ];
 

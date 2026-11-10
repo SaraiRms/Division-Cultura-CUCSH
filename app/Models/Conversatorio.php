@@ -13,6 +13,12 @@ class Conversatorio extends Model
 
     protected $table = 'conversatorios';
 
+    public const STATUS_LABELS = [
+        'scheduled' => 'Programado',
+        'live' => 'En vivo',
+        'finished' => 'Finalizado',
+    ];
+
     protected $fillable = ['title', 'speaker', 'description', 'scheduled_at', 'stream_url', 'status', 'created_by'];
 
     protected function casts(): array
