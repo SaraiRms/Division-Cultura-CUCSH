@@ -13,30 +13,47 @@ class EventInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('title'),
+                TextEntry::make('title')
+                    ->label('Título'),
+
                 TextEntry::make('description')
-                    ->placeholder('-')
+                    ->label('Descripción')
+                    ->html()
                     ->columnSpanFull(),
+
                 TextEntry::make('location')
-                    ->placeholder('-'),
+                    ->label('Lugar')
+                    ->placeholder('—'),
+
                 ImageEntry::make('image_path')
-                    ->placeholder('-'),
+                    ->label('Imagen')
+                    ->disk('public')
+                    ->square(),
+
                 TextEntry::make('starts_at')
-                    ->dateTime(),
+                    ->label('Fecha de inicio')
+                    ->dateTime('d/m/Y H:i'),
+
                 TextEntry::make('status')
-                    ->badge(),
-                TextEntry::make('created_by')
-                    ->numeric()
-                    ->placeholder('-'),
+                    ->label('Estado')
+                    ->badge()
+                    ->formatStateUsing(fn (string $state) => Event::STATUS_LABELS[$state] ?? $state)
+                    ->color(fn (string $state) => match ($state) {
+                        'published' => 'success',
+                        'cancelled' => 'danger',
+                        default => 'gray',
+                    }),
+
+                TextEntry::make('creator.name')
+                    ->label('Creado por'),
+
                 TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->label('Creado el')
+                    ->dateTime('d/m/Y H:i'),
+
                 TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('deleted_at')
-                    ->dateTime()
-                    ->visible(fn (Event $record): bool => $record->trashed()),
+                    ->label('Última modificación')
+                    ->dateTime('d/m/Y H:i'),
             ]);
     }
 }

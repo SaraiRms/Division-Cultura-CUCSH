@@ -20,11 +20,6 @@ class EventsTable
     {
         return $table
             ->columns([
-                
-            ImageColumn::make('image_path')
-                ->label('Imagen')
-                ->disk('public')
-                ->square(),
 
             TextColumn::make('title')
                 ->label('Evento')
@@ -33,6 +28,10 @@ class EventsTable
 
             TextColumn::make('location')
                 ->label('Ubicación'),
+
+            ImageColumn::make('image_path')
+                ->label('Imagen')
+                ->square(),
 
             TextColumn::make('starts_at')
                 ->label('Fecha y Hora')

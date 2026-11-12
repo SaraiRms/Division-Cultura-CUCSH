@@ -14,10 +14,15 @@ class NewsInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('title'),
-                TextEntry::make('slug'),
+                TextEntry::make('title')
+                    ->label('Titulo'),
+
+                TextEntry::make('slug')
+                    ->label('Dirección'),
+
                 TextEntry::make('summary')
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ,
                 TextEntry::make('body')
                     ->placeholder('-')
                     ->columnSpanFull(),

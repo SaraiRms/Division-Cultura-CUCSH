@@ -11,6 +11,12 @@ class News extends Model
 {
     use SoftDeletes;
 
+    public const STATUS_LABELS = [
+        'draft' => 'Borrador',
+        'pending' => 'Pendiente',
+        'rejected' => 'Rechazado',
+    ];
+
     protected $table = 'news';
 
     protected $fillable = [

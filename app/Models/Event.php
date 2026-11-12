@@ -38,4 +38,13 @@ class Event extends Model
     {
         return $query->whereYear('starts_at', $year)->whereMonth('starts_at', $month);
     }
+
+    // Eventos publicados de hoy en adelante, del más cercano al más lejano.
+    public function scopeUpcoming($query)
+    {
+        return $query->published()
+            ->where('starts_at', '>=', now()->startOfDay())
+            ->orderBy('starts_at');
+    }
+
 }
