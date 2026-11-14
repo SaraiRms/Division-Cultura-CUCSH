@@ -26,13 +26,11 @@
                 @php
                     $enlaces = [
                         ['Inicio', url('/'), request()->is('/')],
-                        ['Departamentos', url('/departamentos'), request()->is('departamentos*')],
-                        ['Eventos', url('/eventos'), request()->is('eventos*')],
-                        ['Noticias', url('/noticias'), request()->is('noticias*')],
-                        ['Directorio', url('/directorio'), request()->is('directorio*')],
-                        ['Integración estudiantil', url('/integracion'), request()->is('integracion*')],
                         ['Podcast', url('/podcast'), request()->is('podcast*')],
                         ['Conversatorio', url('/conversatorios'), request()->is('conversatorios*')],
+                        ['Participación Académica', url('/integracion'), request()->is('integracion*')],
+                        ['Directorio', url('/directorio'), request()->is('directorio*')],
+                        ['Egresados', url('/egresados'), request()->is('egresados*')]
                     ];
                 @endphp
 

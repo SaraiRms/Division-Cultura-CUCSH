@@ -45,6 +45,7 @@ class ContributionController extends Controller
         $datos = $request->validate([
             'contact_email' => ['required', 'email:rfc,dns', 'max:190'],
             'comentarios'   => ['nullable', 'string', 'max:1000'],
+            'titulo'        => ['required', 'string', 'max:200'],
             'pdf' => [
                 'bail', 'required', 'file', 'mimes:pdf', 'mimetypes:application/pdf', 'max:5120', // 5 MB
                 function ($atributo, $valor, $fallar) {
@@ -65,6 +66,8 @@ class ContributionController extends Controller
             'pdf.max'                => 'El PDF no puede pesar más de 5 MB.',
             'pdf.uploaded'           => 'No se pudo subir el archivo. Revisa que no pese más de 5 MB.',
             'acepto.accepted'        => 'Debes aceptar el aviso de privacidad para enviar tu participación.',
+            'titulo.required'        => 'Escribe el título de tu documento.',
+            'titulo.max'             => 'El título no puede pasar de 200 caracteres.',
         ]);
 
         // Carpeta PRIVADA (storage/app/private), con un nombre al azar que genera Laravel
@@ -72,6 +75,7 @@ class ContributionController extends Controller
 
         $aportacion = Contribution::create([
             'author_type'   => self::TIPOS[$tipo],
+            'title'         => $datos['titulo'],
             'contact_email' => $datos['contact_email'],
             'comentarios'   => $datos['comentarios'] ?? null,
             'pdf_path'      => $ruta,

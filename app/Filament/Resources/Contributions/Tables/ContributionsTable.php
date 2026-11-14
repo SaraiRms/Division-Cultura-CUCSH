@@ -10,6 +10,7 @@ use Filament\Actions\EditAction;
 use Filament\Notifications\Notification;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
@@ -47,6 +48,17 @@ class ContributionsTable
                         default     => 'gray',
                     }),
 
+                TextColumn::make('reviewer.name')
+                    ->label('Revisó')
+                    ->placeholder('—'),
+
+                TextColumn::make('review_note')
+                    ->label('Motivo')
+                    ->limit(40)
+                    ->tooltip(fn (Contribution $record) => $record->review_note)
+                    ->placeholder('—')
+                    ->toggleable(),
+
                 TextColumn::make('created_at')
                     ->label('Recibida')
                     ->dateTime('d/m/Y H:i')
@@ -71,15 +83,27 @@ class ContributionsTable
 
                 Action::make('rechazar')
                     ->label('Rechazar')
-                    ->icon(Heroicon::OutlinedXCircle)
+                    ->icon('heroicon-o-x-circle')
                     ->color('danger')
-                    ->requiresConfirmation()
-                    ->visible(fn (Contribution $record) => in_array($record->status, ['received', 'in_review'])
-                        && auth()->user()?->can('revisar_contenido'))
-                    ->action(function (Contribution $record) {
-                        $record->update(['status' => 'rejected']);
+                    ->modalHeading('Rechazar aportación')
+                    ->modalDescription('Escribe el motivo. Se guarda junto con tu nombre y la fecha.')
+                    ->schema([
+                        Textarea::make('review_note')
+                            ->label('Motivo del rechazo')
+                            ->required()
+                            ->maxLength(1000),
+                    ])
+                    ->action(function (Contribution $record, array $data) {
+                        $record->update([
+                            'status'      => 'rejected',
+                            'review_note' => $data['review_note'],
+                        ]);
 
-                        Notification::make()->title('Aportación rechazada')->warning()->send();
+                        Notification::make()
+                            ->title('Aportación rechazada')
+                            ->success()
+                            ->send();
+
                     }),
 
                 EditAction::make()->label('Revisar'),

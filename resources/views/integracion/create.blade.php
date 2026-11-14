@@ -3,10 +3,16 @@
 @section('content')
 <section class="mx-auto max-w-2xl px-6 py-12">
     <a href="{{ route('integracion.index', $tipo) }}" class="text-sm text-vino underline">← Volver</a>
+    <p class="mt-4 text-2xl uppercase tracking-widest text-neutral-500">
+        {{ $tipo === 'alumnos' ? 'Integración estudiantil' : 'Integración académica' }}
+    </p>
 
-    <h1 class="mt-4 text-3xl text-vino">Enviar mi participación</h1>
+    <h1 class=" text-3xl text-vino">Enviar mi participación</h1>
     <p class="mt-3 text-marino">
         Adjunta tu documento en PDF. El equipo de la División lo revisará antes de publicarlo.
+    </p>
+    <p class="text-sm text-gray-500">
+        Participación de {{ $tipo === 'alumnos' ? 'estudiantes' : 'académicos' }}
     </p>
 
     <form method="POST" action="{{ route('integracion.store', $tipo) }}" enctype="multipart/form-data"
@@ -18,11 +24,15 @@
             <label>Sitio web <input type="text" name="sitio_web" tabindex="-1" autocomplete="off"></label>
         </div>
 
-        {{-- <div>
-            <label for="title" class="text-xl">Título<span class="text-vino">*</span></label>
-            <textarea name="title" id="title" rows="2" maxlength="200"></textarea>
-            <p class="mt-1 text-xs text-neutral-500">Coloca el titulo de tu investigación, documento, etc</p>
-        </div> --}}
+        <div>
+                <label for="titulo" class="block text-marino">Título de tu documento<span class="text-vino">*</span></label>
+            <input type="text" id="titulo" name="titulo" value="{{ old('titulo') }}"
+                maxlength="200" required
+                class="mt-1 w-full  border border-neutral-300 bg-white px-3 py-2 focus:border-vino focus:ring-vino">
+            @error('titulo')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div> 
 
         <div>
             <label for="contact_email" class="block text-marino">Correo de contacto <span class="text-vino">*</span></label>

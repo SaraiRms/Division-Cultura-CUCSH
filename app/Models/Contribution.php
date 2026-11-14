@@ -12,10 +12,9 @@ class Contribution extends Model
     protected $fillable = [
         'author_type', 'contact_email', 'comentarios', 'pdf_path',
         'title', 'banner_path', 'status', 'reviewed_by', 'reviewed_at',
+        'review_note',
     ];
 
-    // El correo de contacto no debe mostrarse en la página pública.
-    protected $hidden = ['contact_email'];
 
     public const STATUS_LABELS = [
         'received'  => 'Recibida',

@@ -49,10 +49,24 @@ class ContributionForm
                             ->required()
                             ->live(),
 
+                        Textarea::make('review_note')
+                            ->label('Motivo del rechazo')
+                            ->visible(fn (Get $get) => $get('status') === 'rejected')
+                            ->required(fn (Get $get) => $get('status') === 'rejected')
+                            ->maxLength(1000)
+                            ->columnSpanFull(),
+
+                        TextInput::make('reviewer_name')
+                            ->label('Última revisión por')
+                            ->formatStateUsing(fn ($record) => $record?->reviewer?->name)
+                            ->disabled()
+                            ->dehydrated(false)
+                            ->visible(fn ($record) => filled($record?->reviewed_by)),
+
                         TextInput::make('title')
                             ->label('Título')
                             ->maxLength(200)
-                            ->required(fn (Get $get): bool => $get('status') === 'published'),
+                            ->required(),
 
                         FileUpload::make('banner_path')
                             ->label('Banner')

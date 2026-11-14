@@ -9,6 +9,7 @@ use App\Http\Controllers\DirectoryController;
 use App\Http\Controllers\ConversatorioController;
 use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\ContributionController;
+use App\Http\Controllers\GraduateController;
 
 
 
@@ -41,3 +42,4 @@ Route::post('{tipo}/participar', [ContributionController::class, 'store'])
 
 Route::get('/archivos-privados/aportaciones/{contribution}', [ContributionController::class, 'adminDocument'])
     ->name('aportaciones.pdf');
+Route::get('/egresados', [GraduateController::class, 'index'])->name('egresados.index');

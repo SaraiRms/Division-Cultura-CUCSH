@@ -5,16 +5,17 @@
 @php
     $secciones = [
         'alumnos' => [
-            'titulo'      => 'Integración estudiantil',
+            'titulo'      => 'Participación Estudiantil',
             'etiqueta'    => 'Estudiantes',
             'descripcion' => 'Comparte tu conocimiento con nuestra comunidad académica, queremos escucharte.',
         ],
         'profesores' => [
-            'titulo'      => 'Integración académica',
+            'titulo'      => 'Participación Académica',
             'etiqueta'    => 'Académicos',
             'descripcion' => 'Comparte tus conocimientos, artículos y participaciones docentes con nuestra comunidad académica.',
         ],
     ];
+
     $seccion = $secciones[$tipo];
 @endphp
 
