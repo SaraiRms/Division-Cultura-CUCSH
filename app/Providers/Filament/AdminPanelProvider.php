@@ -27,33 +27,42 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->login()
             ->renderHook(PanelsRenderHook::FOOTER, fn () => view('filament.footer')) //footer
             ->renderHook(PanelsRenderHook::HEAD_END, fn () => '<style>body.fi-body { background-color: #FBF8F5; }</style>') //color de fondo
 
             // se coloca el color predeterminado para botones y menú
             ->colors([
-                'primary' => Color::hex('#781d26'), //Color vino
+                'primary' => '#781d26', //Color vino
             ])
 
             // se define el tipo de fuente para el panel, se puede cambiar a cualquier fuente de Google Fonts
             
-            ->font('cardo')
             ->brandName('División de Estudios de la Cultura')
-            ->brandLogo(asset('images/Logo_Div_Cultura.svg')) //Logo de la División de Estudios de la Cultura
-            ->brandLogoHeight('4rem')
+            ->brandLogo(asset('images/Logo_Div_Cultura.svg'))
+            ->brandLogoHeight('3rem')
+            ->darkMode(false)                    // sin modo oscuro: la marca es clara
+            ->sidebarCollapsibleOnDesktop()
+            // ->renderHook(PanelsRenderHook::SIDEBAR_NAV_START, fn () => view('filament.logo-colapsado'))
             
             /////////////////////////
             
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
+            
             ->pages([
                 Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
+            
             ->widgets([
                 AccountWidget::class, //Saludo con botón para cerrar cesión
-            ])
+                \App\Filament\Widgets\ResumenStats::class
+                ])
+
+
+
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -68,5 +77,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+
+            
     }
 }

@@ -39,7 +39,7 @@ class RolesSeeder extends Seeder
             // eliminar publicado = "restringido".
             'admin_tecnico' => [
                 'crear_borradores', 'editar_contenido_propio', 'editar_contenido_ajeno',
-                'revisar_contenido', 'gestionar_usuarios',
+                'revisar_contenido', 'gestionar_usuarios', 'publicar_contenido', 'eliminar_contenido_publicado',
             ],
 
             // Responsable institucional (jefe de división): aprueba contenido oficial.

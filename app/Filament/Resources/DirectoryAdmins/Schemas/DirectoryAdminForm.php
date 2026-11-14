@@ -67,9 +67,9 @@ class DirectoryAdminForm
                         ->required()
                         ->maxLength(100),
 
-                    // TextInput::make('materias')
-                    //     ->label('Materias que imparte')
-                    //     ->maxLength(255),
+                     TextInput::make('materias')
+                         ->label('Materias que imparte')
+                         ->maxLength(255),
 
                     Select::make('departments')
                         ->label('Departamento(s)')

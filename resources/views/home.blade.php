@@ -25,10 +25,10 @@
 {{-- ACCESOS RÁPIDOS --}}
 @php
     $accesos = [
-        ['Presentación',  'Conoce nuestra misión, objetivos y el quehacer de la división', 'heroicon-o-academic-cap', route('noticias.index')],
-        ['Departamentos', 'Conoce nuestra oferta académica en el departamento de la Cultura', 'heroicon-o-book-open', route('departamentos.index') . '#presentacion'],
+        ['Presentación',  'Conoce nuestra misión, objetivos y el quehacer de la división', 'heroicon-o-academic-cap', route('departamentos.index')],
+        ['Departamentos', 'Conoce nuestra oferta académica en el departamento de la Cultura', 'heroicon-o-book-open', route('departamentos.index') . '#departamentos'],
         ['Eventos',       'Mantente al tanto de nuestras conferencias, talleres y actividades académicas', 'heroicon-o-calendar-days', route('eventos.index')],
-        ['Noticias',      'Entérate de las últimas novedades, proyectos y convocatorias', 'heroicon-o-newspaper', '#'],
+        ['Noticias',      'Entérate de las últimas novedades, proyectos y convocatorias', 'heroicon-o-newspaper', route('noticias.index')],
     ];
 @endphp
 
@@ -36,7 +36,7 @@
     <div class="mx-auto grid max-w-6xl md:grid-cols-4 md:divide-x md:divide-neutral-300">
         
         @foreach ($accesos as [$titulo, $texto, $icono, $enlace])
-            <a href="{{ route('departamentos.index') . '#departamentos' }}" class="block px-6 py-10 text-center hover:bg-white/60">
+            <a href="{{ $enlace }}" class="block px-6 py-10 text-center hover:bg-white/60">
                 <x-dynamic-component :component="$icono" class="mx-auto h-16 w-16 text-vino" />
                 <h3 class="mt-4 text-xl text-vino">{{ $titulo }}</h3>
                 <p class="mt-3 text-sm text-marino">{{ $texto }}</p>
@@ -128,7 +128,7 @@
             <p class="mt-3 text-xs text-neutral-500">
                 Un espacio para la creatividad y el diseño alrededor de los espacios culturales.
             </p>
-            <a href="#" class="mt-4 text-xs text-vino underline">Conocer el proyecto →</a>
+            <a href="{{ route('podcast.index')}}" class="mt-4 text-xs text-vino underline">Conocer el proyecto →</a>
             <x-heroicon-o-microphone class="mx-auto mt-auto h-24 w-24 text-vino/70" />
         </div>
     </div>

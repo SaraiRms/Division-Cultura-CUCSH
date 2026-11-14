@@ -14,6 +14,7 @@
 
     {{-- Encabezado --}}
     <header class="bg-marino">
+
         <div class="flex items-stretch">
             <a href="{{ url('/') }}" class="flex items-center gap-4 rounded-br-[2.5rem] bg-crema px-6 py-4">
                 <img src="{{ asset('images/cucsh_dual.svg') }}" alt="CUCSH" class="h-12">
@@ -25,9 +26,13 @@
                 @php
                     $enlaces = [
                         ['Inicio', url('/'), request()->is('/')],
-                        ['Noticias', url('/noticias'), request()->is('noticias*')],
+                        ['Departamentos', url('/departamentos'), request()->is('departamentos*')],
                         ['Eventos', url('/eventos'), request()->is('eventos*')],
+                        ['Noticias', url('/noticias'), request()->is('noticias*')],
+                        ['Directorio', url('/directorio'), request()->is('directorio*')],
                         ['Integración estudiantil', url('/integracion'), request()->is('integracion*')],
+                        ['Podcast', url('/podcast'), request()->is('podcast*')],
+                        ['Conversatorio', url('/conversatorios'), request()->is('conversatorios*')],
                     ];
                 @endphp
 

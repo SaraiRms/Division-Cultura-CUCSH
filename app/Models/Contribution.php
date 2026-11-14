@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class Contribution extends Model
 {
@@ -15,6 +16,34 @@ class Contribution extends Model
 
     // El correo de contacto no debe mostrarse en la página pública.
     protected $hidden = ['contact_email'];
+
+    public const STATUS_LABELS = [
+        'received'  => 'Recibida',
+        'in_review' => 'En revisión',
+        'published' => 'Publicada',
+        'rejected'  => 'Rechazada',
+    ];
+
+    public const TYPE_LABELS = [
+        'alumno'   => 'Estudiante',
+        'profesor' => 'Académico',
+    ];
+
+    protected static function booted(): void
+    {
+        // Al cambiar el estado desde el panel, se anota quién lo revisó y cuándo
+        static::saving(function (Contribution $c) {
+            if ($c->isDirty('status') && $c->status !== 'received' && auth()->check()) {
+                $c->reviewed_by = auth()->id();
+                $c->reviewed_at = now();
+            }
+        });
+
+        // Si se elimina una aportación, también se borra su PDF de la carpeta privada
+        static::deleting(function (Contribution $c) {
+            Storage::disk('local')->delete($c->pdf_path);
+        });
+    }
 
     protected function casts(): array
     {
