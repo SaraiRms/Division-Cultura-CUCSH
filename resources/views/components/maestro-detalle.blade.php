@@ -83,12 +83,7 @@
                             <span class="h-px w-8 bg-vino"></span> Resumen curricular
                         </h3>
 
-                        {{-- Acepta texto simple o texto con formato del editor --}}
-                        @if ($m->cv_summary !== strip_tags($m->cv_summary))
-                            <div class="contenido mt-3">{!! $m->cv_summary !!}</div>
-                        @else
-                            <p class="mt-3 whitespace-pre-line leading-relaxed">{{ $m->cv_summary }}</p>
-                        @endif
+                        <x-texto-rico :texto="$m->cv_summary" class="mt-3 leading-relaxed" />
                     @endif
 
                     @if ($m->cv_path)

@@ -18,8 +18,7 @@
         <p class="mt-6 text-xl text-neutral-700">{{ $noticia->summary }}</p>
     @endif
 
-    {{-- El texto viene del editor del panel (ya trae su HTML), por eso se imprime con {!! !!} --}}
-    <div class="contenido mt-6">{!! $noticia->body !!}</div>
+    <x-texto-rico :texto="$noticia->body" class="mt-6" />
 </article>
 
 @if ($relacionadas->isNotEmpty())

@@ -48,7 +48,7 @@
                     ella están adscritos cinco departamentos y un centro de investigación."</p>
 
                 @if ($division?->description)
-                    {!! $division->description !!}
+                    <x-texto-rico :texto="$division->description" />
                 @endif
             </div>
         </div>
@@ -101,7 +101,7 @@
                     <h3 class="text-2xl leading-snug text-vino">{{ $d->name }}</h3>
 
                     @if ($d->description)
-                        <div class="contenido mt-2 text-sm">{!! $d->description !!}</div>
+                        <x-texto-rico :texto="$d->description" class="mt-2 text-sm" />
                     @endif
 
                     {{-- Programas agrupados por tipo --}}

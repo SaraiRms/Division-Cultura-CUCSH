@@ -29,6 +29,6 @@
              class="mt-6 w-full object-cover">
     @endif
 
-    <div class="contenido mt-6">{!! $evento->description !!}</div>
+    <x-texto-rico :texto="$evento->description" class="mt-6" />
 </article>
 @endsection
