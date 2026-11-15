@@ -3,11 +3,8 @@
 namespace App\Filament\Resources\Podcasts\Pages;
 
 use App\Filament\Resources\Podcasts\PodcastResource;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\ForceDeleteAction;
-use Filament\Actions\RestoreAction;
-use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Support\Eliminacion;
 
 class EditPodcast extends EditRecord
 {
@@ -16,10 +13,9 @@ class EditPodcast extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            ViewAction::make(),
-            DeleteAction::make(),
-            ForceDeleteAction::make(),
-            RestoreAction::make(),
+            Eliminacion::eliminar('el', 'episodio'),
+            Eliminacion::restaurar(),
+            Eliminacion::eliminarDefinitivo(),
         ];
     }
 }

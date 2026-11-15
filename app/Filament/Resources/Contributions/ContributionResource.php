@@ -20,8 +20,8 @@ use Filament\Tables\Table;
 class ContributionResource extends Resource
 {
 
-    protected static ?string $modelLabel = 'aportación';
-    protected static ?string $pluralModelLabel = 'aportaciones';
+    protected static ?string $modelLabel = 'aportaciónes académicas';
+    protected static ?string $pluralModelLabel = 'Aportaciones Académicas';
     protected static ?string $navigationLabel = 'Aportaciones';
     protected static ?int $navigationSort = 5;
     protected static ?string $model = Contribution::class;

@@ -8,6 +8,8 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use App\Filament\Support\Eliminacion;
+use App\Models\Department;
 
 class DepartmentsTable
 {
@@ -26,10 +28,10 @@ class DepartmentsTable
                     ->searchable()
                     ->wrap(),
             
-                TextColumn::make('description')
-                    ->label('Descripción')
-                    ->limit(250)
-                    ->placeholder('Pendiente de descripción'),
+                // TextColumn::make('description')
+                //     ->label('Descripción')
+                //     ->limit(250)
+                //     ->placeholder('Pendiente de descripción'),
             
                 TextColumn::make('updatedBy.name')
                     ->label('Actualizado por')
@@ -43,7 +45,12 @@ class DepartmentsTable
 
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()->hidden(fn (Department $record) => $record->trashed()),
+                Eliminacion::eliminar('el', 'departamento', 'name', papelera: false)
+                    ->disabled(fn (Department $record) => $record->programs()->exists() || $record->directoryMembers()->exists())
+                    ->tooltip(fn (Department $record) => ($record->programs()->exists() || $record->directoryMembers()->exists())
+                        ? 'Tiene programas o personas ligadas. Quítalos primero.'
+                        : null),
                 
             ]);
     }

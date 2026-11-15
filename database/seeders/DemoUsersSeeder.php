@@ -12,7 +12,7 @@ class DemoUsersSeeder extends Seeder
     public function run(): void
     {
         $users = [
-            ['Administrador técnico (demo)', 'admin@example.test', 'admin_tecnico'],
+            ['Administrador (demo)', 'admin@example.test', 'administrador'],
             ['Responsable institucional (demo)', 'responsable@example.test', 'responsable_institucional'],
             ['Editor (demo)', 'editor@example.test', 'editor'],
             ['Auxiliar académico (demo)', 'auxiliar@example.test', 'auxiliar_academico'],

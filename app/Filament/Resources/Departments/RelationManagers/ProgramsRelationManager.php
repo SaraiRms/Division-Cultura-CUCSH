@@ -20,7 +20,8 @@ use Filament\Tables\Table;
 
 class ProgramsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'programs';
+    protected static string $relationship = 'Programs';
+    protected static ?string $title = 'Programas académicos';
 
     public function form(Schema $schema): Schema
     {
@@ -58,18 +59,24 @@ class ProgramsRelationManager extends RelationManager
     {
         return $schema
             ->components([
-                TextEntry::make('name'),
+                TextEntry::make('name')
+                    ->label('Nombre'),
+
                 TextEntry::make('type')
+                    ->label('Tipo')
                     ->badge(),
+
                 TextEntry::make('description')
+                    ->label('Descripción')
                     ->placeholder('-')
                     ->columnSpanFull(),
-                TextEntry::make('sort_order')
-                    ->numeric(),
-                TextEntry::make('updated_by')
-                    ->numeric()
+
+                TextEntry::make('updatedBy.name')
+                    ->label('Actualizado por')
                     ->placeholder('-'),
+
                 TextEntry::make('updated_at')
+                    ->label('Última actualización')
                     ->dateTime()
                     ->placeholder('-'),
             ]);
@@ -78,6 +85,8 @@ class ProgramsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->modelLabel('programa académico')
+            ->pluralModelLabel('programas académicos')
             ->recordTitleAttribute('name')
             ->columns([
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\DirectoryRectorias\Tables;
 
+use App\Models\DirectoryRectoria;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -12,6 +13,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\ImageColumn;
+use App\Filament\Support\Eliminacion;
 
 class DirectoryRectoriasTable
 {
@@ -41,21 +43,24 @@ class DirectoryRectoriasTable
 
             ->defaultSort('full_name')        
             ->filters([
+                Eliminacion::filtroPapelera(DirectoryRectoria::class),
                 TrashedFilter::make(),
             ])
 
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()->hidden(fn (DirectoryRectoria $record) => $record->trashed()),
+                Eliminacion::eliminar('el', 'integrante de Rectoría', 'full_name'),
+                Eliminacion::restaurar(),
+                Eliminacion::eliminarDefinitivo(),
             ])
 
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
+                    Eliminacion::eliminarVarios(),
                     RestoreBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
                 ]),
-
             ]);
     }
 }

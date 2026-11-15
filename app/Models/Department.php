@@ -39,4 +39,14 @@ class Department extends Model
     {
         return $query->where('show_card', true);
     }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Department $departamento) {
+            // Con programas o personas ligadas NO se elimina: el borrado en cascada los perdería.
+            if ($departamento->programs()->exists() || $departamento->directoryMembers()->exists()) {
+                return false;
+            }
+        });
+    }
 }

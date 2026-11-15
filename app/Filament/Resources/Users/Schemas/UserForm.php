@@ -13,7 +13,7 @@ class UserForm
 {
 
     public const ROLE_LABELS = [
-        'admin_tecnico' => 'Administrador técnico',
+        'administrador' => 'Administrador técnico',
         'responsable_institucional' => 'Responsable institucional',
         'editor' => 'Editor o coordinador editorial',
         'auxiliar_academico' => 'Auxiliar académico',

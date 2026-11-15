@@ -61,8 +61,8 @@ class EventForm
                     ->displayFormat('d/m/Y H:i')
                     ->required(),
 
-                FileUpload::make('image')
-                    ->label('Imagen del evento')
+                FileUpload::make('image_path')
+                    ->label('Imagen')
                     ->image()
                     ->disk('public')
                     ->directory('events')

@@ -35,11 +35,18 @@ class ContributionPolicy
 
     public function delete(User $user, Contribution $contribution): bool
     {
-        return $user->can('eliminar_contenido_publicado');
+        return false; // solo el administrador (lo resuelve Gate::before)
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->can('eliminar_contenido_publicado');
+        return false;
     }
+
+    // Restaurar y eliminar definitivamente: solo el administrador (lo resuelve Gate::before).
+    public function restore(User $user, Contribution $contribution): bool { return false; }
+    public function restoreAny(User $user): bool { return false; }
+    public function forceDelete(User $user, Contribution $contribution): bool { return false; }
+    public function forceDeleteAny(User $user): bool { return false; }
+
 }

@@ -35,55 +35,35 @@ class GraduatePolicy
 
     public function update(User $user, Graduate $graduate): bool
     {
-        // Contenido propio.
-        if ($this->esPropia($user, $graduate) && $user->can('editar_contenido_propio')) {
+        // Quien puede editar lo de otras personas, puede editar todo.
+        if ($user->can('editar_contenido_ajeno')) {
             return true;
         }
 
-        // Contenido de otras personas.
-        if ($user->can('editar_contenido_ajeno')) {
-            return true;
+        // Contenido propio: solo mientras es borrador o fue devuelto para corregir.
+        if ($this->esPropia($user, $graduate) && $user->can('editar_contenido_propio')) {
+            return in_array($graduate->status, ['draft', 'rejected'], true);
         }
 
         // Quien revisa puede abrir lo que está pendiente para aprobarlo o devolverlo.
         return $user->can('revisar_contenido') && $graduate->status === 'pending';
     }
 
+
     public function delete(User $user, Graduate $graduate): bool
     {
-        // Una noticia ya publicada solo la elimina quien tenga ese permiso.
-        if ($graduate->status === 'published') {
-            return $user->can('eliminar_contenido_publicado');
-        }
-
-        return $this->update($user, $graduate);
+        return $user->can('eliminar_contenido_publicado');
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->can('eliminar_contenido_publicado')
-            || $user->can('editar_contenido_ajeno')
-            || $user->can('editar_contenido_propio');
+        return $user->can('eliminar_contenido_publicado');
     }
 
-    public function restore(User $user, Graduate $graduate): bool
-    {
-        return $this->delete($user, $graduate);
-    }
+    // Restaurar y eliminar definitivamente: solo el administrador (lo resuelve Gate::before).
+    public function restore(User $user, Graduate $graduate): bool { return false; }
+    public function restoreAny(User $user): bool { return false; }
+    public function forceDelete(User $user, Graduate $graduate): bool { return false; }
+    public function forceDeleteAny(User $user): bool { return false; }
 
-    public function restoreAny(User $user): bool
-    {
-        return $this->deleteAny($user);
-    }
-
-    // No se borra definitivamente desde el panel: las noticias solo se mandan a la papelera.
-    public function forceDelete(User $user, Graduate $graduate): bool
-    {
-        return false;
-    }
-
-    public function forceDeleteAny(User $user): bool
-    {
-        return false;
-    }
 }

@@ -12,9 +12,10 @@ class News extends Model
     use SoftDeletes;
 
     public const STATUS_LABELS = [
-        'draft' => 'Borrador',
-        'pending' => 'Pendiente',
-        'rejected' => 'Rechazado',
+        'draft'     => 'Borrador',
+        'pending'   => 'Pendiente',
+        'published' => 'Publicado',
+        'rejected'  => 'Rechazado',
     ];
 
     protected $table = 'news';
@@ -22,6 +23,7 @@ class News extends Model
     protected $fillable = [
         'title', 'slug', 'summary', 'body', 'image_path', 'is_featured',
         'status', 'published_at', 'author_id', 'approved_by', 'approved_at',
+        'review_note', 'reviewed_by',
     ];
 
     protected function casts(): array
@@ -74,4 +76,10 @@ class News extends Model
     {
         return 'slug';
     }
+
+    public function reviewer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reviewed_by');
+    }
+
 }

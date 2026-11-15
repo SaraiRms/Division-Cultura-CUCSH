@@ -4,9 +4,9 @@ return [
     'nombre' => 'División de Estudios de la Cultura',
 
     'redes' => [
-        'YouTube'   => '#',
+        'YouTube'   => 'https://www.youtube.com/@DIVISIONDEESTUDIOSDELACULTURA',
         'Facebook'  => '#',
-        'Instagram' => '#',
+        'Instagram' => 'https://www.instagram.com/dec.cucsh?mdxt=b2h6czdic2w2eGVh',
         'Spotify'   => '#',
     ],
 

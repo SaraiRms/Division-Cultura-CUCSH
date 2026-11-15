@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Conversatorios\Schemas;
 use App\Models\Conversatorio;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use PhpParser\Node\Stmt\Label;
 
 class ConversatorioInfolist
 {
@@ -12,40 +13,60 @@ class ConversatorioInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('title'),
+                TextEntry::make('title')
+                    ->label('Título'),
                 
                 TextEntry::make('speaker')
+                    ->label('Ponente(s)')
                     ->placeholder('-'),
 
                 TextEntry::make('description')
+                    ->label('Descripción')
                     ->placeholder('-')
                     ->columnSpanFull(),
 
                 TextEntry::make('scheduled_at')
+                    ->label('Fecha y Hora')
                     ->dateTime(),
 
                 TextEntry::make('stream_url')
+                    ->label('Enlace de la transmisión (YouTube)')
                     ->placeholder('-'),
 
                 TextEntry::make('status')
-                    ->badge(),
+                    ->label('Estado')
+                    ->badge()
+                    ->formatStateUsing(fn (string $state) => match ($state) {
+                        'scheduled' => 'Programado',
+                        'live'      => 'En vivo',
+                        'finished'  => 'Finalizado',
+                        default     => $state,
+                    })
+                    ->color(fn (string $state) => match ($state) {
+                        'live'      => 'success',
+                        'scheduled' => 'warning',
+                        'finished'  => 'info',
+                        default     => 'gray',
+                    }),
 
-                TextEntry::make('created_by')
-                    ->numeric()
-                    ->placeholder('-'),
+                TextEntry::make('creator.name')
+                    ->label('Creado por')
+                    ->placeholder('—'),
 
                 TextEntry::make('created_at')
+                    ->label('Creado el')
                     ->dateTime()
                     ->placeholder('-'),
 
                 TextEntry::make('updated_at')
+                    ->label('Última actualización')
                     ->dateTime()
                     ->placeholder('-'),
 
                 TextEntry::make('deleted_at')
+                    ->label('Eliminado el')
                     ->dateTime()
                     ->visible(fn (Conversatorio $record): bool => $record->trashed()),
-
             ]);
     }
 }

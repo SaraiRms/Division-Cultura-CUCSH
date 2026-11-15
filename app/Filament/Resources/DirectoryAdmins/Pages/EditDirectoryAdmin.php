@@ -8,6 +8,7 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Support\Eliminacion;
 
 class EditDirectoryAdmin extends EditRecord
 {
@@ -16,10 +17,9 @@ class EditDirectoryAdmin extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            ViewAction::make(),
-            DeleteAction::make(),
-            ForceDeleteAction::make(),
-            RestoreAction::make(),
+            Eliminacion::eliminar('la', 'noticia'),
+            Eliminacion::restaurar(),
+            Eliminacion::eliminarDefinitivo(),
         ];
     }
 }

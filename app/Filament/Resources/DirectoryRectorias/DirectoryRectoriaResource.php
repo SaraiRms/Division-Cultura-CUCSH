@@ -22,9 +22,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class DirectoryRectoriaResource extends Resource
 {
     protected static ?string $model = DirectoryRectoria::class;
-    protected static ?string $modelLabel = 'rectoría';
-    protected static ?string $pluralModelLabel = 'rectoría';
-    protected static ?string $navigationLabel = 'Rectoría';
+    protected static ?string $modelLabel = 'Directorio';
+    protected static ?string $pluralModelLabel = 'Directorio';
+    protected static ?string $navigationLabel = 'Directorio';
     protected static string|UnitEnum|null $navigationGroup = 'Institucional';
     protected static ?int $navigationSort = 2;
 

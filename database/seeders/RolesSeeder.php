@@ -15,17 +15,20 @@ class RolesSeeder extends Seeder
     public function run(): void
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
+        Role::where('name', 'admin_tecnico')->update(['name' => 'administrador']);
 
         // Las filas de la matriz.
         $permisos = [
             'crear_borradores',
             'editar_contenido_propio',
             'editar_contenido_ajeno',
-            'revisar_contenido',            // revisar y devolver
-            'aprobar_contenido',            // aprobar contenido oficial
+            'revisar_contenido',              // revisar y devolver
+            'aprobar_contenido',              // aprobar contenido oficial
             'publicar_contenido',
-            'gestionar_usuarios',           // usuarios y roles
-            'eliminar_contenido_publicado',
+            'eliminar_contenido_publicado',   //Aplica con cualquier contenido
+            'gestionar_directorio',           // maestros y Rectoría
+            'gestionar_estructura',           // departamentos y programas
+            'gestionar_usuarios', 
         ];
 
         foreach ($permisos as $permiso) {
@@ -35,33 +38,27 @@ class RolesSeeder extends Seeder
         // Qué permiso tiene cada rol.
 
         $roles = [
-            // Administrador técnico: gestiona usuarios y roles. Aprobar = "no por defecto"; publicar = "según política";
-            // eliminar publicado = "restringido".
-            'admin_tecnico' => [
-                'crear_borradores', 'editar_contenido_propio', 'editar_contenido_ajeno',
-                'revisar_contenido', 'gestionar_usuarios', 'publicar_contenido', 'eliminar_contenido_publicado',
-            ],
+            // El dueño: tiene todo.
+            'administrador' => $permisos,
 
-            // Responsable institucional (jefe de división): aprueba contenido oficial.
-            // SUPUESTO: publicar ("según política") lo dejé activo. Editar ajeno y eliminar publicado
-            // ("según autorización") quedan apagados.
+            // El responsable: todo menos usuarios.
             'responsable_institucional' => [
-                'crear_borradores', 'editar_contenido_propio',
+                'crear_borradores', 'editar_contenido_propio', 'editar_contenido_ajeno',
                 'revisar_contenido', 'aprobar_contenido', 'publicar_contenido',
+                'eliminar_contenido_publicado',
+                'gestionar_directorio', 'gestionar_estructura',
             ],
 
-            // Editor (secretaría): publica. Aprobar es "según delegación" (apagado).
-            // SUPUESTO: eliminar publicado ("según política") lo dejé activo.
+            // El editor: sin usuarios ni departamentos.
             'editor' => [
                 'crear_borradores', 'editar_contenido_propio', 'editar_contenido_ajeno',
-                'revisar_contenido', 'publicar_contenido', 'eliminar_contenido_publicado',
+                'revisar_contenido', 'aprobar_contenido', 'publicar_contenido',
+                'eliminar_contenido_publicado',
+                'gestionar_directorio',
             ],
 
-            // Auxiliar académico (servicio social / externos): solo crea borradores.
-            // Lo que crea pasa a revisión y ya no lo puede editar (por eso las X naranjas).
-            'auxiliar_academico' => [
-                'crear_borradores',
-            ],
+            // El auxiliar: solo crea borradores.
+            'auxiliar_academico' => ['crear_borradores', 'editar_contenido_propio'],
         ];
 
         foreach ($roles as $nombre => $permisosDelRol) {

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\DirectoryAdmins\Tables;
 
+use App\Models\DirectoryAdmin;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -13,6 +14,7 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use App\Filament\Support\Eliminacion;
 
 class DirectoryAdminsTable
 {
@@ -51,7 +53,7 @@ class DirectoryAdminsTable
 
         ->defaultSort('full_name')
         ->filters([
-        
+            Eliminacion::filtroPapelera(DirectoryAdmin::class),
             SelectFilter::make('departments')
                 ->label('Departamento')
                 ->relationship('departments', 'name')
@@ -61,10 +63,19 @@ class DirectoryAdminsTable
             ])
 
             ->recordActions([
-            
                 ViewAction::make(),
-                EditAction::make(),
-
-            ]);    
+                EditAction::make()->hidden(fn (DirectoryAdmin $record) => $record->trashed()),
+                Eliminacion::eliminar('el', 'maestro', 'full_name'),
+                Eliminacion::restaurar(),
+                Eliminacion::eliminarDefinitivo(),
+            ])
+            
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    Eliminacion::eliminarVarios(),
+                    RestoreBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                ]),
+            ]);
     }
 }

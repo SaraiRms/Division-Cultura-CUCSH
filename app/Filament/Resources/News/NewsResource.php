@@ -19,6 +19,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+
 class NewsResource extends Resource
 {
     protected static ?string $model = News::class;
@@ -72,4 +73,18 @@ class NewsResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        $user = auth()->user();
+
+        // Quien no revisa ni edita lo ajeno (el auxiliar) solo ve lo que él creó.
+        if ($user && ! $user->can('editar_contenido_ajeno') && ! $user->can('revisar_contenido')) {
+            $query->where('author_id', $user->id);
+        }
+
+        return $query;
+    }
+
 }

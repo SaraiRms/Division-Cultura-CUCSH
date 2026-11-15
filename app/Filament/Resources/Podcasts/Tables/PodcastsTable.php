@@ -14,6 +14,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use  Filament\Tables\Filters\SelectFilter;
+use App\Filament\Support\Eliminacion;
+
 
 
 class PodcastsTable
@@ -23,10 +25,6 @@ class PodcastsTable
         return $table
             
             ->columns([
-                ImageColumn::make('image_path')
-                    ->label('Imagen')
-                    ->disk('public')
-                    ->square(),
 
                 TextColumn::make('title')
                     ->label('Episodio')
@@ -54,19 +52,23 @@ class PodcastsTable
 
 
             ->filters([
+                Eliminacion::filtroPapelera(Podcast::class),
                 TrashedFilter::make(),
             ])
 
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()->hidden(fn (Podcast $record) => $record->trashed()),
+                Eliminacion::eliminar('el', 'episodio'),
+                Eliminacion::restaurar(),
+                Eliminacion::eliminarDefinitivo(),
             ])
 
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
+                    Eliminacion::eliminarVarios(),
                     RestoreBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
                 ]),
 
             ]);

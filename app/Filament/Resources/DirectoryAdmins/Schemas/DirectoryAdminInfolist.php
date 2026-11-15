@@ -15,6 +15,11 @@ class DirectoryAdminInfolist
         return $schema
             ->components([
 
+                ImageEntry::make('photo_path')
+                    ->label('Imagen')
+                    ->disk('public')
+                    ->circular(),
+
                 TextEntry::make('full_name')
                     ->label('Nombre Completo')
                     ->placeholder('-'),
@@ -49,11 +54,6 @@ class DirectoryAdminInfolist
                     ->url(fn ($record) => Storage::disk('public')->url($record->cv_path))
                     ->openUrlInNewTab()
                     ->visible(fn ($record) => filled($record->cv_path)),
-
-                ImageEntry::make('photo_path')
-                    ->label('Imagen')
-                    ->disk('public')
-                    ->circular(),
 
                 TextEntry::make('created_by')
                     ->label('Creado por')

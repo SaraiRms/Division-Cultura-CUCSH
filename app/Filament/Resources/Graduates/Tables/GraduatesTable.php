@@ -14,6 +14,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
+use App\Filament\Support\Eliminacion;
 
 class GraduatesTable
 {
@@ -22,10 +23,6 @@ class GraduatesTable
         return $table
 
             ->columns([
-                ImageColumn::make('image_path')
-                    ->label('Imagen')
-                    ->disk('public')
-                    ->square(),
 
                 TextColumn::make('program.name')
                     ->label('Programa')
@@ -49,6 +46,7 @@ class GraduatesTable
                 TextColumn::make('uploader.name')
                     ->label('Subido por'),
             ])
+            
             ->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('status')
@@ -57,20 +55,23 @@ class GraduatesTable
             ])
 
             ->filters([
+                Eliminacion::filtroPapelera(Graduate::class),
                 TrashedFilter::make(),
             ])
 
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()->hidden(fn (Graduate $record) => $record->trashed()),
+                Eliminacion::eliminar('la', 'generación'),
+                Eliminacion::restaurar(),
+                Eliminacion::eliminarDefinitivo(),
             ])
 
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
+                    Eliminacion::eliminarVarios(),
                     RestoreBulkAction::make(),
-            
+                    ForceDeleteBulkAction::make(),
                 ]),
             ]);
     }

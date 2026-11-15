@@ -26,4 +26,13 @@ class AcademicProgram extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (AcademicProgram $programa) {
+            if ($programa->graduates()->exists()) {
+                return false;
+            }
+        });
+    }
 }

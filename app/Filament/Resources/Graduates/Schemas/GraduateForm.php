@@ -32,7 +32,7 @@ class GraduateForm
                         ->maxLength(200),
 
                     FileUpload::make('image_path')
-                        ->label('Imagen de los egresados')
+                        ->label('Imagen')
                         ->image()
                         ->disk('public')
                         ->directory('graduates')
@@ -51,6 +51,7 @@ class GraduateForm
                         ->required(),
 
                     Hidden::make('uploaded_by')
+                        ->label('Actualizado por')
                         ->default(fn () => auth()->id()),
 
                 ]),

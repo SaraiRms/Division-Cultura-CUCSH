@@ -11,9 +11,10 @@ class ListDirectoryRectorias extends ListRecords
     protected static string $resource = DirectoryRectoriaResource::class;
 
     protected function getHeaderActions(): array
-    {
-        return [
-            CreateAction::make(),
-        ];
-    }
+{
+    return [
+        CreateAction::make()
+            ->label('Registrar Académico'), //cambiamos el texto que aparece en el botón
+    ];
+}
 }

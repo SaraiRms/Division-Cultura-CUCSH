@@ -32,4 +32,15 @@ class User extends Authenticatable implements FilamentUser
     {
         return (bool) $this->is_active;
     }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (User $usuario) {
+            // No se elimina al último administrador.
+            if ($usuario->hasRole('administrador') && User::role('administrador')->count() <= 1) {
+                return false;
+            }
+        });
+    }
+
 }

@@ -3,16 +3,15 @@
 namespace App\Filament\Resources\Conversatorios\Tables;
 
 use App\Models\Conversatorio;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ForceDeleteBulkAction;
-use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use App\Filament\Support\Eliminacion;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\BulkActionGroup;
 
 class ConversatoriosTable
 {
@@ -48,11 +47,26 @@ class ConversatoriosTable
             ])
                     ->defaultSort('scheduled_at', 'desc')
                     ->filters([
-
+                        Eliminacion::filtroPapelera(Conversatorio::class),
                         SelectFilter::make('status')
                             ->label('Estado')
                             ->options(Conversatorio::STATUS_LABELS),
-                            
-                    ]);
+                    ])
+                    
+                    ->recordActions([
+                        ViewAction::make(),
+                        EditAction::make()->hidden(fn (Conversatorio $record) => $record->trashed()),
+                        Eliminacion::eliminar('el', 'conversatorio'),
+                        Eliminacion::restaurar(),
+                        Eliminacion::eliminarDefinitivo(),
+                    ])
+
+                    ->toolbarActions([
+                        BulkActionGroup::make([
+                            Eliminacion::eliminarVarios(),
+                            RestoreBulkAction::make(),
+                            ForceDeleteBulkAction::make(),
+                        ]),
+            ]);
     }
 }

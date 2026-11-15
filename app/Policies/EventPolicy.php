@@ -34,52 +34,32 @@ class EventPolicy
 
     public function update(User $user, Event $event): bool
     {
-
-        if ($this->esPropia($user, $event) && $user->can('editar_contenido_propio')) {
-            return true;
-        }
-
+        // Quien puede editar lo de otras personas, puede editar todo.
         if ($user->can('editar_contenido_ajeno')) {
             return true;
         }
 
-        return $user->can('revisar_contenido') && $event->status === 'draft';
-    }
-
-    public function delete(User $user, Event $event): bool
-    {
-
-        if ($event->status === 'published') {
-            return $user->can('eliminar_contenido_publicado');
+        // Contenido propio: solo mientras es borrador o fue devuelto para corregir.
+        if ($this->esPropia($user, $event) && $user->can('editar_contenido_propio')) {
+            return in_array($event->status, ['draft', 'rejected'], true);
         }
 
-        return $this->update($user, $event);
+        // Quien revisa puede abrir lo que está pendiente para aprobarlo o devolverlo.
+        return $user->can('revisar_contenido') && $event->status === 'pending';
     }
-
+    
+    public function delete(User $user, Event $event): bool
+    {
+        return $user->can('eliminar_contenido_publicado');
+    }
     public function deleteAny(User $user): bool
     {
-        return $user->can('eliminar_contenido_publicado')
-            || $user->can('editar_contenido_ajeno')
-            || $user->can('editar_contenido_propio');
+        return $user->can('eliminar_contenido_publicado');
     }
 
-    public function restore(User $user, Event $event): bool
-    {
-        return $this->delete($user, $event);
-    }
+    public function restore(User $user, Event $event): bool { return false; }
+    public function restoreAny(User $user): bool { return false; }
+    public function forceDelete(User $user, Event $event): bool { return false; }
+    public function forceDeleteAny(User $user): bool { return false; }
 
-    public function restoreAny(User $user): bool
-    {
-        return $this->deleteAny($user);
-    }
-
-    public function forceDelete(User $user, Event $event): bool
-    {
-        return false;
-    }
-
-    public function forceDeleteAny(User $user): bool
-    {
-        return false;
-    }
 }

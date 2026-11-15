@@ -13,6 +13,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use App\Filament\Support\Eliminacion;
 
 class ContributionsTable
 {
@@ -107,6 +108,7 @@ class ContributionsTable
                     }),
 
                 EditAction::make()->label('Revisar'),
+                Eliminacion::eliminar('la', 'aportación', 'title', papelera: false)
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

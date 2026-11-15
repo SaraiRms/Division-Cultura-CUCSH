@@ -16,6 +16,10 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Filament\Forms\Components\Textarea;
+use App\Filament\Support\Eliminacion;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
 
 class NewsTable
 {
@@ -39,6 +43,12 @@ class NewsTable
                         'rejected' => 'danger',
                         default => 'gray',
                     }),
+                
+                TextColumn::make('review_note')
+                    ->label('Observaciones')
+                    ->limit(40)
+                    ->tooltip(fn (News $record) => $record->review_note)
+                    ->placeholder('—'),
 
                 IconColumn::make('is_featured')
                     ->label('Destacada')
@@ -48,13 +58,14 @@ class NewsTable
                     ->label('Autor(a)'),
 
                 TextColumn::make('published_at')
-                    ->label('Publicada')
+                    ->label('Fecha de publicación')
                     ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->placeholder('—'),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
+                Eliminacion::filtroPapelera(News::class),
                 SelectFilter::make('status')
                     ->label('Estado')
                     ->options(News::STATUS_LABELS),
@@ -72,7 +83,7 @@ class NewsTable
                     ->visible(fn (News $record) => $record->status === 'pending'
                         && auth()->user()?->can('publicar_contenido'))
                     ->action(function (News $record) {
-                        $record->update(['status' => 'published']);
+                        $record->update(['status' => 'published', 'review_note' => null]);
 
                         Notification::make()->title('Noticia publicada')->success()->send();
                     }),
@@ -81,21 +92,38 @@ class NewsTable
                     ->label('Devolver')
                     ->icon(Heroicon::OutlinedArrowUturnLeft)
                     ->color('danger')
-                    ->requiresConfirmation()
+                    ->modalHeading('Devolver noticia')
+                    ->modalDescription('Explica qué debe corregir. Quien la creó verá este mensaje.')
+                    ->schema([
+                        Textarea::make('review_note')
+                            ->label('¿Qué hay que corregir?')
+                            ->required()
+                            ->maxLength(1000),
+                    ])
                     ->visible(fn (News $record) => $record->status === 'pending'
                         && auth()->user()?->can('revisar_contenido'))
-                    ->action(function (News $record) {
-                        $record->update(['status' => 'rejected']);
+                    ->action(function (News $record, array $data) {
+                        $record->update([
+                            'status'      => 'rejected',
+                            'review_note' => $data['review_note'],
+                            'reviewed_by' => auth()->id(),
+                        ]);
 
                         Notification::make()->title('Noticia devuelta')->warning()->send();
                     }),
 
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()->hidden(fn (News $record) => $record->trashed()),
+                Eliminacion::eliminar('la', 'noticia'),
+                Eliminacion::restaurar(),
+                Eliminacion::eliminarDefinitivo(),
             ])
+
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    Eliminacion::eliminarVarios(),
+                    RestoreBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
                 ]),
             ]);
     }

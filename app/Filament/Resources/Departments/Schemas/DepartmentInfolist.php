@@ -28,13 +28,15 @@ class DepartmentInfolist
                     ->square(),
 
                 IconEntry::make('show_card')
+                    ->label('Vista de tarjeta')
                     ->boolean(),
 
-                TextEntry::make('updated_by')
-                    ->numeric()
-                    ->placeholder('-'),
+                // TextEntry::make('creator.name')
+                //     ->label('Creado por')
+                //     ->placeholder('-'),
 
                 TextEntry::make('updated_at')
+                    ->label('Ultima actualización')
                     ->dateTime()
                     ->placeholder('-'),
                     

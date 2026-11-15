@@ -10,9 +10,9 @@ use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use App\Models\Event;
+use App\Filament\Support\Eliminacion;
 
 class EventsTable
 {
@@ -26,12 +26,10 @@ class EventsTable
                 ->searchable()
                 ->limit(50),
 
-            TextColumn::make('location')
-                ->label('Ubicación'),
-
-            ImageColumn::make('image_path')
-                ->label('Imagen')
-                ->square(),
+            // ImageColumn::make('image_path')
+            //     ->label('Imagen')
+            //     ->disk('public')
+            //     ->square(),
 
             TextColumn::make('starts_at')
                 ->label('Fecha y Hora')
@@ -52,10 +50,24 @@ class EventsTable
                 ->label('Creado por')
     
             ])
+
+            ->filters([
+                Eliminacion::filtroPapelera(Event::class),])
             
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()->hidden(fn (Event $record) => $record->trashed()),
+                Eliminacion::eliminar('el', 'evento'),
+                Eliminacion::restaurar(),
+                Eliminacion::eliminarDefinitivo(),
+            ])
+
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    Eliminacion::eliminarVarios(),
+                    RestoreBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                ]),
             ]);
             
     }

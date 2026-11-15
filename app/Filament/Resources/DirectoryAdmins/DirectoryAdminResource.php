@@ -22,9 +22,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class DirectoryAdminResource extends Resource
 {
     protected static ?string $model = DirectoryAdmin::class;
-    protected static ?string $modelLabel = 'Administrativo';
-    protected static ?string $pluralModelLabel = 'administrativos';
-    protected static ?string $navigationLabel = 'Administrativos';
+    protected static ?string $modelLabel = 'Académico';
+    protected static ?string $pluralModelLabel = 'Académicos';
+    protected static ?string $navigationLabel = 'Académicos';
     protected static string|UnitEnum|null $navigationGroup = 'Institucional';
     protected static ?int $navigationSort = 2;
 

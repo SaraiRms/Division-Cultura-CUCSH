@@ -16,7 +16,10 @@ class Graduate extends Model
         'rejected' => 'Rechazado',
     ];
 
-    protected $fillable = ['program_id', 'title', 'image_path', 'status', 'uploaded_by', 'approved_by', 'approved_at'];
+    protected $fillable = [
+        'program_id', 'title', 'image_path', 'status', 'uploaded_by',
+        'approved_by', 'approved_at', 'review_note', 'reviewed_by',
+        ];
 
     protected function casts(): array
     {

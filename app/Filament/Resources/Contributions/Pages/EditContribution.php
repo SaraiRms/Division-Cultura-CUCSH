@@ -7,6 +7,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\Action;
 use Filament\Support\Icons\Heroicon;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Support\Eliminacion;
 
 class EditContribution extends EditRecord
 {
@@ -22,6 +23,7 @@ class EditContribution extends EditRecord
                 ->openUrlInNewTab(),
 
             DeleteAction::make(),
+            Eliminacion::eliminar('la', 'aportación', 'title', papelera: false)
         ];
     }
 

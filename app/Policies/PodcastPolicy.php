@@ -19,10 +19,21 @@ class PodcastPolicy
     public function view(User $user, Podcast $podcast): bool { return $this->puedeGestionar($user); }
     public function create(User $user): bool { return $this->puedeGestionar($user); }
     public function update(User $user, Podcast $podcast): bool { return $this->puedeGestionar($user); }
-    public function delete(User $user, Podcast $podcast): bool { return $this->puedeGestionar($user); }
-    public function deleteAny(User $user): bool { return $this->puedeGestionar($user); }
-    public function restore(User $user, Podcast $podcast): bool { return $this->puedeGestionar($user); }
-    public function restoreAny(User $user): bool { return $this->puedeGestionar($user); }
+
+
+    public function delete(User $user, Podcast $podcast): bool
+    {
+        return $user->can('eliminar_contenido_publicado');
+    }
+    public function deleteAny(User $user): bool
+    {
+        return $user->can('eliminar_contenido_publicado');
+    }
+
+    // Restaurar y eliminar definitivamente: solo el administrador (lo resuelve Gate::before).
+    public function restore(User $user, Podcast $podcast): bool { return false; }
+    public function restoreAny(User $user): bool { return false; }
     public function forceDelete(User $user, Podcast $podcast): bool { return false; }
     public function forceDeleteAny(User $user): bool { return false; }
+    
 }

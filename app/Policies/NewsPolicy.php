@@ -35,14 +35,14 @@ class NewsPolicy
 
     public function update(User $user, News $news): bool
     {
-        // Contenido propio.
-        if ($this->esPropia($user, $news) && $user->can('editar_contenido_propio')) {
+        // Quien puede editar lo de otras personas, puede editar todo.
+        if ($user->can('editar_contenido_ajeno')) {
             return true;
         }
 
-        // Contenido de otras personas.
-        if ($user->can('editar_contenido_ajeno')) {
-            return true;
+        // Contenido propio: solo mientras es borrador o fue devuelto para corregir.
+        if ($this->esPropia($user, $news) && $user->can('editar_contenido_propio')) {
+            return in_array($news->status, ['draft', 'rejected'], true);
         }
 
         // Quien revisa puede abrir lo que está pendiente para aprobarlo o devolverlo.
@@ -51,39 +51,18 @@ class NewsPolicy
 
     public function delete(User $user, News $news): bool
     {
-        // Una noticia ya publicada solo la elimina quien tenga ese permiso.
-        if ($news->status === 'published') {
-            return $user->can('eliminar_contenido_publicado');
-        }
-
-        return $this->update($user, $news);
+        return $user->can('eliminar_contenido_publicado');
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->can('eliminar_contenido_publicado')
-            || $user->can('editar_contenido_ajeno')
-            || $user->can('editar_contenido_propio');
+        return $user->can('eliminar_contenido_publicado');
     }
 
-    public function restore(User $user, News $news): bool
-    {
-        return $this->delete($user, $news);
-    }
-
-    public function restoreAny(User $user): bool
-    {
-        return $this->deleteAny($user);
-    }
-
-    // No se borra definitivamente desde el panel: las noticias solo se mandan a la papelera.
-    public function forceDelete(User $user, News $news): bool
-    {
-        return false;
-    }
-
-    public function forceDeleteAny(User $user): bool
-    {
-        return false;
-    }
+    // Restaurar y eliminar definitivamente: solo el administrador (lo resuelve Gate::before).
+    public function restore(User $user, News $news): bool { return false; }
+    public function restoreAny(User $user): bool { return false; }
+    public function forceDelete(User $user, News $news): bool { return false; }
+    public function forceDeleteAny(User $user): bool { return false; }
+    
 }

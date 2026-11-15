@@ -67,8 +67,25 @@ class NewsForm
                         ->maxLength(500)
                         ->rows(3),
 
+                    Section::make('Corrección solicitada')
+                        ->columnSpanFull()
+                        ->visible(fn (?Model $record) => $record?->status === 'rejected' && filled($record?->review_note))
+                        ->schema([
+                            Textarea::make('review_note')
+                                ->label('Observaciones de quien revisó')
+                                ->disabled()
+                                ->dehydrated(false)
+                                ->rows(3),
+
+                            TextInput::make('reviewer_name')
+                                ->label('Devuelta por')
+                                ->formatStateUsing(fn (?Model $record) => $record?->reviewer?->name)
+                                ->disabled()
+                                ->dehydrated(false),
+                        ]),
+
                     RichEditor::make('body')
-                        ->label('Texto de la noticia')
+                        ->label('Contenido de la noticia')
                         ->helperText('Aquí puedes poner enlaces, negritas e imágenes adicionales.')
                         ->fileAttachmentsDisk('public')
                         ->fileAttachmentsDirectory('news/body')
@@ -105,7 +122,6 @@ class NewsForm
                             if (! $value) {
                                 return;
                             }
-
                             $otras = News::where('is_featured', true)
                                 ->when($record, fn ($q) => $q->whereKeyNot($record->getKey()))
                                 ->count();

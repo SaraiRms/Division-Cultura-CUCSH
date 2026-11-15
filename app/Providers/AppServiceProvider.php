@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,9 +25,14 @@ class AppServiceProvider extends ServiceProvider
     {
         RateLimiter::for('aportaciones', function (Request $request) {
             return [
-                Limit::perHour(10)->by($request->ip()),                                    // por conexión
-                Limit::perDay(5)->by(strtolower((string) $request->input('contact_email'))), // por correo
+                Limit::perHour(10)->by($request->ip()),                                         // por conexión
+                Limit::perDay(5)->by(strtolower((string) $request->input('contact_email'))),    // por correo
             ];
         });
-}
+
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('administrador') ? true : null;
+        });
+
+    }
 }

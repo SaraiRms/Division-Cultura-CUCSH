@@ -19,10 +19,19 @@ class ConversatorioPolicy
     public function view(User $user, Conversatorio $conversatorio): bool { return $this->puedeGestionar($user); }
     public function create(User $user): bool { return $this->puedeGestionar($user); }
     public function update(User $user, Conversatorio $conversatorio): bool { return $this->puedeGestionar($user); }
-    public function delete(User $user, Conversatorio $conversatorio): bool { return $this->puedeGestionar($user); }
-    public function deleteAny(User $user): bool { return $this->puedeGestionar($user); }
-    public function restore(User $user, Conversatorio $conversatorio): bool { return $this->puedeGestionar($user); }
-    public function restoreAny(User $user): bool { return $this->puedeGestionar($user); }
+
+
+    public function delete(User $user, Conversatorio $conversatorio): bool
+    {
+        return $user->can('eliminar_contenido_publicado');
+    }
+    public function deleteAny(User $user): bool
+    {
+        return $user->can('eliminar_contenido_publicado');
+    }
+    public function restore(User $user, Conversatorio $conversatorio): bool { return false; }
+    public function restoreAny(User $user): bool { return false; }
     public function forceDelete(User $user, Conversatorio $conversatorio): bool { return false; }
     public function forceDeleteAny(User $user): bool { return false; }
+
 }
