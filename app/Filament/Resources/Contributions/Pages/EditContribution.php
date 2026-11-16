@@ -22,8 +22,7 @@ class EditContribution extends EditRecord
                 ->url(fn () => route('aportaciones.pdf', $this->record))
                 ->openUrlInNewTab(),
 
-            DeleteAction::make(),
-            Eliminacion::eliminar('la', 'aportación', 'title', papelera: false)
+            Eliminacion::eliminar('la', 'aportación', 'title', papelera: false),
         ];
     }
 

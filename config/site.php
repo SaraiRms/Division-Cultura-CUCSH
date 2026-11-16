@@ -16,7 +16,7 @@ return [
     ],
 
     'canal_conversatorios' => 'https://www.youtube.com/@DIVISIONDEESTUDIOSDELACULTURA', 
-    'correo_aportaciones' => 'sarai.rms98@gmail.com',
+    'correo_aportaciones' => env('CORREO_APORTACIONES'),
 
     'departamentos_enlaces' => [
         'Departamento de Estudios de la Comunicación Social' => 'http://www.cucsh.udg.mx/division_departamentos/Departamento%20de%20Estudios%20de%20la%20Comunicaci%C3%B3n%20Social/Presentaciondeptops',

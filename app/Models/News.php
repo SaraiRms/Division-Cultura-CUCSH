@@ -49,6 +49,15 @@ class News extends Model
                 $news->slug = $slug;
             }
         });
+
+        // Al publicar (desde el formulario o la tabla) se guarda la fecha y quién la aprobó.
+        static::saving(function (News $news) {
+            if ($news->isDirty('status') && $news->status === 'published') {
+                $news->published_at ??= now();
+                $news->approved_by ??= auth()->id();
+                $news->approved_at ??= now();
+            }
+        });
     }
 
     public function author(): BelongsTo

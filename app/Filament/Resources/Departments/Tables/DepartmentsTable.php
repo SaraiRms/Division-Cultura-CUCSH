@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Departments\Tables;
 
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -45,7 +44,7 @@ class DepartmentsTable
 
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make()->hidden(fn (Department $record) => $record->trashed()),
+                EditAction::make(),
                 Eliminacion::eliminar('el', 'departamento', 'name', papelera: false)
                     ->disabled(fn (Department $record) => $record->programs()->exists() || $record->directoryMembers()->exists())
                     ->tooltip(fn (Department $record) => ($record->programs()->exists() || $record->directoryMembers()->exists())

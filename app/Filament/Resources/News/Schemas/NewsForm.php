@@ -14,6 +14,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Graduate;
 
 class NewsForm
 {
@@ -30,18 +31,22 @@ class NewsForm
     }
 
     // Estados que puede elegir cada persona.
-    protected static function statusOptions(): array
+    protected static function statusOptions(?Model $record = null): array
     {
         if (static::canPublish()) {
-            return News::STATUS_LABELS;
+            $permitidos = ['draft', 'published'];
+            // Quien publica elige entre dejarla en borrador o publicarla.
+            // El estado actual también se muestra, para que el campo no salga vacío.
+
+            if ($record) {
+                $permitidos[] = $record->status;
+            }
+        } else {
+            // El auxiliar elige entre seguir editando (borrador) o enviarla a revisión.
+            $permitidos = ['draft', 'pending'];
         }
 
-        if (static::canReview()) {
-            return array_intersect_key(News::STATUS_LABELS, array_flip(['draft', 'pending', 'rejected']));
-        }
-
-        // Auxiliar académico: lo que crea siempre queda pendiente de revisión.
-        return ['pending' => News::STATUS_LABELS['pending']];
+        return array_intersect_key(News::STATUS_LABELS, array_flip(array_unique($permitidos)));
     }
 
     public static function configure(Schema $schema): Schema
@@ -101,44 +106,51 @@ class NewsForm
                         ->required(),
                 ]),
  
-            Section::make('Publicación')
-                ->columnSpanFull()
-                ->schema([
-                    Select::make('status')
-                        ->label('Estado')
-                        ->options(fn () => static::statusOptions())
-                        ->default(fn () => static::canReview() ? 'draft' : 'pending')
-                        // El auxiliar académico no puede cambiarlo: su noticia queda pendiente de revisión.
-                        ->disabled(fn () => ! static::canReview())
-                        ->dehydrated()
-                        ->required()
-                        ->helperText('Al guardarla, el editor o el responsable institucional la revisan para publicarla o devolverla.'),
+                Section::make('Publicación')
+                    ->columnSpanFull()
+                    ->schema([
+                        Select::make('status')
+                            ->label('Estado')
+                            ->options(function (?Model $record) {
+                                $puedePublicar = auth()->user()?->can('publicar_contenido');
 
-                    Toggle::make('is_featured')
-                        ->label('Destacada (carrusel del inicio)')
-                        ->visible(fn () => static::canPublish())
-                        // Máximo 4 destacadas a la vez.
-                        ->rule(fn (?Model $record) => function (string $attribute, $value, \Closure $fail) use ($record) {
-                            if (! $value) {
-                                return;
-                            }
-                            $otras = News::where('is_featured', true)
-                                ->when($record, fn ($q) => $q->whereKeyNot($record->getKey()))
-                                ->count();
+                                // Quien publica solo necesita "Publicado"; el auxiliar, "Pendiente de autorizar".
+                                $permitidos = $puedePublicar ? ['published'] : ['pending'];
 
-                            if ($otras >= 4) {
-                                $fail('Ya hay 4 noticias destacadas. Quita una antes de destacar otra.');
-                            }
-                        }),
+                                if ($puedePublicar && $record) {
+                                    $permitidos[] = $record->status; // para que se vea el estado actual
+                                }
 
-                    DateTimePicker::make('published_at')
-                        ->label('Fecha de publicación')
-                        ->helperText('Déjala vacía y se pone la fecha de hoy al publicar.')
-                        ->visible(fn () => static::canPublish()),
+                                return array_intersect_key(Graduate::STATUS_LABELS, array_flip(array_unique($permitidos)));
+                            })
+                            ->default(fn () => auth()->user()?->can('publicar_contenido') ? 'published' : 'pending')
+                            ->required(),
 
-                    // La persona que crea la noticia queda como autora automáticamente.
-                    Hidden::make('author_id')->default(fn () => auth()->id()),
-                ]),
+                        Toggle::make('is_featured')
+                            ->label('Destacada (carrusel del inicio)')
+                            ->visible(fn () => static::canPublish())
+                            // Máximo 4 destacadas a la vez.
+                            ->rule(fn (?Model $record) => function (string $attribute, $value, \Closure $fail) use ($record) {
+                                if (! $value) {
+                                    return;
+                                }
+                                $otras = News::where('is_featured', true)
+                                    ->when($record, fn ($q) => $q->whereKeyNot($record->getKey()))
+                                    ->count();
+
+                                if ($otras >= 4) {
+                                    $fail('Ya hay 4 noticias destacadas. Quita una antes de destacar otra.');
+                                }
+                            }),
+
+                        DateTimePicker::make('published_at')
+                            ->label('Fecha de publicación')
+                            ->helperText('Déjala vacía y se pone la fecha de hoy al publicar.')
+                            ->visible(fn () => static::canPublish()),
+
+                        // La persona que crea la noticia queda como autora automáticamente.
+                        Hidden::make('author_id')->default(fn () => auth()->id()),
+                    ]),
         ]);
     }
 }

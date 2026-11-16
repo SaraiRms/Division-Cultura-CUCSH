@@ -9,6 +9,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
+use Illuminate\Database\Eloquent\Model;
 
 class GraduateForm
 {
@@ -42,12 +43,19 @@ class GraduateForm
 
                     Select::make('status')
                         ->label('Estado')
-                        ->options(fn () => auth()->user()?->can('publicar_contenido')
-                            ? Graduate::STATUS_LABELS
-                            : ['pending' => Graduate::STATUS_LABELS['pending']])
-                        ->default('pending')
-                        ->disabled(fn () => ! auth()->user()?->can('publicar_contenido'))
-                        ->dehydrated()
+                        ->options(function (?Model $record) {
+                            $puedePublicar = auth()->user()?->can('publicar_contenido');
+
+                            // Quien publica solo necesita "Publicado"; el auxiliar, "Pendiente de autorizar".
+                            $permitidos = $puedePublicar ? ['published'] : ['pending'];
+
+                            if ($puedePublicar && $record) {
+                                $permitidos[] = $record->status; // para que se vea el estado actual
+                            }
+
+                            return array_intersect_key(Graduate::STATUS_LABELS, array_flip(array_unique($permitidos)));
+                        })
+                        ->default(fn () => auth()->user()?->can('publicar_contenido') ? 'published' : 'pending')
                         ->required(),
 
                     Hidden::make('uploaded_by')

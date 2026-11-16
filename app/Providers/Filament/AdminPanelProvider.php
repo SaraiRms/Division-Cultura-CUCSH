@@ -29,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->login()
+            ->profile()
             ->renderHook(PanelsRenderHook::FOOTER, fn () => view('filament.footer')) //footer
             ->renderHook(PanelsRenderHook::HEAD_END, fn () => '<style>body.fi-body { background-color: #FBF8F5; }</style>') //color de fondo
 
