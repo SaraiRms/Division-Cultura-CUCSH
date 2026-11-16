@@ -18,6 +18,9 @@
         </include>
     </source>
     <php>
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_DATABASE" value="cucsh_testing"/>
+        
         <env name="APP_ENV" value="testing"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>

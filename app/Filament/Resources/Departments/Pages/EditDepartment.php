@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Departments\Pages;
 
 use App\Filament\Resources\Departments\DepartmentResource;
-use Filament\Actions\DeleteAction;
+use App\Filament\Support\Eliminacion;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
@@ -15,7 +15,7 @@ class EditDepartment extends EditRecord
     {
         return [
             ViewAction::make(),
-            DeleteAction::make(),
+            Eliminacion::eliminar('el', 'departamento', 'name', papelera: false),
         ];
     }
 }

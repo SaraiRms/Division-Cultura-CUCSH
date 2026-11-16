@@ -4,7 +4,7 @@ namespace App\Filament\Resources\Departments\RelationManagers;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
-use Filament\Actions\DeleteAction;
+use App\Filament\Support\Eliminacion;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
@@ -130,7 +130,7 @@ class ProgramsRelationManager extends RelationManager
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
-                DeleteAction::make(),
+                Eliminacion::eliminar('el', 'programa', 'name', papelera: false)
             ])
 
             ->toolbarActions([

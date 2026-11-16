@@ -33,14 +33,19 @@ class User extends Authenticatable implements FilamentUser
         return (bool) $this->is_active;
     }
 
-    protected static function booted(): void
+    public function esUltimoAdministrador(): bool
     {
-        static::deleting(function (User $usuario) {
-            // No se elimina al último administrador.
-            if ($usuario->hasRole('administrador') && User::role('administrador')->count() <= 1) {
-                return false;
-            }
-        });
+        return $this->hasRole('administrador') && static::role('administrador')->count() <= 1;
+    }
+
+    // Se revisa ANTES de eliminar, porque al eliminar Spatie primero le quita los roles al usuario.
+    public function delete()
+    {
+        if ($this->esUltimoAdministrador()) {
+            return false;
+        }
+
+        return parent::delete();
     }
 
 }

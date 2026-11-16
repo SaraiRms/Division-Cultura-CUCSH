@@ -32,7 +32,8 @@ class Eliminacion
 
                 return $texto . 'Se enviará a la papelera y solo el administrador podrá restaurarla.';
             })
-            ->modalSubmitActionLabel('Sí, eliminar');
+            ->modalSubmitActionLabel('Sí, eliminar')
+            ->failureNotificationTitle('No se pudo eliminar: tiene datos ligados o es el último administrador.');
     }
 
     // Eliminar varios a la vez.
