@@ -13,30 +13,36 @@
 <body class="bg-crema font-sans text-marino antialiased">
 
     {{-- Encabezado --}}
-    <header class="bg-marino">
+    @php
+        $enlaces = [
+            ['Inicio', url('/'), request()->is('/')],
+            ['Podcast', url('/podcast'), request()->is('podcast*')],
+            ['Conversatorio', url('/conversatorios'), request()->is('conversatorios*')],
+            ['Participación Académica', url('/integracion'), request()->is('integracion*')],
+            ['Directorio', url('/directorio'), request()->is('directorio*')],
+            ['Egresados', url('/egresados'), request()->is('egresados*')],
+        ];
+        $textoAcceso = auth()->check() ? 'Administrar' : 'Iniciar sesión';
+    @endphp
+
+    <header class="bg-marino" x-data="{ abierto: false }">
 
         <div class="flex items-stretch">
-            <a href="{{ url('/') }}" class="flex items-center gap-4 rounded-br-[2.5rem] bg-crema px-6 py-4">
-                <img src="{{ asset('images/cucsh_dual.svg') }}" alt="CUCSH" class="h-12">
-                <span class="h-10 w-px bg-marino/20"></span>
-                <img src="{{ asset('images/Logo_Div_Cultura.svg') }}" alt="{{ config('site.nombre') }}" class="h-12">
+            <a href="{{ url('/') }}" class="flex items-center gap-3 rounded-br-[2.5rem] bg-crema px-4 py-3 lg:gap-4 lg:px-6 lg:py-4">
+                <img src="{{ asset('images/cucsh_dual.svg') }}" alt="CUCSH" class="h-9 lg:h-12">
+                <span class="h-8 w-px bg-marino/20 lg:h-10"></span>
+                <img src="{{ asset('images/Logo_Div_Cultura.svg') }}" alt="{{ config('site.nombre') }}" class="h-9 lg:h-12">
             </a>
 
-            <nav class="flex flex-1 flex-wrap items-center justify-end gap-x-8 gap-y-2 px-6 text-white">
-                @php
-                    $enlaces = [
-                        ['Inicio', url('/'), request()->is('/')],
-                        ['Podcast', url('/podcast'), request()->is('podcast*')],
-                        ['Conversatorio', url('/conversatorios'), request()->is('conversatorios*')],
-                        ['Participación Académica', url('/integracion'), request()->is('integracion*')],
-                        ['Directorio', url('/directorio'), request()->is('directorio*')],
-                        ['Egresados', url('/egresados'), request()->is('egresados*')]
-                    ];
-                @endphp
+            {{-- Botón de hamburguesa (solo celular y tablet) --}}
+            <button type="button" @click="abierto = !abierto" aria-label="Menú"
+                    class="ml-auto px-5 text-white lg:hidden">
+                <x-heroicon-o-bars-3 x-show="!abierto" class="h-7 w-7" />
+                <x-heroicon-o-x-mark x-show="abierto" x-cloak class="h-7 w-7" />
+            </button>
 
-
-                {{-- menú --}}
-                
+            {{-- Menú en pantalla grande --}}
+            <nav class="hidden flex-1 flex-wrap items-center justify-end gap-x-8 gap-y-2 px-6 text-white lg:flex">
                 @foreach ($enlaces as [$texto, $url, $activo])
                     <a href="{{ $url }}"
                        class="border-b-2 py-1 {{ $activo ? 'border-white' : 'border-transparent hover:border-white/50' }}">
@@ -44,15 +50,41 @@
                     </a>
                 @endforeach
 
-                {{-- Quien ya inició sesión ve un acceso al panel --}}
-                {{-- @auth
-                    <a href="{{ url('/admin') }}" class="rounded-full bg-white/15 px-4 py-1 text-sm hover:bg-white/25">
-                        {{ auth()->user()->name }} · Administrar
-                    </a>
-                @endauth
-                 --}}
+                {{-- <a href="{{ url('/admin') }}"
+                   class="rounded-full border border-white/60 px-4 py-1 text-sm hover:bg-white/15">
+                    {{ $textoAcceso }}
+                </a> --}}
+                <a href="{{ url('/admin') }}"
+                    class="inline-flex items-center justify-center gap-2 rounded-lgbg-crema px-4 py-2 text-sm font-semibold text-marino transition duration-200 hover:bg-white hover:shadow-md
+                            focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+                        <x-heroicon-o-cog-6-tooth class="h-4 w-4" aria-hidden="true" />
+                        <span>{{ $textoAcceso }}</span>
+                </a>
             </nav>
         </div>
+
+        {{-- Menú desplegable en celular y tablet --}}
+        <nav x-show="abierto" x-cloak x-transition class="flex flex-col px-6 pb-4 mt-4 text-white lg:hidden">
+            @foreach ($enlaces as [$texto, $url, $activo])
+                <a href="{{ $url }}"
+                   class="border-b border-white/10 py-3 {{ $activo ? 'font-semibold' : '' }}">
+                    {{ $texto }}
+                </a>
+            @endforeach
+
+            <a href="{{ url('/admin') }}"
+            class="mt-4 inline-flex items-center justify-center gap-2 rounded-lg
+                    bg-crema px-4 py-2 text-sm font-semibold text-marino
+                    transition duration-200
+                    hover:bg-white hover:shadow-md
+                    focus-visible:outline focus-visible:outline-2
+                    focus-visible:outline-offset-4 focus-visible:outline-white">
+
+                <x-heroicon-o-cog-6-tooth class="h-4 w-4" aria-hidden="true" />
+
+                <span>{{ $textoAcceso }}</span>
+            </a>
+        </nav>
     </header>
 
     <main>

@@ -9,8 +9,9 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Toggle;
+use Illuminate\Database\Eloquent\Model;
 
 class EventForm
 {
@@ -69,6 +70,23 @@ class EventForm
                     ->visibility('public')
                     ->maxSize(5120)
                     ->required(),
+
+                Toggle::make('is_featured')
+                    ->label('Destacar en el banner de Inicio')
+                    ->helperText('Solo para eventos grandes. Máximo 3 a la vez. Necesita imagen.')
+                    ->visible(fn () => (bool) auth()->user()?->can('publicar_contenido'))
+                    ->rule(fn (?Model $record) => function (string $attribute, $value, \Closure $fail) use ($record) {
+                        if (! $value) {
+                            return;
+                        }
+                        $otros = Event::where('is_featured', true)
+                            ->when($record, fn ($q) => $q->whereKeyNot($record->getKey()))
+                            ->count();
+
+                        if ($otros >= 3) {
+                            $fail('Ya hay 3 eventos destacados. Quita uno antes de destacar otro.');
+                        }
+                    }),
             
         ]);
     }

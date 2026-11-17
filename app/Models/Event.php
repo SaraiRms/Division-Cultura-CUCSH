@@ -16,11 +16,13 @@ class Event extends Model
         'cancelled' => 'Cancelado',
     ];
 
-    protected $fillable = ['title', 'description', 'location', 'image_path', 'starts_at', 'status', 'created_by'];
+    protected $fillable = [
+        'title', 'description', 'location', 'image_path', 'starts_at', 
+        'status', 'is_featured', 'created_by'];
 
     protected function casts(): array
     {
-        return ['starts_at' => 'datetime'];
+        return ['starts_at' => 'datetime', 'is_featured' => 'boolean'];
     }
 
     public function creator(): BelongsTo
@@ -45,6 +47,17 @@ class Event extends Model
         return $query->published()
             ->where('starts_at', '>=', now()->startOfDay())
             ->orderBy('starts_at');
+    }
+
+    // Eventos destacados para el banner del inicio (máximo 2, solo próximos y con imagen).
+    public function scopeHero($query)
+    {
+        return $query->published()
+            ->where('is_featured', true)
+            ->where('starts_at', '>=', now())
+            ->whereNotNull('image_path')
+            ->orderBy('starts_at')
+            ->limit(3);
     }
 
 }

@@ -2,18 +2,84 @@
 
 @section('content')
 
-  {{-- ////////////////////////  BANNER  //////////////////////// --}}
-<section class="relative overflow-hidden bg-white">
+  {{-- ////////////////////////  BANNER (carrusel)  //////////////////////// --}}
+@php
+    // Imágenes FIJAS.
+    $slides = collect([
+        ['imagen' => asset('images/hero/hero-1.jpg'), 'evento' => null],
+        ['imagen' => asset('images/hero/hero-2.jpg'), 'evento' => null],
+    ]);
 
-    {{-- Foto a la derecha. Si no existe public/images/hero.jpg, se ve el fondo crema --}}
-    <div class="absolute inset-y-0 right-0 w-full bg-crema bg-cover bg-center lg:w-3/5"
-         style="background-image: url('{{ asset('images/hero.jpg') }}')"></div>
+    // Se suman los eventos destacados desde el panel (máximo 2).
+    foreach ($eventosHero as $e) {
+        $slides->push(['imagen' => asset('storage/' . $e->image_path), 'evento' => $e]);
+    }
+@endphp
+
+<section class="relative overflow-hidden bg-white"
+         x-data="{
+            actual: 0,
+            total: {{ $slides->count() }},
+            timer: null,
+            ir(n) { this.actual = (n + this.total) % this.total },
+            iniciar() { this.timer = setInterval(() => this.ir(this.actual + 1), 6000) },
+            detener() { clearInterval(this.timer) }
+         }"
+         x-init="iniciar()"
+         @mouseenter="detener()"
+         @mouseleave="iniciar()">
+
+    {{-- Carrusel (en celular va arriba; en pantalla grande queda a la derecha) --}}
+    <div class="relative h-64 bg-crema lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-3/5 xl:w-[68%] 2xl:w-[72%]">
+
+        @foreach ($slides as $i => $slide)
+            <div x-show="actual === {{ $i }}" x-cloak
+                 x-transition.opacity.duration.700ms
+                 class="absolute inset-0">
+                <img src="{{ $slide['imagen'] }}" alt="" class="h-full w-full object-cover">
+
+                @if ($slide['evento'])
+                    @php $e = $slide['evento']; @endphp
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                    <a href="{{ route('eventos.show', $e) }}"
+                       class="absolute bottom-14 right-6 max-w-xs text-right text-white">
+                        <span class="text-xs tracking-widest text-white/80">
+                            PRÓXIMO EVENTO · {{ $e->starts_at->translatedFormat('d \d\e F, Y') }}
+                        </span>
+                        <span class="mt-1 block text-2xl leading-tight">{{ $e->title }}</span>
+                        <span class="mt-2 inline-block text-sm underline">Ver detalles →</span>
+                    </a>
+                @endif
+            </div>
+        @endforeach
+
+        {{-- Flechas --}}
+        <div class="absolute right-4 top-4 flex gap-2">
+            <button type="button" @click="ir(actual - 1)" aria-label="Anterior"
+                    class="rounded-full bg-white/80 p-2 text-marino hover:bg-white">
+                <x-heroicon-o-chevron-left class="h-5 w-5" />
+            </button>
+            <button type="button" @click="ir(actual + 1)" aria-label="Siguiente"
+                    class="rounded-full bg-white/80 p-2 text-marino hover:bg-white">
+                <x-heroicon-o-chevron-right class="h-5 w-5" />
+            </button>
+        </div>
+
+        {{-- Puntitos --}}
+        <div class="absolute bottom-4 right-6 flex gap-2">
+            @foreach ($slides as $i => $slide)
+                <button type="button" @click="ir({{ $i }})" aria-label="Imagen {{ $i + 1 }}"
+                        class="h-2.5 w-2.5 rounded-full"
+                        :class="actual === {{ $i }} ? 'bg-white' : 'bg-white/50'"></button>
+            @endforeach
+        </div>
+    </div>
 
     {{-- Panel blanco con el borde inclinado --}}
-    <div class="relative bg-white py-14 pl-6 pr-16 lg:w-[58%] lg:pl-12 [clip-path:polygon(0_0,100%_0,88%_100%,0_100%)]">
+    <div class="relative bg-white py-14 pl-6 pr-16 lg:flex lg:min-h-[26rem] lg:w-[58%] xl:w-[48%] 2xl:w-[44%] lg:flex-col lg:justify-center lg:pl-12 [clip-path:polygon(0_0,100%_0,88%_100%,0_100%)]">
         <p class="text-xs tracking-widest text-marino">CONOCIMIENTO | CULTURA | SOCIEDAD</p>
         <div class="mt-4 border-l-4 border-vino pl-5">
-            <h1 class="text-5xl leading-tight text-marino">División de Estudios<br>de la Cultura</h1>
+            <h1 class="text-6xl leading-tight text-marino">División de Estudios<br>de la Cultura</h1>
             <p class="mt-4 max-w-sm text-sm text-marino">
                 Espacio académico dedicado al diálogo, la investigación y la difusión del conocimiento cultural
             </p>

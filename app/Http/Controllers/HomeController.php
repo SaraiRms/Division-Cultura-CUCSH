@@ -13,8 +13,9 @@ class HomeController extends Controller
 public function index()
 {
     return view('home', [
-        'destacadas' => News::hero()->get(),
-        'recientes'  => News::published()->latest('published_at')->limit(3)->get(),
+        'eventosHero' => Event::hero()->get(),
+        'destacadas'  => News::hero()->get(),
+        'recientes'   => News::published()->latest('published_at')->limit(3)->get(),
 
         // Los más recientes primero; los próximos o en vivo quedan al inicio
         'conversatorios' => Conversatorio::orderByDesc('scheduled_at')->limit(12)->get(),
