@@ -1,10 +1,18 @@
 @extends('layouts.public')
 
 @section('content')
+<section>
+    <div class="relative flex h-40 w-full items-center justify-center bg-gray-900 bg-cover bg-center md:h-48"
+         style="background-image: url('{{ asset('images/hero/hero-3.jpg') }}')">
+        <div class="absolute inset-0 bg-black/50"></div>
+        <h1 class="relative z-10 px-4 text-center text-3xl tracking-wide text-white md:text-5xl">
+            Noticias
+        </h1>
+    </div>
+</section>
+
 <section class="mx-auto max-w-6xl px-6 py-12">
-    <h1 class="flex items-center gap-3 text-3xl text-vino">
-        <span class="h-px w-14 bg-vino"></span> Noticias
-    </h1>
+
 
     <div class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         @forelse ($noticias as $n)

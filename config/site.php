@@ -7,7 +7,7 @@ return [
         'YouTube'   => 'https://www.youtube.com/@DIVISIONDEESTUDIOSDELACULTURA',
         'Facebook'  => 'https://www.facebook.com/share/1CmzE7rBGh/',
         'Instagram' => 'https://www.instagram.com/dec.cucsh?mdxt=b2h6czdic2w2eGVh',
-        'Spotify'   => '#',
+        'Spotify'   => 'https://www.youtube.com/@DIVISIONDEESTUDIOSDELACULTURA',
     ],
 
     'catedra' => [
@@ -25,8 +25,14 @@ return [
         'Departamento de Estudios Mesoamericanos y Mexicanos' => 'http://www.cucsh.udg.mx/division_departamentos/Departamento%20de%20Estudios%20Mesoamericanos%20y%20Mexicanos/Presentaciondeptops',
     ],
 
-    'aviso_privacidad' => '#',
-    'terminos'         => '#',
-    'contacto'         => '#',
+    'transparencia_url' => 'https://transparencia.udg.mx',
+
+    // Datos de la página de Contacto. Lo que dejes en null no se muestra.
+    'contacto_datos' => [
+        'correo'    => env('CORREO_CONTACTO'),
+        'telefono'  => null,
+        'direccion' => null,
+        'horario'   => null,
+    ],
 
 ];

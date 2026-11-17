@@ -8,12 +8,24 @@
         'doctorado'    => 'Doctorados',
     ];
 @endphp
+<section>
+    <div class="relative flex h-40 w-full items-center justify-center overflow-hidden bg-gray-700 md:h-48">
+        <video autoplay muted loop playsinline
+                poster="{{ asset('images/egresados.png') }}"
+                class="absolute inset-0 h-full w-full object-cover">
+            <source src="{{ asset('videos/egresados.mp4') }}" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-black/50"></div>
+        <h1 class="relative z-10 px-4 text-center text-3xl tracking-wide text-white md:text-5xl">
+            Egresados
+        </h1>
+    </div>
+</section>
 
 <section class="mx-auto max-w-6xl px-6 py-12"
          x-data="{ depto: {{ $departamentos->first()?->id ?? 'null' }}, foto: null }"
          @keydown.escape.window="foto = null">
 
-    <h1 class="text-4xl text-vino">Egresados</h1>
     <p class="mt-3 max-w-2xl text-marino">
         Generaciones de egresados de licenciatura, maestría y doctorado de cada departamento.
     </p>

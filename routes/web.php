@@ -41,3 +41,7 @@ Route::post('{tipo}/participar', [ContributionController::class, 'store'])
 Route::get('/archivos-privados/aportaciones/{contribution}', [ContributionController::class, 'adminDocument'])
     ->name('aportaciones.pdf');
 Route::get('/egresados', [GraduateController::class, 'index'])->name('egresados.index');
+
+Route::view('/aviso-de-privacidad', 'legal.privacidad')->name('legal.privacidad');
+Route::view('/terminos-y-condiciones', 'legal.terminos')->name('legal.terminos');
+Route::view('/contacto', 'legal.contacto')->name('legal.contacto');

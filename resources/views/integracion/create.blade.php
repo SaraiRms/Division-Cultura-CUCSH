@@ -70,7 +70,7 @@
                 <input type="checkbox" name="acepto" value="1" required @checked(old('acepto')) class="mt-1">
                 <span>
                     He leído y acepto el
-                    <a href="{{ config('site.aviso_privacidad', '#') }}" target="_blank" rel="noopener"
+                    <a href="{{ route('legal.privacidad') }}" target="_blank" rel="noopener"
                        class="text-vino underline">aviso de privacidad</a>.
                 </span>
             </label>

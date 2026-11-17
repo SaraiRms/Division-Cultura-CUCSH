@@ -1,10 +1,39 @@
 @extends('layouts.public')
 
 @section('content')
+
+<section>
+    <div class="relative flex h-40 w-full items-center justify-center bg-gray-900 bg-cover bg-center md:h-48"
+         style="background-image: url('{{ asset('images/hero/hero-2.jpg') }}')">
+        <div class="absolute inset-0 bg-black/50"></div>
+        <h1 class="relative z-10 px-4 text-center text-3xl tracking-wide text-white md:text-5xl">
+            Eventos
+        </h1>
+    </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-6 py-6 mt-4">
+    <a href="{{ route('home') }}"
+        class="inline-flex items-center justify-center gap-2 rounded-lg
+        bg-vino px-5 py-3 text-sm font-semibold text-white
+        shadow-sm transition duration-200
+        hover:opacity-90 hover:shadow-md
+        focus-visible:outline focus-visible:outline-2
+        focus-visible:outline-offset-4 focus-visible:outline-marino">
+
+    <x-heroicon-o-arrow-left class="h-5 w-5" aria-hidden="true" />
+
+    <span>Regresar al inicio</span>
+    </a>
+</section>
+
+<section class="mx-auto max-w-6xl px-4 py-6">
+        <p class="mx-auto mt-4 max-w-5xl text-justify leading-relaxed text-marino">
+            Conoce los próximos eventos de la División de Estudios de la Cultura. Encuentra conferencias, talleres y encuentros que invitan al diálogo, al aprendizaje y al intercambio de ideas entre nuestra comunidad. ¡Participa y sé parte de estas experiencias!
+        </p>
+</section>
+
 <section class="mx-auto max-w-6xl px-6 py-12">
-    <h1 class="flex items-center gap-3 text-3xl text-vino">
-        <span class="h-px w-14 bg-vino"></span> Eventos
-    </h1>
 
     <div class="mt-8 grid gap-10 lg:grid-cols-[2fr_1fr]">
 
@@ -26,7 +55,7 @@
             </div>
 
             {{-- Cuadrícula (solo en pantallas medianas o más grandes) --}}
-            <div class="mt-4 hidden grid-cols-7 border-l border-t border-neutral-200 md:grid">
+            <div class="mt-4 hidden grid-cols-7 border-l border-t border-neutral-200 shadow-sm md:grid">
                 @foreach (['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'] as $nombre)
                     <div class="border-b border-r border-neutral-200 bg-marino py-2 text-center text-xs tracking-wide text-white">
                         {{ $nombre }}
@@ -39,14 +68,14 @@
                         $delDia = $porDia->get($dia->format('Y-m-d'), collect());
                     @endphp
 
-                    <div class="min-h-28 border-b border-r border-neutral-200 p-1.5 {{ $delMes ? 'bg-white' : 'bg-neutral-50 text-neutral-400' }}">
+                    <div class="min-h-28 border-b border-r border-neutral-200 p-1.5 {{ ! $delMes ? 'bg-neutral-50 text-neutral-400' : ($delDia->isNotEmpty() ? 'bg-vino/5' : 'bg-white') }}">
                         <span class="inline-flex h-6 w-6 items-center justify-center rounded-full text-xs {{ $dia->isToday() ? 'bg-vino text-white' : '' }}">
                             {{ $dia->day }}
                         </span>
 
                         @foreach ($delDia->take(3) as $e)
                             <a href="{{ route('eventos.show', $e) }}" title="{{ $e->title }}"
-                               class="mt-1 block truncate rounded bg-vino/10 px-1.5 py-0.5 text-[11px] text-vino hover:bg-vino hover:text-white">
+                               class="mt-1 block truncate rounded bg-vino/15 font-medium px-1.5 py-0.5 text-[11px] text-vino hover:bg-vino hover:text-white">
                                 {{ $e->starts_at->format('H:i') }} {{ $e->title }}
                             </a>
                         @endforeach
@@ -90,10 +119,10 @@
             <ul class="mt-4 space-y-4">
                 @forelse ($proximos as $e)
                     <li>
-                        <a href="{{ route('eventos.show', $e) }}" class="flex gap-3 bg-neutral-50 p-3 shadow-sm hover:shadow-md">
-                            <div class="bg-neutral-200 px-3 py-2 text-center leading-none">
-                                <span class="block text-2xl text-marino">{{ $e->starts_at->format('d') }}</span>
-                                <span class="mt-1 block text-xs uppercase text-marino">{{ $e->starts_at->translatedFormat('M') }}</span>
+                        <a href="{{ route('eventos.show', $e) }}" class="flex gap-3 border-l-4 border-vino bg-white p-3 shadow-sm transition hover:shadow-md">
+                            <div class="bg-vino px-3 py-2 text-center leading-none text-white">
+                                <span class="block text-2xl">{{ $e->starts_at->format('d') }}</span>
+                                <span class="mt-1 block text-xs uppercase">{{ $e->starts_at->translatedFormat('M') }}</span>
                             </div>
                             <div>
                                 <p class="text-sm leading-snug text-marino">{{ $e->title }}</p>

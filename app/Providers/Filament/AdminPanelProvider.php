@@ -30,8 +30,10 @@ class AdminPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->login()
             ->profile()
-            ->renderHook(PanelsRenderHook::FOOTER, fn () => view('filament.footer')) //footer
+            ->renderHook(PanelsRenderHook::FOOTER, fn () => auth()->check() ? view('filament.footer') : '') //footer
             ->renderHook(PanelsRenderHook::HEAD_END, fn () => '<style>body.fi-body { background-color: #FBF8F5; }</style>') //color de fondo
+            ->renderHook(PanelsRenderHook::SIMPLE_LAYOUT_START, fn () => auth()->check() ? '' : view('filament.login-lado'))
+            ->renderHook(PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE, fn () => view('filament.login-aviso'))
 
             // se coloca el color predeterminado para botones y menú
             ->colors([

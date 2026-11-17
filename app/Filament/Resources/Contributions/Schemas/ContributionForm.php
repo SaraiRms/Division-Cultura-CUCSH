@@ -33,6 +33,7 @@ class ContributionForm
 
                         Textarea::make('comentarios')
                             ->label('Comentarios')
+                            ->required()
                             ->rows(3)
                             ->disabled()
                             ->columnSpanFull(),

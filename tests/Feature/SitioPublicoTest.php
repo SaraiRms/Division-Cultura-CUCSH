@@ -25,6 +25,9 @@ class SitioPublicoTest extends TestCase
             ['/podcast'], ['/conversatorios'], ['/egresados'],
             ['/integracion/alumnos'], ['/integracion/profesores'],
             ['/integracion/alumnos/participar'], ['/integracion/profesores/participar'],
+            ['/aviso-de-privacidad'], 
+            ['/terminos-y-condiciones'], 
+            ['/contacto']
         ];
     }
 

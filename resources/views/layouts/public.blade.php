@@ -10,7 +10,7 @@
 
 </head>
 
-<body class="bg-crema font-sans text-marino antialiased">
+<body class="flex min-h-screen flex-col bg-crema font-sans text-marino antialiased">
 
     {{-- Encabezado --}}
     @php
@@ -83,7 +83,7 @@
         </nav>
     </header>
 
-    <main>
+    <main class="flex-1">
         @yield('content')
     </main>
 
@@ -98,9 +98,9 @@
             </div>
 
             <ul class="flex flex-wrap gap-x-6 gap-y-1 text-sm">
-                <li><a href="{{ config('site.aviso_privacidad') }}" class="hover:underline">Aviso de privacidad</a></li>
-                <li><a href="{{ config('site.terminos') }}" class="hover:underline">Términos y condiciones</a></li>
-                <li><a href="{{ config('site.contacto') }}" class="hover:underline">Contacto</a></li>
+                <li><a href="{{ route('legal.privacidad') }}" class="hover:underline">Aviso de privacidad</a></li>
+                <li><a href="{{ route('legal.terminos') }}" class="hover:underline">Términos y condiciones</a></li>
+                <li><a href="{{ route('legal.contacto') }}" class="hover:underline">Contacto</a></li>
             </ul>
 
             <div class="ml-auto flex items-center gap-4 text-sm">
