@@ -11,8 +11,6 @@ use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\ContributionController;
 use App\Http\Controllers\GraduateController;
 
-
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/noticias', [NewsController::class, 'index'])->name('noticias.index');
 Route::get('/noticias/{news}', [NewsController::class, 'show'])->name('noticias.show');

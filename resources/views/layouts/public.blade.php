@@ -50,12 +50,8 @@
                     </a>
                 @endforeach
 
-                {{-- <a href="{{ url('/admin') }}"
-                   class="rounded-full border border-white/60 px-4 py-1 text-sm hover:bg-white/15">
-                    {{ $textoAcceso }}
-                </a> --}}
                 <a href="{{ url('/admin') }}"
-                    class="inline-flex items-center justify-center gap-2 rounded-lgbg-crema px-4 py-2 text-sm font-semibold text-marino transition duration-200 hover:bg-white hover:shadow-md
+                    class="inline-flex items-center justify-center gap-2 rounded-lg bg-crema px-4 py-2 text-sm font-semibold text-marino transition duration-200 hover:bg-white hover:shadow-md
                             focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
                         <x-heroicon-o-cog-6-tooth class="h-4 w-4" aria-hidden="true" />
                         <span>{{ $textoAcceso }}</span>
@@ -95,10 +91,10 @@
     <footer class="mt-16 bg-vino text-white">
         <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-8 px-6 py-8">
             <div class="flex items-center gap-4">
-                <span class="text-lg uppercase tracking-wide">Universidad de Guadalajara</span>
+                <img src="{{ asset('images/udg_w.svg') }}" alt="udg" class="h-15">
                 <span class="h-10 w-px bg-white/30"></span>
                 <img src="{{ asset('images/Logo_Div_Cultura.svg') }}" alt="{{ config('site.nombre') }}"
-                     class="h-12 brightness-0 invert">
+                     class="h-15 brightness-0 invert">
             </div>
 
             <ul class="flex flex-wrap gap-x-6 gap-y-1 text-sm">
@@ -107,10 +103,17 @@
                 <li><a href="{{ config('site.contacto') }}" class="hover:underline">Contacto</a></li>
             </ul>
 
-            <div class="ml-auto flex flex-wrap items-center gap-3 text-sm">
+            <div class="ml-auto flex items-center gap-4 text-sm">
                 <span>Síguenos:</span>
                 @foreach (config('site.redes', []) as $nombre => $enlace)
-                    <a href="{{ $enlace }}" class="rounded-full border border-white/60 px-3 py-1 hover:bg-white/15">{{ $nombre }}</a>
+                    @if ($enlace && $enlace !== '#')
+                        <a href="{{ $enlace }}" target="_blank" rel="noopener"
+                           aria-label="{{ $nombre }}" title="{{ $nombre }}"
+                           class="flex h-9 w-9 items-center justify-center transition hover:scale-110 hover:opacity-80">
+                            <img src="{{ asset('images/redes/' . strtolower($nombre) . '.png') }}"
+                                 alt="{{ $nombre }}" class="h-full w-full object-contain">
+                        </a>
+                    @endif
                 @endforeach
             </div>
         </div>

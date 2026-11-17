@@ -254,14 +254,15 @@
             'titulo'  => 'Participación estudiantil',
             'texto'   => '¡Comparte tu conocimiento en el carrusel de banners a nuestra comunidad académica, queremos escucharte!',
             'items'   => $aportacionesAlumnos,
-            'enlace'  => '#',
+            'enlace'  => route('integracion.index', 'alumnos'),
         ],
         [
             'titulo'  => 'Participación de académicos',
             'texto'   => '¡Comparte tu conocimiento, artículos y participaciones docentes en el carrusel de banners a nuestra comunidad académica, queremos escucharte!',
             'items'   => $aportacionesProfesores,
-            'enlace'  => '#',
+            'enlace'  => route('integracion.index', 'profesores'),
         ],
+
     ];
 @endphp
 

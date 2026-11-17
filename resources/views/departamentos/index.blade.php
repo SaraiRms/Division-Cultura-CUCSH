@@ -15,7 +15,7 @@
 {{-- ========== BANNER ========== --}}
 <section id="presentación" class="scroll-mt-24 bg-neutral-100">
 
-    <div class="relative flex h-64 w-full items-center justify-center bg-gray-800 bg-cover bg-center" style="background-image: url(images/edf1.jpg)">
+    <div class="relative flex h-50 w-full items-center justify-center bg-gray-900 bg-cover bg-center" style="background-image: url(images/edf1.jpg)">
         <div class="absolute inset-0 bg-black/50"></div>
         <h1 class="relative z-10 px-4 text-center text-4xl tracking-wide text-white md:text-7xl">
             División de Estudios de la Cultura

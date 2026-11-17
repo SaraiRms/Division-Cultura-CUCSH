@@ -10,28 +10,72 @@
     ];
 @endphp
 
-<section class="mx-auto max-w-6xl px-6 py-12">
-    <h1 class="flex items-center gap-3 text-3xl text-vino">
-        <span class="h-px w-14 bg-vino"></span> Conversatorio académico
-    </h1>
-    <p class="mt-4 max-w-3xl text-marino">
-        Escucha a nuestros invitados en vivo. Consulta nuestro canal de YouTube y conoce más acerca de los
-        temas abordados en esta sección.
-    </p>
+<section>
+    <div class="relative flex h-40 w-full items-center justify-center overflow-hidden bg-gray-700 md:h-48">
+        <video autoplay muted loop playsinline preload="metadata" aria-hidden="true"
+               poster="{{ asset('images/conversatorio.jpg') }}"
+               class="absolute inset-0 h-full w-full object-cover">
+            <source src="{{ asset('videos/conversatorio.mp4') }}" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-black/50"></div>
+        <h1 class="relative z-10 px-4 text-center text-3xl tracking-wide text-white md:text-5xl">
+            Conversatorio Académico
+        </h1>
+    </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:py-14">
+
+    <div class="pb-10">
+        <a href="{{ route('home') }}"
+           class="inline-flex items-center justify-center gap-2 rounded-lg
+                  bg-vino px-5 py-3 text-sm font-semibold text-white
+                  shadow-sm transition duration-200
+                  hover:opacity-90 hover:shadow-md
+                  focus-visible:outline focus-visible:outline-2
+                  focus-visible:outline-offset-4 focus-visible:outline-marino">
+            <x-heroicon-o-arrow-left class="h-5 w-5" aria-hidden="true" />
+            <span>Regresar al inicio</span>
+        </a>
+    </div>
+
+    {{-- Encabezado --}}
+    <div class="max-w-3xl">
+        <p class="mt-5 text-base leading-relaxed text-marino sm:text-lg">
+            Escucha a nuestros invitados en vivo. Consulta nuestro canal de YouTube y conoce más acerca de los
+            temas abordados en esta sección.
+        </p>
+    </div>
+
+
 
     {{-- ========== EL GRANDE ========== --}}
     @if ($principal)
         @php $estado = $estados[$principal->status] ?? ['', 'hidden']; @endphp
 
         <div class="mt-8 grid gap-8 lg:grid-cols-[3fr_2fr]">
-            {{-- Reproductor --}}
+            {{-- Reproductor: la miniatura se cambia por el video solo al dar clic --}}
             @if ($principal->youtube_id)
-                <div class="aspect-video w-full overflow-hidden bg-black">
-                    <iframe class="h-full w-full"
-                            src="https://www.youtube-nocookie.com/embed/{{ $principal->youtube_id }}"
-                            title="{{ $principal->title }}" loading="lazy" allowfullscreen
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                <div class="relative aspect-video w-full overflow-hidden bg-black" x-data="{ activo: false }">
+
+                    <button type="button" x-show="!activo" @click="activo = true"
+                            aria-label="Reproducir: {{ $principal->title }}"
+                            class="group absolute inset-0 h-full w-full">
+                        @if ($principal->youtube_thumbnail)
+                            <img src="{{ $principal->youtube_thumbnail }}" alt="" class="h-full w-full object-cover">
+                        @endif
+                        <span class="absolute inset-0 flex items-center justify-center bg-black/25 transition group-hover:bg-black/10">
+                            <x-heroicon-s-play-circle class="h-20 w-20 text-white/90 drop-shadow-lg transition group-hover:scale-110" />
+                        </span>
+                    </button>
+
+                    <template x-if="activo">
+                        <iframe class="absolute inset-0 h-full w-full"
+                                src="https://www.youtube-nocookie.com/embed/{{ $principal->youtube_id }}?autoplay=1"
+                                title="{{ $principal->title }}" allowfullscreen
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    </template>
                 </div>
             @else
                 <div class="flex aspect-video w-full items-center justify-center bg-neutral-200 text-neutral-500">
@@ -116,4 +160,5 @@
         </a>
     </div>
 </section>
+    
 @endsection

@@ -5,7 +5,7 @@ return [
 
     'redes' => [
         'YouTube'   => 'https://www.youtube.com/@DIVISIONDEESTUDIOSDELACULTURA',
-        'Facebook'  => '#',
+        'Facebook'  => 'https://www.facebook.com/share/1CmzE7rBGh/',
         'Instagram' => 'https://www.instagram.com/dec.cucsh?mdxt=b2h6czdic2w2eGVh',
         'Spotify'   => '#',
     ],

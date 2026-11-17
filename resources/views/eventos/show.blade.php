@@ -2,8 +2,19 @@
 
 @section('content')
 <article class="mx-auto max-w-3xl px-6 py-12">
+               
     <a href="{{ route('eventos.index', ['mes' => $evento->starts_at->format('Y-m')]) }}"
-       class="text-sm text-vino underline">← Volver al calendario</a>
+        class="inline-flex items-center justify-center gap-2 rounded-lg
+        bg-vino px-5 py-3 text-sm font-semibold text-white
+        shadow-sm transition duration-200
+        hover:opacity-90 hover:shadow-md
+        focus-visible:outline focus-visible:outline-2
+        focus-visible:outline-offset-4 focus-visible:outline-marino">
+
+        <x-heroicon-o-arrow-left class="h-5 w-5" aria-hidden="true" />
+
+        <span>Volver al calendario</span>
+    </a>
 
     <h1 class="mt-4 text-4xl leading-tight text-marino">{{ $evento->title }}</h1>
 

@@ -2,34 +2,48 @@
 
 @section('content')
 
-{{-- Imagen provisional -> se puede eliminar --}}
-
 <section>
-
-    <div class="relative flex h-64 w-full items-center justify-center bg-gray-700 bg-cover bg-center" style="background-image: url(images/podcast.png)">
+    <div class="relative flex h-40 w-full items-center justify-center overflow-hidden bg-gray-700 md:h-48">
+        <video autoplay muted loop playsinline
+                poster="{{ asset('images/podcast.png') }}"
+                class="absolute inset-0 h-full w-full object-cover">
+            <source src="{{ asset('videos/vid_pod.mp4') }}" type="video/mp4">
+        </video>
         <div class="absolute inset-0 bg-black/50"></div>
-        <h1 class="relative z-10 px-4 text-center text-2xl tracking-wide text-white md:text-5xl">
-            Pendiente
+        <h1 class="relative z-10 px-4 text-center text-7xl tracking-wide text-white md:text-5xl">
+            Podcast
         </h1>
     </div>
-
 </section>
 
-<section class="mx-auto max-w-6xl px-6 py-12">
-    <h1 class="flex items-center gap-3 text-3xl text-vino">
-        <span class="h-px w-14 bg-vino"></span> Laboratorio Digital · Podcast
-    </h1>
+<section class="mx-auto max-w-6xl px-6 py-6">
+    <a href="{{ route('home') }}"
+        class="inline-flex items-center justify-center gap-2 rounded-lg
+        bg-vino px-5 py-3 text-sm font-semibold text-white
+        shadow-sm transition duration-200
+        hover:opacity-90 hover:shadow-md
+        focus-visible:outline focus-visible:outline-2
+        focus-visible:outline-offset-4 focus-visible:outline-marino">
+
+    <x-heroicon-o-arrow-left class="h-5 w-5" aria-hidden="true" />
+
+    <span>Regresar al inicio</span>
+    </a>
+</section>
+
+<section class="mx-auto max-w-6xl px-6 py-5">
+    <h2 class="flex items-center gap-3 text-3xl text-vino">
+        <span class="h-px w-14 bg-vino"></span> Laboratorio Digital 
+    </h2>
 
     <div class="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p class="max-w-3xl text-marino">
-            {{-- PENDIENTE: texto de presentación del Laboratorio / Podcast, si el cliente lo da --}}
             Laboratorio “Edición Digital”: un espacio para la creatividad y el diseño alrededor de los
             espacios culturales.
+            Finalidad: Pendiente <br>
+            Objetivos: Pendiente<br>
+            Futuros proyectos: Pendiente<br>
         </p>
-        <a href="{{ config('site.redes.YouTube', '#') }}" target="_blank" rel="noopener"
-           class="inline-flex shrink-0 items-center gap-2 bg-marino px-5 py-2.5 text-white hover:opacity-90">
-            <x-heroicon-o-play-circle class="h-6 w-6" /> Ver canal de YouTube
-        </a>
     </div>
 
     <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -66,6 +80,13 @@
     </div>
 
     <div class="mt-10">{{ $podcasts->links() }}</div>
+</section>
+
+<section class="mx-auto max-w-6xl px-6">
+        <a href="{{ config('site.redes.Spotify', '#') }}" target="_blank" rel="noopener"
+            class="inline-flex shrink-0 items-center gap-2 bg-marino px-5 py-2.5 text-white hover:opacity-90">
+            <x-heroicon-o-play-circle class="h-6 w-6" /> Ver canal para más contenido
+        </a>
 </section>
 
 @endsection

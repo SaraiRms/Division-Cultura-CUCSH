@@ -19,13 +19,23 @@
     $seccion = $secciones[$tipo];
 @endphp
 
-<section class="mx-auto max-w-6xl px-6 py-12">
-    <h1 class="flex items-center gap-3 text-3xl text-vino">
-        <span class="h-px w-14 bg-vino"></span> {{ $seccion['titulo'] }}
-    </h1>
+<section>
+    <div class="relative flex h-40 w-full items-center justify-center overflow-hidden bg-gray-700 md:h-48">
+        <video autoplay muted loop playsinline preload="metadata" aria-hidden="true"
+               poster="{{ asset('images/participacion.jpg') }}"
+               class="absolute inset-0 h-full w-full object-cover">
+            <source src="{{ asset('videos/participacion.mp4') }}" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-black/50"></div>
+        <h1 class="relative z-10 px-4 text-center text-3xl tracking-wide text-white md:text-5xl">
+            Participación Académica
+        </h1>
+    </div>
+</section>
 
+<section class="mx-auto max-w-6xl px-5 py-6">
     {{-- Pestañas --}}
-    <div class="mt-6 flex gap-6 border-b border-neutral-200 text-lg">
+    <div class="mt-3 flex gap-6 border-b border-neutral-200 text-xl">
         @foreach ($secciones as $clave => $s)
             <a href="{{ route('integracion.index', $clave) }}"
                class="-mb-px border-b-2 pb-2 {{ $clave === $tipo ? 'border-vino text-vino' : 'border-transparent text-neutral-500 hover:text-vino' }}">

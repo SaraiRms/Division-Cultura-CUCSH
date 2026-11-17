@@ -5,15 +5,22 @@
     <a href="{{ route('integracion.index', $tipo) }}" class="text-sm text-vino underline">← Volver</a>
     <p class="mt-4 text-2xl uppercase tracking-widest text-neutral-500">
         {{ $tipo === 'alumnos' ? 'Integración estudiantil' : 'Integración académica' }}
-    </p>
-
-    <h1 class=" text-3xl text-vino">Enviar mi participación</h1>
-    <p class="mt-3 text-marino">
-        Adjunta tu documento en PDF. El equipo de la División lo revisará antes de publicarlo.
-    </p>
-    <p class="text-sm text-gray-500">
+    </p> 
+    <p class="text-xl text-gray-500">
         Participación de {{ $tipo === 'alumnos' ? 'estudiantes' : 'académicos' }}
     </p>
+    <br>
+    <h1 class=" text-2xl text-vino">Comparte tu conocimiento con nuestra comunidad</h1> 
+    <p class="mt-3">
+        Envía tu investigación, tesis, proyecto u otro documento de interés para la División de Estudios de la Cultura. Adjunta tu trabajo en formato PDF y proporciona un correo de contacto para dar seguimiento a tu envío.
+    </p>
+    <br>
+    <h2 class="text-xl">Revisión y publicación</h2>
+    <p class="mt-3">Antes de publicarse, el equipo de la División revisará tu documento para comprobar que sea pertinente para este espacio y que no contenga contenido inapropiado ni elementos que puedan comprometer la seguridad de quienes lo consulten. <br>
+        Te contactaremos por el correo que proporciones para informarte sobre el resultado de la revisión, solicitar información adicional o comunicarte cualquier observación relacionada con tu envío. <br>Los trabajos aprobados se compartirán en esta misma página.
+        El envío del documento no garantiza su publicación.</p>
+    <br>
+
 
     <form method="POST" action="{{ route('integracion.store', $tipo) }}" enctype="multipart/form-data"
           x-data="{ enviando: false }" @submit="enviando = true" class="mt-8 space-y-6">
@@ -39,12 +46,12 @@
             <input id="contact_email" name="contact_email" type="email" required
                    value="{{ old('contact_email') }}"
                    class="mt-1 w-full border border-neutral-300 bg-white px-3 py-2 text-marino">
-            <p class="mt-1 text-xs text-neutral-500">Solo lo usará la División para contactarte. No se publica.</p>
+            <p class="mt-1 text-xs text-neutral-500">Usaremos tu correo únicamente para dar seguimiento a tu participación. No se mostrará públicamente.</p>
             @error('contact_email') <p class="mt-1 text-sm text-red-700">{{ $message }}</p> @enderror
         </div>
 
         <div>
-            <label for="comentarios" class="block text-marino">Comentarios (opcional)</label>
+            <label for="comentarios" class="block text-marino">Comentarios</label>
             <textarea id="comentarios" name="comentarios" rows="4" maxlength="1000"
                       class="mt-1 w-full border border-neutral-300 bg-white px-3 py-2 text-marino">{{ old('comentarios') }}</textarea>
             @error('comentarios') <p class="mt-1 text-sm text-red-700">{{ $message }}</p> @enderror
