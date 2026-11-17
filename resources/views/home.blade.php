@@ -191,11 +191,11 @@
         <div class="flex flex-col border border-neutral-200 bg-white p-6 shadow-[6px_6px_0_0_rgba(120,29,38,0.25)]">
             <p class="text-[11px] tracking-[0.25em] text-neutral-500">Proyectos</p>
             <h3 class="mt-2 text-2xl font-bold text-marino">Laboratorio<br>“Edición Digital”</h3>
-            <p class="mt-3 text-xs text-neutral-500">
-                Un espacio para la creatividad y el diseño alrededor de los espacios culturales.
+            <p class="mt-3 text-sm text-neutral-500">
+                Un espacio de conversación para conocer las historias, ideas e intereses de quienes forman parte de nuestra comunidad académica.
             </p>
-            <a href="{{ route('podcast.index')}}" class="mt-4 text-xs text-vino underline">Conocer el proyecto →</a>
-            <x-heroicon-o-microphone class="mx-auto mt-auto h-24 w-24 text-vino/70" />
+            <a href="{{ route('podcast.index') }}" class="mt-4 text-xs text-vino underline">Conocer el proyecto →</a>
+                <img src="{{ asset('images/microphone.png') }}" alt="" class="mx-auto mt-6 h-32 w-32 object-contain" style="width: 148px; height: 148px; object-fit: contain;">
         </div>
     </div>
 </section>
