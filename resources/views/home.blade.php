@@ -282,7 +282,7 @@
         <x-carrusel>
             @forelse ($p['items'] as $a)
                 <x-carrusel-item>
-                    <a href="#" class="block overflow-hidden shadow-sm">
+                    <a href="{{ route('integracion.documento', $a) }}" target="_blank" rel="noopener" class="block overflow-hidden shadow-sm">
                         <img src="{{ asset('storage/' . $a->banner_path) }}" alt="{{ $a->title }}"
                              class="aspect-[4/3] w-full object-cover">
                     </a>

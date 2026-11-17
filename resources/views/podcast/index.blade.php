@@ -40,9 +40,6 @@
         <p class="max-w-3xl text-marino">
             Laboratorio “Edición Digital”: un espacio para la creatividad y el diseño alrededor de los
             espacios culturales.
-            Finalidad: Pendiente <br>
-            Objetivos: Pendiente<br>
-            Futuros proyectos: Pendiente<br>
         </p>
     </div>
 
