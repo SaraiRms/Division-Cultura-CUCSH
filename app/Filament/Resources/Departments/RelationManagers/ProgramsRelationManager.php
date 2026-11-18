@@ -116,8 +116,7 @@ class ProgramsRelationManager extends RelationManager
                 TextColumn::make('description')
                     ->label('Descripción')
                     ->limit(100)
-                    ->placeholder('Pendiente'),
-
+                    ->placeholder('Sin descripción'),
             ])
 
             ->reorderable('sort_order')

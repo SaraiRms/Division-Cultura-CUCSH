@@ -45,11 +45,8 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('División de Estudios de la Cultura')
             ->brandLogo(asset('images/Logo_Div_Cultura.svg'))
             ->brandLogoHeight('3rem')
-            ->darkMode(false)                    // sin modo oscuro: la marca es clara
+            ->darkMode(false)
             ->sidebarCollapsibleOnDesktop()
-            // ->renderHook(PanelsRenderHook::SIDEBAR_NAV_START, fn () => view('filament.logo-colapsado'))
-            
-            /////////////////////////
             
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')

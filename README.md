@@ -1,66 +1,90 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sitio de la División de Estudios de la Cultura — CUCSH
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sitio web de difusión de la División de Estudios de la Cultura del Centro Universitario de Ciencias Sociales y Humanidades (Universidad de Guadalajara). Tiene dos partes:
 
-## About Laravel
+- **Sitio público:** noticias, eventos, departamentos y programas, directorio, podcast, conversatorios, egresados y participación académica (alumnos y profesores pueden enviar aportaciones en PDF).
+- **Panel administrativo** (`/admin`): gestión de todo el contenido, con flujo de revisión y publicación según el rol de cada persona.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tecnología
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Componente | Versión |
+|---|---|
+| PHP | 8.4 (mínimo 8.2) |
+| Laravel | 12 |
+| Panel administrativo | Filament 5 |
+| Roles y permisos | spatie/laravel-permission |
+| Base de datos | MySQL 8 / MariaDB 10.6+ |
+| Frontend público | Blade + Tailwind CSS 4 + Alpine.js (Vite) |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Roles
 
-## Learning Laravel
+| Rol | Qué puede hacer |
+|---|---|
+| Administrador | Todo, incluida la gestión de usuarios y la estructura del sitio |
+| Responsable institucional | Revisar, aprobar y publicar contenido |
+| Editor | Crear y editar contenido, y publicarlo |
+| Auxiliar académico | Crear borradores; su contenido queda pendiente de autorización |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Instalación para desarrollo local
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Requisitos: PHP 8.4, Composer, Node.js 20+ y MySQL.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+git clone https://github.com/SaraiRms/Division-Cultura-CUCSH.git
+cd Division-Cultura-CUCSH
 
-## Laravel Sponsors
+composer install
+npm install
+copy .env.example .env        # en Linux/Mac: cp .env.example .env
+php artisan key:generate
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Edita `.env` con los datos de tu base de datos (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`) y crea la base vacía en MySQL. Después:
 
-### Premium Partners
+```bash
+php artisan migrate --seed
+php artisan storage:link
+npm run build        # o `npm run dev` mientras se desarrolla
+php artisan serve
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+El sitio queda en `http://localhost:8000` y el panel en `http://localhost:8000/admin`.
 
-## Contributing
+### Usuarios iniciales
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **En local** (`APP_ENV=local`) el seeder crea usuarios de demostración, uno por rol.
+- **En producción** se crea un único administrador a partir de estas variables, que se definen solo al momento de sembrar la base y **no** se guardan en el repositorio:
 
-## Code of Conduct
+  ```
+  ADMIN_NOMBRE="Nombre Apellido"
+  ADMIN_EMAIL=correo@institucion.mx
+  ADMIN_PASSWORD=una-contraseña-segura
+  ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Pruebas
 
-## Security Vulnerabilities
+```bash
+php artisan test
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Despliegue
 
-## License
+Los requisitos del servidor, la configuración de `.env` y los pasos de instalación en producción están en **`INSTALACION.md`**.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Puntos clave:
+
+- El servidor debe apuntar a la carpeta `public/`.
+- Configurar `APP_URL`, la base de datos, el correo (`MAIL_*`), `CORREO_APORTACIONES` y `CORREO_CONTACTO`.
+- Los PDF enviados por el público se guardan en almacenamiento privado y solo se muestran cuando están aprobados.
+
+## Estructura útil
+
+| Ruta | Contenido |
+|---|---|
+| `app/Filament/Resources` | Recursos del panel (noticias, eventos, usuarios, etc.) |
+| `app/Policies` | Permisos por recurso |
+| `app/Http/Controllers` | Controladores del sitio público |
+| `resources/views` | Vistas públicas (`layouts/public.blade.php` es la plantilla base) |
+| `config/site.php` | Redes sociales y datos de contacto del sitio |
+| `database/seeders` | Roles, departamentos y administrador inicial |
+| `tests` | Pruebas de roles, aportaciones y sitio público |
