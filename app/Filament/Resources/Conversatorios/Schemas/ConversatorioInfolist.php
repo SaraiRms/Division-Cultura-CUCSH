@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Conversatorios\Schemas;
 use App\Models\Conversatorio;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
-use PhpParser\Node\Stmt\Label;
 
 class ConversatorioInfolist
 {

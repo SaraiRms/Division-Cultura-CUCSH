@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\DirectoryAdmins\Schemas;
 
-use App\Models\Department;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -10,7 +9,6 @@ use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
 use Filament\Schemas\Schema;
-use File;
 
 class DirectoryAdminForm
 {

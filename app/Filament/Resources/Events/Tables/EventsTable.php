@@ -3,12 +3,10 @@
 namespace App\Filament\Resources\Events\Tables;
 
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use App\Models\Event;
@@ -25,11 +23,6 @@ class EventsTable
                 ->label('Evento')
                 ->searchable()
                 ->limit(50),
-
-            // ImageColumn::make('image_path')
-            //     ->label('Imagen')
-            //     ->disk('public')
-            //     ->square(),
 
             TextColumn::make('starts_at')
                 ->label('Fecha y Hora')

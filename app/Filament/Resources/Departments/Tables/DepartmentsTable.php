@@ -27,11 +27,6 @@ class DepartmentsTable
                     ->searchable()
                     ->wrap(),
             
-                // TextColumn::make('description')
-                //     ->label('Descripción')
-                //     ->limit(250)
-                //     ->placeholder('Pendiente de descripción'),
-            
                 TextColumn::make('updatedBy.name')
                     ->label('Actualizado por')
                     ->placeholder('-'),

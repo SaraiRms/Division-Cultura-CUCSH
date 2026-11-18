@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Podcasts\Tables;
 
 use App\Models\Podcast;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;

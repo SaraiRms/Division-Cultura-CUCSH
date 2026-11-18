@@ -4,7 +4,6 @@ namespace App\Filament\Resources\DirectoryRectorias\Tables;
 
 use App\Models\DirectoryRectoria;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;

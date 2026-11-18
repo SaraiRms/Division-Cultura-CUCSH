@@ -31,10 +31,6 @@ class DepartmentInfolist
                     ->label('Vista de tarjeta')
                     ->boolean(),
 
-                // TextEntry::make('creator.name')
-                //     ->label('Creado por')
-                //     ->placeholder('-'),
-
                 TextEntry::make('updated_at')
                     ->label('Ultima actualización')
                     ->dateTime()

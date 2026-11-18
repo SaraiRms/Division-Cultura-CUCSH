@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Contributions\Pages;
 
 use App\Filament\Resources\Contributions\ContributionResource;
-use Filament\Actions\DeleteAction;
 use Filament\Actions\Action;
 use Filament\Support\Icons\Heroicon;
 use Filament\Resources\Pages\EditRecord;
