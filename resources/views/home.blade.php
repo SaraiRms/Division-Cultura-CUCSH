@@ -77,10 +77,10 @@
 
     {{-- Panel blanco con el borde inclinado --}}
     <div class="relative bg-white py-14 pl-6 pr-16 lg:flex lg:min-h-[26rem] lg:w-[58%] xl:w-[48%] 2xl:w-[44%] lg:flex-col lg:justify-center lg:pl-12 [clip-path:polygon(0_0,100%_0,88%_100%,0_100%)]">
-        <p class="text-xs tracking-widest text-marino">CONOCIMIENTO | CULTURA | SOCIEDAD</p>
+        <p class="text-mb tracking-widest text-marino">CONOCIMIENTO | CULTURA | SOCIEDAD</p>
         <div class="mt-4 border-l-4 border-vino pl-5">
-            <h1 class="text-6xl leading-tight text-marino">División de Estudios<br>de la Cultura</h1>
-            <p class="mt-4 max-w-sm text-sm text-marino">
+            <h1 class="text-5xl leading-tight text-marino">División de Estudios<br>de la Cultura</h1>
+            <p class="mt-4 max-w-sm text-mb text-marino">
                 Espacio académico dedicado al diálogo, la investigación y la difusión del conocimiento cultural
             </p>
         </div>
@@ -137,7 +137,7 @@
                         @endif
 
                         <div class="absolute bottom-0 left-0 w-3/5 bg-vino p-5 text-white">
-                            <p class="text-[10px] tracking-[0.2em]">DESTACADO</p>
+                            <p class="text-[13px] tracking-[0.2em]">DESTACADO</p>
                             <h3 class="mt-2 text-2xl leading-snug">{{ $n->title }}</h3>
                             <p class="mt-2 text-xs text-white/80">{{ Str::limit($n->summary, 110) }}</p>
                             <a href="{{ route('noticias.show', $n) }}" class="mt-3 inline-block text-xs underline">Ver más →</a>
@@ -184,7 +184,7 @@
                     <li class="py-3 text-sm text-neutral-500">Todavía no hay noticias publicadas.</li>
                 @endforelse
             </ul>
-            <a href="{{ route('noticias.index') }}" class="mt-3 inline-block text-xs text-vino underline">Ver más noticias →</a>
+            <a href="{{ route('noticias.index') }}" class="mt-3 inline-block text-[12px] text-vino underline">Ver más noticias →</a>
         </div>
 
         {{-- 3) Tarjeta del Laboratorio / Podcast --}}

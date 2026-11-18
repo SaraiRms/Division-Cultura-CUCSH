@@ -9,7 +9,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -31,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->profile()
             ->renderHook(PanelsRenderHook::FOOTER, fn () => auth()->check() ? view('filament.footer') : '') //footer
-            ->renderHook(PanelsRenderHook::HEAD_END, fn () => '<style>body.fi-body { background-color: #FBF8F5; }</style>') //color de fondo
+            ->renderHook(PanelsRenderHook::HEAD_END, fn () => '<style>body.fi-body { background-color: #f5f3ee; }</style>') //color de fondo
             ->renderHook(PanelsRenderHook::SIMPLE_LAYOUT_START, fn () => auth()->check() ? '' : view('filament.login-lado'))
             ->renderHook(PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE, fn () => view('filament.login-aviso'))
 

@@ -10,7 +10,7 @@
 
 </head>
 
-<body class="flex min-h-screen flex-col bg-crema font-sans text-marino antialiased">
+<body class="flex min-h-screen flex-col bg-crema font-sans text-marino">
 
     {{-- Encabezado --}}
     @php

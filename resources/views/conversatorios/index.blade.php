@@ -26,7 +26,7 @@
 
 <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:py-14">
 
-    <div class="pb-10">
+    <div class="pb-7">
         <a href="{{ route('home') }}"
            class="inline-flex items-center justify-center gap-2 rounded-lg
                   bg-vino px-5 py-3 text-sm font-semibold text-white
@@ -53,7 +53,7 @@
     @if ($principal)
         @php $estado = $estados[$principal->status] ?? ['', 'hidden']; @endphp
 
-        <div class="mt-8 grid gap-8 lg:grid-cols-[3fr_2fr]">
+        <div class="mt-15 grid gap-8 lg:grid-cols-[3fr_2fr]">
             {{-- Reproductor: la miniatura se cambia por el video solo al dar clic --}}
             @if ($principal->youtube_id)
                 <div class="relative aspect-video w-full overflow-hidden bg-black" x-data="{ activo: false }">

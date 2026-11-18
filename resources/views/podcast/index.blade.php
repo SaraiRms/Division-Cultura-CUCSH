@@ -18,7 +18,7 @@
 
 <section class="mx-auto max-w-6xl px-6 py-6">
     <a href="{{ route('home') }}"
-        class="inline-flex items-center justify-center gap-2 rounded-lg
+        class="inline-flex items-center justify-center gap-3 rounded-lg
         bg-vino px-5 py-3 text-sm font-semibold text-white
         shadow-sm transition duration-200
         hover:opacity-90 hover:shadow-md
@@ -31,7 +31,7 @@
     </a>
 </section>
 
-<section class="mx-auto max-w-6xl px-6 py-5">
+<section class="mx-auto max-w-6xl mt-6 px-6 py-5">
     <h2 class="flex items-center gap-3 text-3xl text-vino">
         <span class="h-px w-14 bg-vino"></span> Laboratorio Digital 
     </h2>
@@ -43,7 +43,7 @@
         </p>
     </div>
 
-    <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-15 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         @forelse ($podcasts as $p)
             <a @if ($p->video_url) href="{{ $p->video_url }}" target="_blank" rel="noopener" @endif
                class="group block overflow-hidden bg-neutral-50 shadow-sm transition hover:shadow-md">
