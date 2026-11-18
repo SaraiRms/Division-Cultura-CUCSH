@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Contributions;
 
-use App\Filament\Resources\Contributions\Pages\CreateContribution;
 use App\Filament\Resources\Contributions\Pages\EditContribution;
 use App\Filament\Resources\Contributions\Pages\ListContributions;
 use App\Filament\Resources\Contributions\Schemas\ContributionForm;
@@ -15,15 +14,17 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 
 class ContributionResource extends Resource
 {
 
-    protected static ?string $modelLabel = 'aportaciónes académicas';
+    protected static ?string $modelLabel = 'aportación académica';
     protected static ?string $pluralModelLabel = 'Aportaciones Académicas';
     protected static ?string $navigationLabel = 'Aportaciones';
-    protected static ?int $navigationSort = 5;
+    protected static string|UnitEnum|null $navigationGroup = 'Contenido';
+    protected static ?int $navigationSort = 1;
     protected static ?string $model = Contribution::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
@@ -73,7 +74,6 @@ class ContributionResource extends Resource
     {
         return [
             'index' => ListContributions::route('/'),
-            'create' => CreateContribution::route('/create'),
             'edit' => EditContribution::route('/{record}/edit'),
         ];
     }

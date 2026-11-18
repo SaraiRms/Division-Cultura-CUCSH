@@ -28,7 +28,7 @@ class ConversatorioResource extends Resource
     protected static ?string $pluralModelLabel = 'conversatorios';
     protected static ?string $navigationLabel = 'Conversatorios';
     protected static string|UnitEnum|null $navigationGroup = 'Contenido';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 
     
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMicrophone;

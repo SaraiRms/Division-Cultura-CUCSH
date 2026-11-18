@@ -26,7 +26,7 @@ class DirectoryRectoriaResource extends Resource
     protected static ?string $pluralModelLabel = 'Directorio';
     protected static ?string $navigationLabel = 'Directorio';
     protected static string|UnitEnum|null $navigationGroup = 'Institucional';
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingLibrary;

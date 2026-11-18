@@ -26,7 +26,7 @@ class PodcastResource extends Resource
     protected static ?string $pluralModelLabel = 'podcasts';
     protected static ?string $navigationLabel = 'Podcasts';
     protected static string|UnitEnum|null $navigationGroup = 'Contenido';
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 5;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPlayCircle;
 

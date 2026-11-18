@@ -25,7 +25,7 @@ class NewsInfolist
                     ->placeholder('-'),
 
                 TextEntry::make('body')
-                    ->label('Cuerpo')
+                    ->label('Contenido de la noticia')
                     ->html()
                     ->placeholder('-')
                     ->columnSpanFull(),

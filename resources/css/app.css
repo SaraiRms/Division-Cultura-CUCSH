@@ -25,3 +25,47 @@
 .contenido a { color: var(--color-vino); text-decoration: underline; }
 .contenido img { margin-top: 1rem; max-width: 100%; height: auto; }
 .contenido blockquote { margin-top: 1rem; border-left: 4px solid var(--color-vino); padding-left: 1rem; font-style: italic; }
+
+[x-cloak] {
+    display: none !important;
+}
+
+html {
+    scroll-padding-top: 7rem;
+}
+
+.site-header {
+    background-color: var(--color-marino);
+    transition: box-shadow 0.2s ease;
+}
+
+.site-header.con-sombra {
+    box-shadow: 0 6px 20px rgb(0 0 0 / 25%);
+}
+
+@supports (
+    (backdrop-filter: blur(12px)) or
+    (-webkit-backdrop-filter: blur(12px))
+) {
+    .site-header {
+        background-color: rgb(37 45 73 / 95%);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+    }
+}
+
+.site-mobile-nav {
+    max-height: calc(100vh - 5rem);
+    max-height: calc(100dvh - 5rem);
+}
+
+/* Evita que el encabezado ocupe demasiado en pantallas bajas. */
+@media (max-height: 450px) {
+    .site-header {
+        position: relative;
+    }
+
+    html {
+        scroll-padding-top: 1rem;
+    }
+}

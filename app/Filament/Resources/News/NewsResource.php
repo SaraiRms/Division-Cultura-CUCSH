@@ -27,7 +27,7 @@ class NewsResource extends Resource
     protected static ?string $pluralModelLabel = 'noticias';
     protected static ?string $navigationLabel = 'Noticias';
     protected static string|UnitEnum|null $navigationGroup = 'Contenido';
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 4;
 
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedNewspaper;

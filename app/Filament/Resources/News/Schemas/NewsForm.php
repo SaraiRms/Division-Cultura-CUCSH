@@ -62,7 +62,7 @@ class NewsForm
                         ->maxLength(200),
 
                     TextInput::make('slug')
-                        ->label('Dirección')
+                        ->label('Enlace')
                         ->helperText('Déjalo vacío: se genera solo a partir del título.')
                         ->maxLength(220)
                         ->unique(ignoreRecord: true),

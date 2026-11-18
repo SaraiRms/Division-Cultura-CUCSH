@@ -26,7 +26,7 @@ class EventResource extends Resource
     protected static ?string $pluralModelLabel = 'eventos';
     protected static ?string $navigationLabel = 'Eventos';
     protected static string|UnitEnum|null $navigationGroup = 'Contenido';
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
 

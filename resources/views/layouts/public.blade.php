@@ -25,61 +25,72 @@
         $textoAcceso = auth()->check() ? 'Administrar' : 'Iniciar sesión';
     @endphp
 
-    <header class="bg-marino" x-data="{ abierto: false }">
-
-        <div class="flex items-stretch">
-            <a href="{{ url('/') }}" class="flex items-center gap-3 rounded-br-[2.5rem] bg-crema px-4 py-3 lg:gap-4 lg:px-6 lg:py-4">
-                <img src="{{ asset('images/cucsh_dual.svg') }}" alt="CUCSH" class="h-9 lg:h-12">
-                <span class="h-8 w-px bg-marino/20 lg:h-10"></span>
-                <img src="{{ asset('images/Logo_Div_Cultura.svg') }}" alt="{{ config('site.nombre') }}" class="h-9 lg:h-12">
+    <header class="site-header sticky top-0 z-50 border-b border-white/10 text-white"     x-data="{ abierto: false, bajo: false }" x-init="bajo = window.scrollY > 8"
+    @scroll.window.passive="bajo = window.scrollY > 8" :class="{ 'con-sombra': bajo }" @keydown.escape.stop=" if (abierto) {abierto = false; $refs.botonMenu.focus();}" @click.outside="abierto = false">
+        <div class="mx-auto flex max-w-screen-2xl items-center justify-between gap-4">
+            {{-- Identidad institucional --}}
+            <a href="{{ url('/') }}" aria-label="CUCSH Cultura — Inicio" class="flex min-w-0 items-center gap-3 rounded-br-3xl bg-crema px-3 py-4 sm:gap-4 sm:px-6
+                    focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-marino">
+                <img src="{{ asset('images/cucsh_dual.svg') }}" alt="CUCSH" class="h-8 w-auto sm:h-10">
+                <span aria-hidden="true" class="h-8 w-px shrink-0 bg-marino/20"></span>
+                <img src="{{ asset('images/Logo_Div_Cultura.svg') }}" alt="{{ config('site.nombre') }}" class="h-8 w-auto sm:h-10">
             </a>
 
-            {{-- Botón de hamburguesa (solo celular y tablet) --}}
-            <button type="button" @click="abierto = !abierto" aria-label="Menú"
-                    class="ml-auto px-5 text-white lg:hidden">
-                <x-heroicon-o-bars-3 x-show="!abierto" class="h-7 w-7" />
-                <x-heroicon-o-x-mark x-show="abierto" x-cloak class="h-7 w-7" />
-            </button>
-
-            {{-- Menú en pantalla grande --}}
-            <nav class="hidden flex-1 flex-wrap items-center justify-end gap-x-8 gap-y-2 px-6 text-white lg:flex">
+            {{-- Navegación de escritorio --}}
+            <nav aria-label="Navegación principal" class="hidden items-center gap-1 pr-6 min-[1440px]:flex">
                 @foreach ($enlaces as [$texto, $url, $activo])
-                    <a href="{{ $url }}"
-                       class="border-b-2 py-1 {{ $activo ? 'border-white' : 'border-transparent hover:border-white/50' }}">
+                    <a href="{{ $url }}" @if ($activo) aria-current="page" @endif class="rounded-lg px-3 py-3 text-sm font-medium whitespace-nowrap transition-colors duration-150 hover:bg-white/10
+                        focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white {{ $activo ? 'bg-white/10 text-white' : 'text-slate-200' }}">
                         {{ $texto }}
                     </a>
                 @endforeach
 
-                <a href="{{ url('/admin') }}"
-                    class="inline-flex items-center justify-center gap-2 rounded-lg bg-crema px-4 py-2 text-sm font-semibold text-marino transition duration-200 hover:bg-white hover:shadow-md
-                            focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
-                        <x-heroicon-o-cog-6-tooth class="h-4 w-4" aria-hidden="true" />
-                        <span>{{ $textoAcceso }}</span>
+                <a href="{{ url('/admin') }}" class="ml-3 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-white/25 px-4 py-2 text-sm font-medium text-slate-100 transition-colors duration-150 hover:bg-white/10
+                    focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                    {{ $textoAcceso }}
                 </a>
             </nav>
+
+            {{-- Botón del menú móvil --}}
+            <button x-ref="botonMenu" type="button" @click="abierto = !abierto" :aria-expanded="abierto.toString()" aria-controls="navegacion-movil"
+                :aria-label="abierto ? 'Cerrar menú' : 'Abrir menú'" class="mr-3 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors hover:bg-white/10
+                focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white min-[1440px]:hidden">
+                <x-heroicon-o-bars-3 x-show="!abierto" class="h-6 w-6" aria-hidden="true"/>
+                <x-heroicon-o-x-mark x-show="abierto" x-cloak class="h-6 w-6" aria-hidden="true"/>
+            </button>
         </div>
 
-        {{-- Menú desplegable en celular y tablet --}}
-        <nav x-show="abierto" x-cloak x-transition class="flex flex-col px-6 pb-4 mt-4 text-white lg:hidden">
-            @foreach ($enlaces as [$texto, $url, $activo])
-                <a href="{{ $url }}"
-                   class="border-b border-white/10 py-3 {{ $activo ? 'font-semibold' : '' }}">
-                    {{ $texto }}
+        {{-- Panel móvil con desplazamiento propio --}}
+        <nav id="navegacion-movil" aria-label="Navegación principal móvil" x-show="abierto" x-cloak class="site-mobile-nav overflow-y-auto border-t border-white/10 bg-marino px-4 py-4 min-[1440px]:hidden">
+            <div class="flex flex-col gap-1">
+                @foreach ($enlaces as [$texto, $url, $activo])
+                    <a href="{{ $url }}" @if ($activo) aria-current="page" @endif
+                        class="flex min-h-11 items-center rounded-lg px-4 py-3
+                            text-base transition-colors hover:bg-white/10
+                            focus-visible:outline focus-visible:outline-2
+                            focus-visible:outline-white
+                            {{ $activo ? 'bg-white/10 font-semibold text-white' : 'text-slate-200' }}"
+                    >
+                        {{ $texto }}
+                    </a>
+                @endforeach
+
+                <a
+                    href="{{ url('/admin') }}"
+                    class="mt-3 inline-flex min-h-11 items-center justify-center
+                        gap-2 rounded-lg border border-white/25 px-4 py-3
+                        text-sm font-medium hover:bg-white/10
+                        focus-visible:outline focus-visible:outline-2
+                        focus-visible:outline-white"
+                >
+                    <x-heroicon-o-cog-6-tooth
+                        class="h-4 w-4"
+                        aria-hidden="true"
+                    />
+
+                    {{ $textoAcceso }}
                 </a>
-            @endforeach
-
-            <a href="{{ url('/admin') }}"
-            class="mt-4 inline-flex items-center justify-center gap-2 rounded-lg
-                    bg-crema px-4 py-2 text-sm font-semibold text-marino
-                    transition duration-200
-                    hover:bg-white hover:shadow-md
-                    focus-visible:outline focus-visible:outline-2
-                    focus-visible:outline-offset-4 focus-visible:outline-white">
-
-                <x-heroicon-o-cog-6-tooth class="h-4 w-4" aria-hidden="true" />
-
-                <span>{{ $textoAcceso }}</span>
-            </a>
+            </div>
         </nav>
     </header>
 
@@ -88,34 +99,162 @@
     </main>
 
     {{-- Footer --}}
-    <footer class="mt-16 bg-vino text-white">
-        <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-8 px-6 py-8">
-            <div class="flex items-center gap-4">
-                <img src="{{ asset('images/udg_w.svg') }}" alt="udg" class="h-15">
-                <span class="h-10 w-px bg-white/30"></span>
-                <img src="{{ asset('images/Logo_Div_Cultura.svg') }}" alt="{{ config('site.nombre') }}"
-                     class="h-15 brightness-0 invert">
+    @php
+        // Todas las páginas del sitio (el menú de arriba lleva solo las principales).
+        $enlacesPie = array_merge($enlaces, [
+            ['Noticias', route('noticias.index'), request()->is('noticias*')],
+            ['Eventos', route('eventos.index'), request()->is('eventos*')],
+            ['Departamentos', route('departamentos.index'), request()->is('departamentos*')],
+        ]);
+    @endphp
+
+    <footer class="mt-16 border-t-4 border-marino/15 bg-vino text-white">
+        <div class="mx-auto max-w-7xl px-6 pb-8 pt-12 lg:pt-16">
+
+            <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
+
+                {{-- Identidad institucional --}}
+                <div>
+                    <div class="flex flex-wrap items-center gap-5">
+                        <img
+                            src="{{ asset('images/udg_w.svg') }}"
+                            alt="Universidad de Guadalajara"
+                            class="h-14 w-auto max-w-full object-contain"
+                        >
+
+                        <span
+                            aria-hidden="true"
+                            class="hidden h-12 w-px bg-white/25 sm:block"
+                        ></span>
+
+                        <img
+                            src="{{ asset('images/Logo_Div_Cultura.svg') }}"
+                            alt="{{ config('site.nombre') }}"
+                            class="h-12 w-auto max-w-full object-contain brightness-0 invert"
+                        >
+                    </div>
+
+                    <p class="mt-6 max-w-sm text-sm leading-7 text-white/75">
+                        Un espacio para compartir la cultura, las ideas
+                        y las voces de nuestra comunidad universitaria.
+                    </p>
+                </div>
+
+                {{-- Explorar --}}
+                <nav aria-label="Navegación del pie de página">
+                    <h2 class="text-xs font-semibold uppercase tracking-widest text-white/60">
+                        Explora
+                    </h2>
+
+                    <ul class="mt-5 grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
+                        @foreach ($enlacesPie as [$texto, $url, $activo])
+                            <li>
+                                <a
+                                    href="{{ $url }}"
+                                    @if ($activo) aria-current="page" @endif
+                                    class="inline-block text-white/80
+                                        transition-colors duration-200
+                                        hover:text-white hover:underline
+                                        underline-offset-4
+                                        focus-visible:outline
+                                        focus-visible:outline-2
+                                        focus-visible:outline-offset-4
+                                        focus-visible:outline-white"
+                                >
+                                    {{ $texto }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </nav>
+
+                {{-- Contacto y redes --}}
+                <div>
+                    <h2 class="text-xs font-semibold uppercase tracking-widest text-white/60">
+                        Sigamos en contacto
+                    </h2>
+
+                    <p class="mt-5 max-w-xs text-sm leading-7 text-white/75">
+                        Conoce nuestras actividades y sigue las conversaciones
+                        de nuestra comunidad.
+                    </p>
+
+                    <a
+                        href="{{ route('legal.contacto') }}"
+                        class="mt-4 inline-flex items-center gap-2 text-sm
+                            font-semibold underline underline-offset-4
+                            transition-colors hover:text-white/75"
+                    >
+                        Contáctanos
+                        <span aria-hidden="true">→</span>
+                    </a>
+
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        @foreach (config('site.redes', []) as $nombre => $enlace)
+                            @if ($enlace && $enlace !== '#')
+                                <a
+                                    href="{{ $enlace }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="{{ $nombre }} (abre en una pestaña nueva)"
+                                    title="{{ $nombre }}"
+                                    class="flex h-11 w-11 items-center justify-center
+                                        rounded-full border border-white/20
+                                        bg-white/5 transition duration-200
+                                        hover:-translate-y-1 hover:border-white/50
+                                        hover:bg-white/15
+                                        motion-reduce:transform-none
+                                        motion-reduce:transition-none
+                                        focus-visible:outline
+                                        focus-visible:outline-2
+                                        focus-visible:outline-offset-4
+                                        focus-visible:outline-white"
+                                >
+                                    <img
+                                        src="{{ asset('images/redes/' . strtolower($nombre) . '.png') }}"
+                                        alt=""
+                                        class="h-5 w-5 object-contain"
+                                        loading="lazy"
+                                    >
+                                </a>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
             </div>
 
-            <ul class="flex flex-wrap gap-x-6 gap-y-1 text-sm">
-                <li><a href="{{ route('legal.privacidad') }}" class="hover:underline">Aviso de privacidad</a></li>
-                <li><a href="{{ route('legal.terminos') }}" class="hover:underline">Términos y condiciones</a></li>
-                <li><a href="{{ route('legal.contacto') }}" class="hover:underline">Contacto</a></li>
-            </ul>
+            {{-- Cierre legal --}}
+            <div class="mt-12 flex flex-col gap-4 border-t border-white/20 pt-6
+                        text-xs leading-6 text-white/65
+                        md:flex-row md:items-center md:justify-between">
 
-            <div class="ml-auto flex items-center gap-4 text-sm">
-                <span>Síguenos:</span>
-                @foreach (config('site.redes', []) as $nombre => $enlace)
-                    @if ($enlace && $enlace !== '#')
-                        <a href="{{ $enlace }}" target="_blank" rel="noopener"
-                           aria-label="{{ $nombre }}" title="{{ $nombre }}"
-                           class="flex h-9 w-9 items-center justify-center transition hover:scale-110 hover:opacity-80">
-                            <img src="{{ asset('images/redes/' . strtolower($nombre) . '.png') }}"
-                                 alt="{{ $nombre }}" class="h-full w-full object-contain">
+                <p>
+                    © {{ now()->year }} Universidad de Guadalajara
+                    <span class="mx-1" aria-hidden="true">·</span>
+                    División de Estudios de la Cultura
+                </p>
+
+                <ul class="flex flex-wrap gap-x-6 gap-y-2">
+                    <li>
+                        <a
+                            href="{{ route('legal.privacidad') }}"
+                            class="transition-colors hover:text-white hover:underline underline-offset-4"
+                        >
+                            Aviso de privacidad
                         </a>
-                    @endif
-                @endforeach
+                    </li>
+
+                    <li>
+                        <a
+                            href="{{ route('legal.terminos') }}"
+                            class="transition-colors hover:text-white hover:underline underline-offset-4"
+                        >
+                            Términos y condiciones
+                        </a>
+                    </li>
+                </ul>
             </div>
+
         </div>
     </footer>
 
