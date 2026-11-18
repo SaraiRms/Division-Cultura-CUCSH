@@ -221,7 +221,7 @@
                         @endif
                         <h3 class="text-lg leading-snug text-marino">{{ $c->title }}</h3>
                         <p class="mt-2 text-sm text-neutral-600">{{ Str::limit($c->description, 90) }}</p>
-                        <a href="{{ $c->stream_url ?? '#' }}" target="_blank" rel="noopener"
+                        <a @if ($c->stream_url) href="{{ $c->stream_url }}" target="_blank" rel="noopener" @endif
                            class="mt-3 inline-block text-sm text-vino underline">Ver →</a>
                     </div>
                 </article>

@@ -125,7 +125,7 @@
 
         <div class="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($anteriores as $c)
-                <a href="{{ $c->stream_url ?? '#' }}" target="_blank" rel="noopener"
+                <a @if ($c->stream_url) href="{{ $c->stream_url }}" target="_blank" rel="noopener" @endif
                    class="group block overflow-hidden bg-neutral-50 shadow-sm transition hover:shadow-md">
                     <div class="relative">
                         @if ($c->youtube_thumbnail)

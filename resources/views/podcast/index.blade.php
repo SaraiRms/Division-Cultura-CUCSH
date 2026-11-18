@@ -45,7 +45,7 @@
 
     <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         @forelse ($podcasts as $p)
-            <a href="{{ $p->video_url ?? '#' }}" target="_blank" rel="noopener"
+            <a @if ($p->video_url) href="{{ $p->video_url }}" target="_blank" rel="noopener" @endif
                class="group block overflow-hidden bg-neutral-50 shadow-sm transition hover:shadow-md">
 
                 <div class="relative">
@@ -80,7 +80,7 @@
 </section>
 
 <section class="mx-auto max-w-6xl px-6">
-        <a href="{{ config('site.redes.Spotify', '#') }}" target="_blank" rel="noopener"
+        <a href="{{ config('site.redes.Spotify') ?: config('site.redes.YouTube') }}" target="_blank" rel="noopener"
             class="inline-flex shrink-0 items-center gap-2 bg-marino px-5 py-2.5 text-white hover:opacity-90">
             <x-heroicon-o-play-circle class="h-6 w-6" /> Ver canal para más contenido
         </a>
