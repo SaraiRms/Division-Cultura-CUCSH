@@ -25,21 +25,20 @@
 </section>
 
 <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:py-14">
-
     <div class="pb-7">
         <a href="{{ route('home') }}"
-           class="inline-flex items-center justify-center gap-2 rounded-lg
-                  bg-vino px-5 py-3 text-sm font-semibold text-white
-                  shadow-sm transition duration-200
-                  hover:opacity-90 hover:shadow-md
-                  focus-visible:outline focus-visible:outline-2
-                  focus-visible:outline-offset-4 focus-visible:outline-marino">
+        class="inline-flex items-center justify-center gap-2 rounded-lg
+                bg-vino px-5 py-3 text-sm font-semibold text-white
+                shadow-sm transition duration-200
+                hover:opacity-90 hover:shadow-md
+                focus-visible:outline focus-visible:outline-2
+                focus-visible:outline-offset-4 focus-visible:outline-marino">
             <x-heroicon-o-arrow-left class="h-5 w-5" aria-hidden="true" />
             <span>Regresar al inicio</span>
         </a>
     </div>
 
-    {{-- Encabezado --}}
+{{-- Encabezado --}}
     <div class="max-w-3xl">
         <p class="mt-5 text-base leading-relaxed text-marino sm:text-lg">
             Escucha a nuestros invitados en vivo. Consulta nuestro canal de YouTube y conoce más acerca de los
@@ -47,17 +46,16 @@
         </p>
     </div>
 
-
-
-    {{-- ========== EL GRANDE ========== --}}
+{{-- ========== EL GRANDE ========== --}}
     @if ($principal)
-        @php $estado = $estados[$principal->status] ?? ['', 'hidden']; @endphp
+        @php 
+            $estado = $estados[$principal->status] ?? ['', 'hidden']; 
+        @endphp
 
-        <div class="mt-15 grid gap-8 lg:grid-cols-[3fr_2fr]">
+         <div class="mt-15 grid gap-8 lg:grid-cols-[3fr_2fr]">
             {{-- Reproductor: la miniatura se cambia por el video solo al dar clic --}}
             @if ($principal->youtube_id)
                 <div class="relative aspect-video w-full overflow-hidden bg-black" x-data="{ activo: false }">
-
                     <button type="button" x-show="!activo" @click="activo = true"
                             aria-label="Reproducir: {{ $principal->title }}"
                             class="group absolute inset-0 h-full w-full">
@@ -68,10 +66,9 @@
                             <x-heroicon-s-play-circle class="h-20 w-20 text-white/90 drop-shadow-lg transition group-hover:scale-110" />
                         </span>
                     </button>
-
                     <template x-if="activo">
                         <iframe class="absolute inset-0 h-full w-full"
-                                src="https://www.youtube-nocookie.com/embed/{{ $principal->youtube_id }}?autoplay=1"
+                                src=" $principal->youtube_id }}?autoplay=1"
                                 title="{{ $principal->title }}" allowfullscreen
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 referrerpolicy="strict-origin-when-cross-origin"></iframe>
@@ -109,7 +106,7 @@
 
                 @if ($principal->stream_url)
                     <a href="{{ $principal->stream_url }}" target="_blank" rel="noopener"
-                       class="mt-5 inline-block text-sm text-vino underline">Abrir en YouTube →</a>
+                    class="mt-5 inline-block text-sm text-vino underline">Abrir en YouTube →</a>
                 @endif
             </div>
         </div>
@@ -126,11 +123,11 @@
         <div class="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($anteriores as $c)
                 <a @if ($c->stream_url) href="{{ $c->stream_url }}" target="_blank" rel="noopener" @endif
-                   class="group block overflow-hidden bg-neutral-50 shadow-sm transition hover:shadow-md">
+                class="group block overflow-hidden bg-neutral-50 shadow-sm transition hover:shadow-md">
                     <div class="relative">
                         @if ($c->youtube_thumbnail)
                             <img src="{{ $c->youtube_thumbnail }}" alt="{{ $c->title }}"
-                                 class="aspect-video w-full object-cover">
+                                class="aspect-video w-full object-cover">
                         @else
                             <div class="aspect-video w-full bg-neutral-200"></div>
                         @endif
@@ -155,7 +152,7 @@
     {{-- Los demás, en el canal --}}
     <div class="mt-12 text-center">
         <a href="{{ config('site.canal_conversatorios', '#') }}" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 bg-marino px-6 py-3 text-lg text-white hover:opacity-90">
+        class="inline-flex items-center gap-2 bg-marino px-6 py-3 text-lg text-white hover:opacity-90">
             <x-heroicon-o-play-circle class="h-6 w-6" /> Ver más en nuestro canal de YouTube
         </a>
     </div>

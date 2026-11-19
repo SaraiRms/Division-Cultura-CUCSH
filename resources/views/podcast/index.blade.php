@@ -68,10 +68,6 @@
          @keydown.escape.window="if (episodio) cerrar()">
 
     <div class="revelar">
-        <h2 class="flex items-center gap-3 text-2xl font-bold text-vino sm:text-3xl">
-            <span class="h-px w-14 bg-vino"></span> Laboratorio Digital
-        </h2>
-
         <p class="mt-3 max-w-3xl text-base leading-relaxed text-marino/85">
             Laboratorio “Edición Digital”: un espacio de conversación para la creatividad, la cultura y el diseño
             alrededor de los espacios culturales. Haz clic en cualquier episodio para reproducirlo aquí mismo.
@@ -84,10 +80,7 @@
                 $imagen = $p->image_path ? asset('storage/' . $p->image_path) : $p->youtube_thumbnail;
 
                 // Extrae el ID de YouTube si el enlace corresponde a YouTube (sin cambiar tu BD)
-                $ytId = null;
-                if ($p->video_url && preg_match('/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?|live|shorts)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $p->video_url, $match)) {
-                    $ytId = $match[1];
-                }
+                $ytId = $p->youtube_id;
 
                 $payload = [
                     'titulo'      => $p->title,
@@ -124,12 +117,12 @@
                             <span class="flex h-14 w-14 items-center justify-center rounded-full bg-vino/90 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
                                 <x-heroicon-s-play class="ml-0.5 h-7 w-7" />
                             </span>
-                            <span class="rounded-full bg-black/60 px-2.5 py-0.5 text-[11px] font-medium text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100">
+                            <span class="rounded-full bg-black/60 px-2.5 py-0.5 text-sm font-medium text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100">
                                 {{ $ytId ? 'Reproducir aquí' : 'Ver episodio' }}
                             </span>
                         </span>
                     @else
-                        <span class="absolute left-3 top-3 rounded-full bg-marino/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
+                        <span class="absolute left-3 top-3 rounded-full bg-marino/85 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
                             Próximamente
                         </span>
                     @endif
@@ -271,10 +264,10 @@
         </div>
 
         <div class="flex flex-wrap gap-3">
-            @if (config('site.redes.YouTube') && config('site.redes.YouTube') !== '#')
+            @if (config('site.redes.YouTube') && config('site.redes.Spotify') !== '#')
                 <a href="{{ config('site.redes.YouTube') }}" target="_blank" rel="noopener"
                    class="inline-flex shrink-0 items-center gap-2 rounded-lg bg-marino px-5 py-3 text-sm font-semibold text-white transition hover:bg-vino">
-                    <x-heroicon-o-play-circle class="h-5 w-5" /> Canal de YouTube
+                    <x-heroicon-o-play-circle class="h-5 w-5" /> Canal de Spotify
                 </a>
             @endif
 
@@ -285,7 +278,7 @@
                 </a>
             @endif
 
-            @if ((!config('site.redes.YouTube') || config('site.redes.YouTube') === '#') && (!config('site.redes.Spotify') || config('site.redes.Spotify') === '#'))
+            @if ((config('site.redes.Spotify') || config('site.redes.Spotify') === '#'))
                 <a href="{{ config('site.redes.Spotify') ?: config('site.redes.YouTube') }}" target="_blank" rel="noopener"
                    class="inline-flex shrink-0 items-center gap-2 rounded-lg bg-marino px-5 py-3 text-sm font-semibold text-white transition hover:bg-vino">
                     <x-heroicon-o-play-circle class="h-5 w-5" /> Ver canal para más contenido

@@ -208,12 +208,11 @@
                 <img src="{{ asset('images/microphone.png') }}" alt="" class="mx-auto mt-6 h-32 w-32 object-contain" style="width: 148px; height: 148px; object-fit: contain;">
         </div>
     </div>
-
-
+</section>
 
 {{--  ////////////////////////  CONVERSATORIOS  ////////////////////////  --}}
 
-<section class="revelar mx-auto max-w-8xl px-8 py-20">
+<section class="revelar mx-auto max-w-6xl px-6 py-20">
     <x-carrusel titulo="Conversatorios">
         @forelse ($conversatorios as $c)
             <x-carrusel-item>
