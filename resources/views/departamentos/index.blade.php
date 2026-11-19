@@ -12,16 +12,16 @@
     ];
 @endphp
 
-{{-- ========== BANNER ========== --}}
-<section id="presentación" class="scroll-mt-24 bg-neutral-100">
-
-    <div class="relative flex h-50 w-full items-center justify-center bg-gray-900 bg-cover bg-center" style="background-image: url('{{ asset('images/edf1.jpg') }}')">
-        <div class="absolute inset-0 bg-black/50"></div>
-        <h1 class="relative z-10 px-4 text-center text-4xl tracking-wide text-white md:text-7xl">
-            División de Estudios de la Cultura
-        </h1>
-    </div>
-
+{{-- ////////////////////////  BANNER  //////////////////////// --}}
+<section class="relative flex h-44 w-full items-center justify-center overflow-hidden bg-marino md:h-56">
+    <img src="{{ asset('images/edf1.jpg') }}" alt=""
+         class="absolute inset-0 h-full w-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-marino/70 via-black/55 to-vino/40"></div> {{-- Degradado --}}
+        <div class="relative z-10 px-4 text-center text-white">
+            <h1 class="text-4xl font-medium tracking-wide md:text-5xl">
+                Departamentos
+            </h1>
+        </div>
 </section>
 
 

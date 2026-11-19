@@ -19,15 +19,22 @@
     $seccion = $secciones[$tipo];
 @endphp
 
-<section>
-    <div class="relative flex h-40 w-full items-center justify-center overflow-hidden bg-gray-700 md:h-48">
-        <video autoplay muted loop playsinline preload="metadata" aria-hidden="true"
-               poster="{{ asset('images/participacion.jpg') }}"
-               class="absolute inset-0 h-full w-full object-cover">
+{{-- ////////////////////////  BANNER CON VIDEO  //////////////////////// --}}
+<section class="relative flex h-44 w-full items-center justify-center overflow-hidden bg-marino md:h-56">
+    <video autoplay muted loop playsinline
+            poster="{{ asset('images/participacion.jpg') }}"
+            class="absolute inset-0 h-full w-full object-cover motion-reduce:hidden">
             <source src="{{ asset('videos/participacion.mp4') }}" type="video/mp4">
-        </video>
-        <div class="absolute inset-0 bg-black/50"></div>
-        <h1 class="relative z-10 px-4 text-center text-3xl tracking-wide text-white md:text-5xl">
+    </video>
+    {{-- Imagen de respaldo si el usuario prefiere movimiento reducido --}}
+    <img src="{{ asset('images/participacion.jpg') }}" alt=""
+        class="hidden h-full w-full object-cover motion-reduce:block">
+    <div class="absolute inset-0 bg-gradient-to-r from-marino/70 via-black/55 to-vino/30"></div> {{-- Degradado --}}
+    <div class="relative z-10 px-4 text-center text-white">
+        <p class="text-xs font-semibold uppercase tracking-[0.25em] text-white/80">
+            "Se parte de nuestra comunidad" 
+        </p>
+        <h1 class="mt-2 text-4xl font-medium tracking-wide md:text-5xl">
             Participación Académica
         </h1>
     </div>

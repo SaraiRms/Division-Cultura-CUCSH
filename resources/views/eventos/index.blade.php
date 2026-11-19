@@ -2,14 +2,16 @@
 
 @section('content')
 
-<section>
-    <div class="relative flex h-40 w-full items-center justify-center bg-gray-900 bg-cover bg-center md:h-48"
-         style="background-image: url('{{ asset('images/hero/hero-2.jpg') }}')">
-        <div class="absolute inset-0 bg-black/50"></div>
-        <h1 class="relative z-10 px-4 text-center text-3xl tracking-wide text-white md:text-5xl">
-            Eventos
-        </h1>
-    </div>
+{{-- ////////////////////////  BANNER  //////////////////////// --}}
+<section class="relative flex h-44 w-full items-center justify-center overflow-hidden bg-marino md:h-56">
+    <img src="{{ asset('images/hero/hero-2.jpg') }}" alt=""
+         class="absolute inset-0 h-full w-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-marino/70 via-black/55 to-vino/40"></div> {{-- Degradado --}}
+        <div class="relative z-10 px-4 text-center text-white">
+            <h1 class="text-4xl font-medium tracking-wide md:text-5xl">
+                Eventos
+            </h1>
+        </div>
 </section>
 
 <section class="mx-auto max-w-6xl px-6 py-6 mt-4">

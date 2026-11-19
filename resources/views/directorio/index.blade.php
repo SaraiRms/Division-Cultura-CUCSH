@@ -1,14 +1,17 @@
 @extends('layouts.public')
 
 @section('content')
-<section>
-    <div class="relative flex h-40 w-full items-center justify-center bg-gray-900 bg-cover bg-center md:h-48"
-         style="background-image: url('{{ asset('images/hero/hero-5.jpg') }}')">
-        <div class="absolute inset-0 bg-black/50"></div>
-        <h1 class="relative z-10 px-4 text-center text-3xl tracking-wide text-white md:text-5xl">
-            Directorio
-        </h1>
-    </div>
+
+{{-- ////////////////////////  BANNER  //////////////////////// --}}
+<section class="relative flex h-44 w-full items-center justify-center overflow-hidden bg-marino md:h-56">
+    <img src="{{ asset('images/hero/hero-5.jpg') }}" alt=""
+         class="absolute inset-0 h-full w-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-marino/70 via-black/55 to-vino/10"></div> {{-- Degradado --}}
+        <div class="relative z-10 px-4 text-center text-white">
+            <h1 class="text-4xl font-medium tracking-wide md:text-5xl">
+                Directorio
+            </h1>
+        </div>
 </section>
 
 <section class="mx-auto max-w-6xl px-6 py-8"></section>
@@ -18,7 +21,7 @@
     <div class="flex gap-6 border-b border-neutral-200 text-lg">
         <a href="{{ route('directorio.index') }}"
            class="-mb-px border-b-2 pb-2 {{ $vista === 'maestros' ? 'border-vino text-vino' : 'border-transparent text-neutral-500 hover:text-vino' }}">
-            Maestros
+            Administrativos
         </a>
         <a href="{{ route('directorio.index', ['vista' => 'rectoria']) }}"
            class="-mb-px border-b-2 pb-2 {{ $vista === 'rectoria' ? 'border-vino text-vino' : 'border-transparent text-neutral-500 hover:text-vino' }}">
@@ -53,7 +56,7 @@
                 {{ $departamentoActual?->name ?? 'Todos los departamentos' }}
             </h2>
             <p class="shrink-0 text-sm text-neutral-500">
-                {{ $maestros->count() === 1 ? '1 maestro' : $maestros->count() . ' maestros' }}
+                {{ $maestros->count() === 1 ? '1 maestro' : $maestros->count() . ' administrativos' }}
             </p>
         </div>
 

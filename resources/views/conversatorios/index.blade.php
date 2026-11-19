@@ -10,18 +10,25 @@
     ];
 @endphp
 
-<section>
-    <div class="relative flex h-40 w-full items-center justify-center overflow-hidden bg-gray-700 md:h-48">
-        <video autoplay muted loop playsinline preload="metadata" aria-hidden="true"
-               poster="{{ asset('images/conversatorio.jpg') }}"
-               class="absolute inset-0 h-full w-full object-cover">
+{{-- ////////////////////////  BANNER CON VIDEO  //////////////////////// --}}
+<section class="relative flex h-44 w-full items-center justify-center overflow-hidden bg-marino md:h-56">
+    <video autoplay muted loop playsinline
+           poster="{{ asset('images/conversatorio.jpg') }}"
+           class="absolute inset-0 h-full w-full object-cover motion-reduce:hidden">
             <source src="{{ asset('videos/conversatorio.mp4') }}" type="video/mp4">
         </video>
-        <div class="absolute inset-0 bg-black/50"></div>
-        <h1 class="relative z-10 px-4 text-center text-3xl tracking-wide text-white md:text-5xl">
-            Conversatorio Académico
-        </h1>
-    </div>
+        
+        <img src="{{ asset('images/conversatorio.jpg') }}" alt=""
+            class="hidden h-full w-full object-cover motion-reduce:block">
+        <div class="absolute inset-0 bg-gradient-to-r from-marino/70 via-black/55 to-vino/30"></div> {{-- Degradado --}}
+        <div class="relative z-10 px-4 text-center text-white">
+            <h1 class="mt-2 text-4xl font-medium tracking-wide md:text-5xl">
+                Conversatorio
+            </h1>
+            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-white/80">
+                Académico
+            </p>
+        </div>
 </section>
 
 <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:py-14">
@@ -68,7 +75,7 @@
                     </button>
                     <template x-if="activo">
                         <iframe class="absolute inset-0 h-full w-full"
-                                src=" $principal->youtube_id }}?autoplay=1"
+                                src="https://www.youtube-nocookie.com/embed/{{ $principal->youtube_id }}?autoplay=1&rel=0"
                                 title="{{ $principal->title }}" allowfullscreen
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 referrerpolicy="strict-origin-when-cross-origin"></iframe>
@@ -149,13 +156,25 @@
         </div>
     @endif
 
-    {{-- Los demás, en el canal --}}
-    <div class="mt-12 text-center">
-        <a href="{{ config('site.canal_conversatorios', '#') }}" target="_blank" rel="noopener"
-        class="inline-flex items-center gap-2 bg-marino px-6 py-3 text-lg text-white hover:opacity-90">
-            <x-heroicon-o-play-circle class="h-6 w-6" /> Ver más en nuestro canal de YouTube
-        </a>
-    </div>
-</section>
+    {{-- ////////////////////////  INVITACIÓN AL CANAL  //////////////////////// --}}
+    <section class="mx-auto max-w-6xl px-6 pb-8 pt-20">
+    <div class="flex flex-col items-start justify-between gap-6 rounded-xl border border-marino/10 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:p-8">
+        <div>
+            <p class="text-xs font-semibold uppercase tracking-widest text-vino">Mira más de nuestras charlas!</p>
+            <h2 class="mt-1 text-xl font-semibold text-marino">Mira más contenido y variedad de nuestros temas</h2>
+            <p class="mt-1 text-sm text-marino/75">
+                Suscríbete a nuestros canales oficiales para recibir notificaciones de nuevo contenido.
+            </p>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+            @if ((config('site.redes.YouTube') || config('site.redes.YouTube') === '#'))
+                <a href="{{ config('site.redes.Spotify') ?: config('site.redes.YouTube') }}" target="_blank" rel="noopener"
+                   class="inline-flex shrink-0 items-center gap-2 rounded-lg bg-marino px-5 py-3 text-sm font-semibold text-white transition hover:bg-vino">
+                    <x-heroicon-o-play-circle class="h-5 w-5" /> Ver canal para más contenido
+                </a>
+            @endif
+        </div>
+    </section>
     
 @endsection

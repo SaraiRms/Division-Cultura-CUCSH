@@ -23,7 +23,6 @@
             ['Directorio', url('/directorio'), request()->is('directorio*')],
             ['Egresados', url('/egresados'), request()->is('egresados*')],
         ];
-        $textoAcceso = auth()->check() ? 'Administrar' : 'Iniciar sesión';
     @endphp
 
     <header class="site-header sticky top-0 z-50 border-b border-white/10 text-white"     x-data="{ abierto: false, bajo: false }" x-init="bajo = window.scrollY > 8"
@@ -45,11 +44,6 @@
                         {{ $texto }}
                     </a>
                 @endforeach
-
-                <a href="{{ url('/admin') }}" class="ml-3 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-white/25 px-4 py-2 text-sm font-medium text-slate-100 transition-colors duration-150 hover:bg-white/10
-                    focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
-                    {{ $textoAcceso }}
-                </a>
             </nav>
 
             {{-- Botón del menú móvil --}}
@@ -75,22 +69,6 @@
                         {{ $texto }}
                     </a>
                 @endforeach
-
-                <a
-                    href="{{ url('/admin') }}"
-                    class="mt-3 inline-flex min-h-11 items-center justify-center
-                        gap-2 rounded-lg border border-white/25 px-4 py-3
-                        text-sm font-medium hover:bg-white/10
-                        focus-visible:outline focus-visible:outline-2
-                        focus-visible:outline-white"
-                >
-                    <x-heroicon-o-cog-6-tooth
-                        class="h-4 w-4"
-                        aria-hidden="true"
-                    />
-
-                    {{ $textoAcceso }}
-                </a>
             </div>
         </nav>
     </header>
