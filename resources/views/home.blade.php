@@ -10,13 +10,13 @@
         ['imagen' => asset('images/hero/hero-2.jpg'), 'evento' => null],
     ]);
 
-    // Se suman los eventos destacados desde el panel (máximo 2).
+    // Se suman los eventos destacados desde el panel (máximo 3).
     foreach ($eventosHero as $e) {
         $slides->push(['imagen' => asset('storage/' . $e->image_path), 'evento' => $e]);
     }
 @endphp
 
-<section class="relative overflow-hidden bg-white"
+<section class="revelar relative overflow-hidden bg-white"
          x-data="{
             actual: 0,
             total: {{ $slides->count() }},
@@ -98,14 +98,24 @@
     ];
 @endphp
 
-<section class="bg-neutral-100">
+<section class="revelar bg-neutral-100">
     <div class="mx-auto grid max-w-6xl md:grid-cols-4 md:divide-x md:divide-neutral-300">
         
         @foreach ($accesos as [$titulo, $texto, $icono, $enlace])
-            <a href="{{ $enlace }}" class="block px-6 py-10 text-center hover:bg-white/60">
-                <x-dynamic-component :component="$icono" class="mx-auto h-16 w-16 text-vino" />
-                <h3 class="mt-4 text-xl text-vino">{{ $titulo }}</h3>
-                <p class="mt-3 text-sm text-marino">{{ $texto }}</p>
+            <a href="{{ $enlace }}" class="group relative flex flex-col items-center p-6 text-center transition-colors duration-200 hover:bg-white
+            focus-visible:outline focus-visible:outline-2 focus-visible:outline-marino">
+                <span aria-hidden="true"
+                     class="absolute bottom-0 left-0 h-1 w-0 bg-vino transition-all duration-300 group-hover:w-full group-focus-visible:w-full"></span>
+                <div class="mb-3 flex h-14 w-14 items-center justify-center rounded-xl bg-vino/5 text-vino transition duration-300
+                        group-hover:-translate-y-1 group-hover:bg-vino group-hover:text-white
+                        group-focus-visible:-translate-y-1 group-focus-visible:bg-vino group-focus-visible:text-white">
+                    <x-dynamic-component :component="$icono" class="h-8 w-8" />
+                </div>
+                    <h3 class="font-serif text-lg font-semibold text-vino">{{ $titulo }}</h3>
+                    <p class="mt-1 text-sm text-marino/75">{{ $texto }}</p>
+                <span class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-vino transition-all duration-200
+                        md:opacity-0 md:group-hover:translate-x-1 md:group-hover:opacity-100 md:group-focus-visible:opacity-100">
+                    Explorar <span aria-hidden="true">→</span>
             </a>
         @endforeach
 
@@ -116,14 +126,14 @@
 
 {{--  ////////////////////////  NOTICIAS  ////////////////////////  --}}
 
-<section class="mx-auto max-w-6xl px-6 py-12">
+<section class="revelar mx-auto max-w-6xl px-6 py-12">
     <h2 class="flex items-center gap-3 text-xl font-bold text-vino">
         <span class="h-px w-14 bg-vino"></span> Noticias
     </h2>
 
     <div class="mt-5 grid gap-8 lg:grid-cols-[1.25fr_1fr_1fr]">
 
-        {{-- 1) Carrusel de destacadas --}}
+        {{-- Carrusel de destacadas --}}
         @if ($destacadas->isNotEmpty())
             <div class="relative h-80 overflow-hidden bg-crema lg:h-auto lg:min-h-80"
                  x-data="{ actual: 0, total: {{ $destacadas->count() }} }"
@@ -133,7 +143,7 @@
                     <article x-cloak x-show="actual === {{ $i }}" x-transition.opacity class="absolute inset-0">
                         @if ($n->image_path)
                             <img src="{{ asset('storage/' . $n->image_path) }}" alt="{{ $n->title }}"
-                                 class="h-full w-full object-cover">
+                                class="h-full w-full object-cover">
                         @endif
 
                         <div class="absolute bottom-0 left-0 w-3/5 bg-vino p-5 text-white">
@@ -161,7 +171,7 @@
             </div>
         @endif
 
-        {{-- 2) Lo más reciente --}}
+        {{-- Lo más reciente --}}
         <div>
             <h3 class="text-2xl text-vino">Lo más reciente</h3>
             <ul class="mt-4 divide-y divide-neutral-200">
@@ -169,7 +179,7 @@
                     <li class="flex gap-3 py-3">
                         @if ($n->image_path)
                             <img src="{{ asset('storage/' . $n->image_path) }}" alt=""
-                                 class="h-16 w-24 shrink-0 object-cover">
+                                class="h-16 w-24 shrink-0 object-cover">
                         @else
                             <div class="h-16 w-24 shrink-0 bg-crema"></div>
                         @endif
@@ -187,7 +197,7 @@
             <a href="{{ route('noticias.index') }}" class="mt-3 inline-block text-[12px] text-vino underline">Ver más noticias →</a>
         </div>
 
-        {{-- 3) Tarjeta del Laboratorio / Podcast --}}
+        {{-- Tarjeta del Laboratorio / Podcast --}}
         <div class="flex flex-col border border-neutral-200 bg-white p-6 shadow-[6px_6px_0_0_rgba(120,29,38,0.25)]">
             <p class="text-[11px] tracking-[0.25em] text-neutral-500">Proyectos</p>
             <h3 class="mt-2 text-2xl font-bold text-marino">Laboratorio<br>“Edición Digital”</h3>
@@ -198,31 +208,51 @@
                 <img src="{{ asset('images/microphone.png') }}" alt="" class="mx-auto mt-6 h-32 w-32 object-contain" style="width: 148px; height: 148px; object-fit: contain;">
         </div>
     </div>
-</section>
 
 
 
 {{--  ////////////////////////  CONVERSATORIOS  ////////////////////////  --}}
 
-<section class="mx-auto max-w-6xl px-6 pb-12">
+<section class="revelar mx-auto max-w-8xl px-8 py-20">
     <x-carrusel titulo="Conversatorios">
         @forelse ($conversatorios as $c)
             <x-carrusel-item>
-                <article class="h-full bg-neutral-50 shadow-sm">
-                    @if ($c->youtube_thumbnail)
-                        <img src="{{ $c->youtube_thumbnail }}" alt="{{ $c->title }}" class="h-36 w-full object-cover">
-                    @else
-                        <div class="h-36 w-full bg-crema"></div>
-                    @endif
-
-                    <div class="p-4 text-center">
-                        @if ($c->status === 'live')
-                            <span class="mb-2 inline-block bg-vino px-2 py-0.5 text-[10px] tracking-widest text-white">EN VIVO</span>
+                <article class="group relative flex h-full flex-col overflow-hidden rounded-xl border border-marino/10 bg-white shadow-sm
+                                transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+                    <div class="relative aspect-video overflow-hidden bg-marino/5">
+                        @if ($c->youtube_thumbnail)
+                            <img src="{{ $c->youtube_thumbnail }}" alt="" loading="lazy"
+                                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
                         @endif
-                        <h3 class="text-lg leading-snug text-marino">{{ $c->title }}</h3>
-                        <p class="mt-2 text-sm text-neutral-600">{{ Str::limit($c->description, 90) }}</p>
-                        <a @if ($c->stream_url) href="{{ $c->stream_url }}" target="_blank" rel="noopener" @endif
-                           class="mt-3 inline-block text-sm text-vino underline">Ver →</a>
+
+                        @if ($c->status === 'live')
+                            <span class="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-vino px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow">
+                                <span class="h-2 w-2 animate-pulse rounded-full bg-white motion-reduce:animate-none"></span>
+                                En vivo
+                            </span>
+                        @elseif ($c->status === 'scheduled')
+                            <span class="absolute left-3 top-3 rounded-full bg-marino/90 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-sm">
+                                {{ $c->scheduled_at->translatedFormat('d M, H:i') }}
+                            </span>
+                        @endif
+                    </div>
+
+                    <div class="flex flex-1 flex-col p-5 text-center">
+                        <h3 class="text-lg font-semibold leading-snug text-marino">{{ $c->title }}</h3>
+                        <p class="mt-2 line-clamp-2 text-sm text-marino/70">{{ $c->description }}</p>
+
+                        <div class="mt-auto pt-4">
+                            <a @if ($c->stream_url) href="{{ $c->stream_url }}" target="_blank" rel="noopener" @endif
+                            class="inline-flex items-center gap-1 text-sm font-semibold text-vino underline-offset-4 transition-all hover:underline group-hover:gap-2
+                                    after:absolute after:inset-0 after:content-['']">
+                                {{ match ($c->status) {
+                                    'live' => 'Entrar a la transmisión',
+                                    'finished' => 'Ver grabación',
+                                    default => 'Ver en YouTube',
+                                } }}
+                                <span aria-hidden="true">→</span>
+                            </a>
+                        </div>
                     </div>
                 </article>
             </x-carrusel-item>
@@ -233,7 +263,7 @@
 </section>
 
 {{--  ////////////////////////  BANNER CÁTEDRA JULIO CORTÁZAR  ////////////////////////  --}}
-<section class="mx-auto max-w-6xl px-6 pb-12">
+<section class="revelar mx-auto max-w-6xl px-6 pb-12">
     <a href="{{ config('site.catedra.url') }}" target="_blank" rel="noopener" class="block">
         @if (file_exists(public_path(config('site.catedra.imagen'))))
             <img src="{{ asset(config('site.catedra.imagen')) }}" alt="Cátedra Julio Cortázar" class="w-full">
@@ -262,12 +292,12 @@
             'items'   => $aportacionesProfesores,
             'enlace'  => route('integracion.index', 'profesores'),
         ],
-
     ];
+
 @endphp
 
 @foreach ($participaciones as $p)
-    <section class="mx-auto max-w-6xl px-6 pb-12">
+    <section class="revelar mx-auto max-w-6xl px-6 pb-12">
         <div class="mb-4 flex flex-col items-center justify-between gap-4 bg-neutral-50 p-5 sm:flex-row">
             <div>
                 <h2 class="text-2xl text-vino">{{ $p['titulo'] }}</h2>
@@ -282,13 +312,37 @@
         <x-carrusel>
             @forelse ($p['items'] as $a)
                 <x-carrusel-item>
-                    <a href="{{ route('integracion.documento', $a) }}" target="_blank" rel="noopener" class="block overflow-hidden shadow-sm">
-                        <img src="{{ asset('storage/' . $a->banner_path) }}" alt="{{ $a->title }}"
-                             class="aspect-[4/3] w-full object-cover">
+                    <a href="{{ route('integracion.documento', $a) }}" target="_blank" rel="noopener"
+                    class="group relative block aspect-[4/3] overflow-hidden rounded-xl border border-marino/10 bg-white shadow-sm
+                            transition-all duration-300 hover:-translate-y-1 hover:shadow-md
+                            focus-visible:outline focus-visible:outline-2 focus-visible:outline-marino">
+                        <img src="{{ asset('storage/' . $a->banner_path) }}" alt=""
+                            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+
+                        <div class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-marino/90 via-marino/35 to-transparent p-4 text-white">
+                            <span class="mb-1.5 w-fit rounded-full bg-vino px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider">
+                                {{ \App\Models\Contribution::TYPE_LABELS[$a->author_type] ?? 'Participación' }}
+                            </span>
+                            <h3 class="line-clamp-2 text-base font-semibold leading-snug">{{ $a->title }}</h3>
+                            <span class="mt-1.5 inline-flex items-center gap-1 text-sm text-white/80 transition-transform duration-200 group-hover:translate-x-1 group-hover:text-white">
+                                Leer documento <span aria-hidden="true">→</span>
+                            </span>
+                        </div>
                     </a>
                 </x-carrusel-item>
             @empty
-                <p class="px-3 text-sm text-neutral-500">Aún no hay participaciones publicadas.</p>
+                <x-carrusel-item>
+                    <a href="{{ $p['enlace'] }}"
+                    class="group flex aspect-[4/3] flex-col items-center justify-center rounded-xl border-2 border-dashed border-vino/25 bg-vino/[0.03]
+                            p-6 text-center transition-colors duration-200 hover:border-vino/60 hover:bg-vino/[0.07]">
+                        <span class="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-vino/10 text-vino transition-transform duration-200 group-hover:scale-110">
+                            <x-heroicon-o-plus class="h-6 w-6" />
+                        </span>
+                        <span class="text-base font-semibold text-marino">Aún no hay participaciones</span>
+                        <span class="mt-1 text-sm text-marino/70">Sé la primera persona en compartir la tuya.</span>
+                        <span class="mt-3 text-sm font-semibold text-vino group-hover:underline">Participar →</span>
+                    </a>
+                </x-carrusel-item>
             @endforelse
         </x-carrusel>
     </section>
@@ -297,7 +351,7 @@
 
 {{--  ////////////////////////  PRÓXIMOS EVENTOS  ////////////////////////  --}}
 
-<section class="mx-auto max-w-6xl px-6 pb-16">
+<section class="revelar mx-auto max-w-6xl px-6 pb-16">
     <x-carrusel titulo="Próximos eventos">
         @forelse ($eventos as $e)
             <x-carrusel-item>
@@ -326,6 +380,5 @@
         @endforelse
     </x-carrusel>
 </section>
-
 
 @endsection

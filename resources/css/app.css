@@ -61,12 +61,31 @@ html {
 }
 
 /* Evita que el encabezado ocupe demasiado en pantallas bajas. */
-@media (max-height: 450px) {
-    .site-header {
-        position: relative;
-    }
+    @media (max-height: 450px) {
+        .site-header {
+            position: relative;
+        }
 
-    html {
-        scroll-padding-top: 1rem;
+        html {
+            scroll-padding-top: 1rem;
+        }
+
+        @layer utilities {
+        .revelar {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .revelar.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .revelar {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        }
     }
 }
