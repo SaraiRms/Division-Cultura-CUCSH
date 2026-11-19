@@ -33,7 +33,6 @@ class ContributionForm
 
                         Textarea::make('comentarios')
                             ->label('Comentarios')
-                            ->required()
                             ->rows(3)
                             ->disabled()
                             ->columnSpanFull(),
@@ -52,6 +51,7 @@ class ContributionForm
 
                         Textarea::make('review_note')
                             ->label('Motivo del rechazo')
+                            ->helperText('Este mensaje se enviará por correo a la persona que envió la participación. Redáctalo de forma clara y respetuosa.')
                             ->visible(fn (Get $get) => $get('status') === 'rejected')
                             ->required(fn (Get $get) => $get('status') === 'rejected')
                             ->maxLength(1000)

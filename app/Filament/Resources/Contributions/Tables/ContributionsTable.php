@@ -14,6 +14,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use App\Filament\Support\Eliminacion;
+use Filament\Actions\ActionGroup;
 
 class ContributionsTable
 {
@@ -76,39 +77,22 @@ class ContributionsTable
                     ->options(Contribution::TYPE_LABELS),
             ])
             ->recordActions([
-                Action::make('ver_pdf')
-                    ->label('Ver PDF')
-                    ->icon(Heroicon::OutlinedDocumentText)
-                    ->url(fn (Contribution $record) => route('aportaciones.pdf', $record))
-                    ->openUrlInNewTab(),
+                ActionGroup::make([
+                    Action::make('ver_pdf')
+                        ->label('Ver PDF')
+                        ->icon(Heroicon::OutlinedDocumentText)
+                        ->url(fn (Contribution $record) => route('aportaciones.pdf', $record))
+                        ->openUrlInNewTab(),
 
-                Action::make('rechazar')
-                    ->label('Rechazar')
-                    ->icon('heroicon-o-x-circle')
-                    ->color('danger')
-                    ->modalHeading('Rechazar aportación')
-                    ->modalDescription('Escribe el motivo. Se guarda junto con tu nombre y la fecha.')
-                    ->schema([
-                        Textarea::make('review_note')
-                            ->label('Motivo del rechazo')
-                            ->required()
-                            ->maxLength(1000),
-                    ])
-                    ->action(function (Contribution $record, array $data) {
-                        $record->update([
-                            'status'      => 'rejected',
-                            'review_note' => $data['review_note'],
-                        ]);
+                    EditAction::make()
+                        ->label('Revisar')
+                        ->icon(Heroicon::OutlinedClipboardDocumentCheck),
 
-                        Notification::make()
-                            ->title('Aportación rechazada')
-                            ->success()
-                            ->send();
-
-                    }),
-
-                EditAction::make()->label('Revisar'),
-                Eliminacion::eliminar('la', 'aportación', 'title', papelera: false)
+                    Eliminacion::eliminar('la', 'aportación', 'title', papelera: false),
+                ])
+                    ->label('Acciones')
+                    ->button()
+                    ->color('gray'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

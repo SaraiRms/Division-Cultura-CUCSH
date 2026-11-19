@@ -11,6 +11,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
+use App\Mail\AportacionRechazada;
+use App\Mail\AportacionPublicada;
 
 class AportacionesTest extends TestCase
 {
@@ -127,4 +129,35 @@ class AportacionesTest extends TestCase
 
         $this->get(route('integracion.documento', $aportacion))->assertOk();
     }
+
+    public function test_el_correo_de_rechazo_lleva_el_motivo(): void
+    {
+        $aportacion = Contribution::create([
+            'author_type'   => 'alumno',
+            'contact_email' => 'persona@example.test',
+            'pdf_path'      => 'aportaciones/x.pdf',
+            'title'         => 'Mi texto',
+            'status'        => 'rejected',
+            'review_note'   => 'Falta incluir la bibliografía.',
+        ]);
+
+        $correo = new AportacionRechazada($aportacion);
+
+        $correo->assertSeeInHtml('Falta incluir la bibliografía.');
+        $correo->assertSeeInHtml('Mi texto');
+    }
+
+    public function test_el_correo_de_publicacion_lleva_el_titulo(): void
+    {
+        $aportacion = Contribution::create([
+            'author_type'   => 'profesor',
+            'contact_email' => 'persona@example.test',
+            'pdf_path'      => 'aportaciones/x.pdf',
+            'title'         => 'Mi ensayo',
+            'status'        => 'published',
+        ]);
+
+        (new AportacionPublicada($aportacion))->assertSeeInHtml('Mi ensayo');
+    }
+    
 }
