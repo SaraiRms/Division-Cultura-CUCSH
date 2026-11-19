@@ -63,12 +63,18 @@ class EventForm
                     ->required(),
 
                 FileUpload::make('image_path')
-                    ->label('Imagen')
+                    ->label('Imagen principal')
                     ->image()
+                    ->imageEditor()
+                    ->imageEditorAspectRatios(['16:9'])
+                    ->imageCropAspectRatio('16:9')
+                    ->imageResizeTargetWidth('1280')
+                    ->imageResizeTargetHeight('720')
                     ->disk('public')
                     ->directory('events')
                     ->visibility('public')
                     ->maxSize(5120)
+                    ->helperText('Se recorta en formato horizontal 16:9. Usa una imagen horizontal para mejores resultados.')
                     ->required(),
 
                 Toggle::make('is_featured')

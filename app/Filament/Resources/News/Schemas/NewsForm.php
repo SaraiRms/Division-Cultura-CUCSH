@@ -99,10 +99,16 @@ class NewsForm
                     FileUpload::make('image_path')
                         ->label('Imagen principal')
                         ->image()
+                        ->imageEditor()
+                        ->imageEditorAspectRatios(['16:9'])
+                        ->imageCropAspectRatio('16:9')
+                        ->imageResizeTargetWidth('1280')
+                        ->imageResizeTargetHeight('720')
                         ->disk('public')
                         ->directory('news')
                         ->visibility('public')
-                        ->maxSize(5120) // 4 MB
+                        ->maxSize(5120)
+                        ->helperText('Se recorta en formato horizontal 16:9. Usa una imagen horizontal para mejores resultados.')
                         ->required(),
                 ]),
  

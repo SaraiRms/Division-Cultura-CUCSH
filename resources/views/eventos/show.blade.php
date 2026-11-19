@@ -37,7 +37,7 @@
 
     @if ($evento->image_path)
         <img src="{{ asset('storage/' . $evento->image_path) }}" alt="{{ $evento->title }}"
-             class="mt-6 w-full object-cover">
+            class="mt-6 aspect-video w-full object-cover">
     @endif
 
     <x-texto-rico :texto="$evento->description" class="mt-6" />

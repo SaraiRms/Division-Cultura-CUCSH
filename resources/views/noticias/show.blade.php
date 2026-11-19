@@ -11,7 +11,7 @@
 
     @if ($noticia->image_path)
         <img src="{{ asset('storage/' . $noticia->image_path) }}" alt="{{ $noticia->title }}"
-             class="mt-6 w-full object-cover">
+            class="mt-6 aspect-video w-full object-cover">
     @endif
 
     @if ($noticia->summary)
