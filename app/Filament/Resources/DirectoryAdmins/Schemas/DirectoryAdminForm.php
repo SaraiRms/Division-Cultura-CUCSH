@@ -9,6 +9,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
 use Filament\Schemas\Schema;
+use App\Models\DirectoryAdmin;
 
 class DirectoryAdminForm
 {
@@ -59,15 +60,18 @@ class DirectoryAdminForm
                 ->columnSpanFull()
                 ->columns(2)
                 ->schema([
+                    Select::make('jerarquia')
+                        ->label('Nivel en el organigrama')
+                        ->options(DirectoryAdmin::NIVELES)
+                        ->default(6)
+                        ->required()
+                        ->native(false)
+                        ->helperText('Define el orden en el directorio público: primero la dirección, luego jefaturas, secretaría, coordinaciones, asistentes y personal académico.'),
 
                     TextInput::make('cargo')
                         ->label('Cargo')
                         ->required()
                         ->maxLength(100),
-
-                     TextInput::make('materias')
-                         ->label('Materias que imparte')
-                         ->maxLength(255),
 
                     Select::make('departments')
                         ->label('Departamento(s)')

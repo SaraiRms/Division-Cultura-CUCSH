@@ -91,4 +91,21 @@ class News extends Model
         return $this->belongsTo(User::class, 'reviewed_by');
     }
 
+    // Busca en título, resumen y cuerpo (el % y _ del texto se escapan para que no actúen como comodines).
+    public function scopeSearch($query, ?string $texto)
+    {
+        $texto = trim((string) $texto);
+
+        if ($texto === '') {
+            return $query;
+        }
+
+        $t = '%' . addcslashes($texto, '%_\\') . '%';
+
+        return $query->where(fn ($w) => $w
+            ->where('title', 'like', $t)
+            ->orWhere('summary', 'like', $t)
+            ->orWhere('body', 'like', $t));
+    }
+
 }

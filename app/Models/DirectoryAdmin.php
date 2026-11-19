@@ -14,8 +14,16 @@ class DirectoryAdmin extends Model
 
     protected $table = 'directory_admin';
 
+    public const NIVELES = [
+        1 => 'Director(a)',
+        2 => 'Jefe(a) de departamento',
+        3 => 'Secretario(a) académico(a)',
+        4 => 'Coordinador(a)',
+        5 => 'Asistente académico(a)',
+        6 => 'Personal académico',
+    ];
     protected $fillable = [
-        'full_name', 'cargo', 'email', 'phone', 'phone_ext', 'nivel_academico',
+        'full_name', 'cargo', 'jerarquia', 'email', 'phone', 'phone_ext', 'nivel_academico',
         'materias', 'area_conocimiento', 'cv_summary', 'cv_path',
         'photo_path', 'created_by',
     ];

@@ -92,14 +92,13 @@
 @php
     $accesos = [
         ['Presentación',  'Conoce nuestra misión, objetivos y el quehacer de la división', 'heroicon-o-academic-cap', route('departamentos.index')],
-        ['Departamentos', 'Conoce nuestra oferta académica en el departamento de la Cultura', 'heroicon-o-book-open', route('departamentos.index') . '#departamentos'],
         ['Eventos',       'Mantente al tanto de nuestras conferencias, talleres y actividades académicas', 'heroicon-o-calendar-days', route('eventos.index')],
         ['Noticias',      'Entérate de las últimas novedades, proyectos y convocatorias', 'heroicon-o-newspaper', route('noticias.index')],
     ];
 @endphp
 
 <section class="revelar bg-neutral-100">
-    <div class="mx-auto grid max-w-6xl md:grid-cols-4 md:divide-x md:divide-neutral-300">
+    <div class="mx-auto grid max-w-6xl md:grid-cols-3 md:divide-x md:divide-neutral-300">
         
         @foreach ($accesos as [$titulo, $texto, $icono, $enlace])
             <a href="{{ $enlace }}" class="group relative flex flex-col items-center p-6 text-center transition-colors duration-200 hover:bg-white
@@ -123,10 +122,7 @@
     </div>
 </section>
 
-
-
 {{--  ////////////////////////  NOTICIAS  ////////////////////////  --}}
-
 <section class="revelar mx-auto max-w-6xl px-6 py-12">
     <h2 class="flex items-center gap-3 text-xl font-bold text-vino">
         <span class="h-px w-14 bg-vino"></span> Noticias
@@ -212,7 +208,6 @@
 </section>
 
 {{--  ////////////////////////  CONVERSATORIOS  ////////////////////////  --}}
-
 <section class="revelar mx-auto max-w-6xl px-6 py-20">
     <x-carrusel titulo="Conversatorios">
         @forelse ($conversatorios as $c)
@@ -277,7 +272,6 @@
 
 
 {{--  ////////////////////////  PARTICIPACIÓN  ////////////////////////  --}}
-
 @php
     $participaciones = [
         [
@@ -350,7 +344,6 @@
 
 
 {{--  ////////////////////////  PRÓXIMOS EVENTOS  ////////////////////////  --}}
-
 <section class="revelar mx-auto max-w-6xl px-6 pb-16">
     <x-carrusel titulo="Próximos eventos">
         @forelse ($eventos as $e)

@@ -31,6 +31,7 @@ class DirectoryController extends Controller
                 'departments',
                 fn ($d) => $d->where('departments.id', $departamentoId)
             ))
+            ->orderBy('jerarquia')
             ->orderBy('full_name')
             ->get();
 

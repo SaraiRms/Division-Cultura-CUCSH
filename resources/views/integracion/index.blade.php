@@ -17,6 +17,7 @@
     ];
 
     $seccion = $secciones[$tipo];
+
 @endphp
 
 {{-- ////////////////////////  BANNER CON VIDEO  //////////////////////// --}}
@@ -60,7 +61,7 @@
     <div class="mt-8 flex flex-col gap-4 bg-neutral-50 p-5 sm:flex-row sm:items-center sm:justify-between">
         <p class="max-w-2xl text-marino">{{ $seccion['descripcion'] }}</p>
         <a href="{{ route('integracion.create', $tipo) }}"
-           class="inline-flex shrink-0 items-center gap-2 bg-marino px-6 py-3 text-lg text-white hover:opacity-90">
+        class="inline-flex shrink-0 items-center gap-2 bg-marino px-6 py-3 text-lg text-white hover:opacity-90">
             Enviar mi participación <x-heroicon-o-arrow-right class="h-5 w-5" />
         </a>
     </div>
@@ -69,10 +70,10 @@
     <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         @forelse ($aportaciones as $a)
             <a href="{{ route('integracion.documento', $a) }}" target="_blank" rel="noopener"
-               class="group block overflow-hidden bg-neutral-50 shadow-sm transition hover:shadow-md">
+            class="group block overflow-hidden bg-neutral-50 shadow-sm transition hover:shadow-md">
                 @if ($a->banner_path)
                     <img src="{{ asset('storage/' . $a->banner_path) }}" alt="{{ $a->title }}"
-                         class="aspect-[4/3] w-full object-cover">
+                        class="aspect-[4/3] w-full object-cover">
                 @else
                     <div class="aspect-[4/3] w-full bg-neutral-200"></div>
                 @endif

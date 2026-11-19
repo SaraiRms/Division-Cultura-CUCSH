@@ -25,8 +25,8 @@
         ];
     @endphp
 
-    <header class="site-header sticky top-0 z-50 border-b border-white/10 text-white"     x-data="{ abierto: false, bajo: false }" x-init="bajo = window.scrollY > 8"
-    @scroll.window.passive="bajo = window.scrollY > 8" :class="{ 'con-sombra': bajo }" @keydown.escape.stop=" if (abierto) {abierto = false; $refs.botonMenu.focus();}" @click.outside="abierto = false">
+    <header class="site-header sticky top-0 z-50 border-b border-white/10 text-white" x-data="{ abierto: false, bajo: false, buscando: false }" x-init="bajo = window.scrollY > 8"
+        @scroll.window.passive="bajo = window.scrollY > 8" :class="{ 'con-sombra': bajo }" @keydown.escape.stop="if (abierto) { abierto = false; $refs.botonMenu.focus(); } buscando = false" @click.outside="abierto = false; buscando = false">
         <div class="mx-auto flex max-w-screen-2xl items-center justify-between gap-4">
             {{-- Identidad institucional --}}
             <a href="{{ url('/') }}" aria-label="CUCSH Cultura — Inicio" class="flex min-w-0 items-center gap-3 rounded-br-3xl bg-crema px-3 py-4 sm:gap-4 sm:px-6
@@ -46,6 +46,15 @@
                 @endforeach
             </nav>
 
+            {{-- Botón de búsqueda --}}
+            <button type="button"
+                    @click="buscando = !buscando; if (buscando) $nextTick(() => $refs.campoBusqueda.focus())"
+                    :aria-expanded="buscando.toString()" aria-controls="barra-busqueda" aria-label="Buscar en el sitio"
+                    class="ml-auto mr-1 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors hover:bg-white/10
+                        focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white min-[1440px]:ml-0 min-[1440px]:mr-6">
+                <x-heroicon-o-magnifying-glass class="h-6 w-6" aria-hidden="true" />
+            </button>
+
             {{-- Botón del menú móvil --}}
             <button x-ref="botonMenu" type="button" @click="abierto = !abierto" :aria-expanded="abierto.toString()" aria-controls="navegacion-movil"
                 :aria-label="abierto ? 'Cerrar menú' : 'Abrir menú'" class="mr-3 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors hover:bg-white/10
@@ -53,6 +62,17 @@
                 <x-heroicon-o-bars-3 x-show="!abierto" class="h-6 w-6" aria-hidden="true"/>
                 <x-heroicon-o-x-mark x-show="abierto" x-cloak class="h-6 w-6" aria-hidden="true"/>
             </button>
+        </div>
+
+        {{-- Barra de búsqueda --}}
+        <div id="barra-busqueda" x-show="buscando" x-cloak x-transition.opacity class="border-t border-white/10 bg-marino px-4 py-4">
+            <form action="{{ route('buscar') }}" method="GET" role="search" class="mx-auto flex max-w-3xl gap-2">
+                <label for="busqueda-global" class="sr-only">Buscar en el sitio</label>
+                <input id="busqueda-global" x-ref="campoBusqueda" type="search" name="q" required minlength="2" maxlength="100"
+                    placeholder="Buscar noticias, eventos, personas…"
+                    class="w-full rounded-lg bg-white px-4 py-3 text-marino">
+                <button type="submit" class="rounded-lg bg-vino px-5 py-3 font-semibold text-white hover:bg-vino/90">Buscar</button>
+            </form>
         </div>
 
         {{-- Panel móvil con desplazamiento propio --}}

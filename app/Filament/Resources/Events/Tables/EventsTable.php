@@ -11,6 +11,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use App\Models\Event;
 use App\Filament\Support\Eliminacion;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Database\Eloquent\Builder;
 
 class EventsTable
 {
@@ -21,7 +24,7 @@ class EventsTable
 
             TextColumn::make('title')
                 ->label('Evento')
-                ->searchable()
+                ->searchable(['title', 'summary', 'body'])
                 ->limit(50),
 
             TextColumn::make('starts_at')
@@ -45,7 +48,17 @@ class EventsTable
             ])
 
             ->filters([
-                Eliminacion::filtroPapelera(Event::class),])
+                Eliminacion::filtroPapelera(Event::class),
+                Filter::make('fecha')
+                    ->label('Fecha de publicación')
+                    ->schema([
+                        DatePicker::make('desde')->label('Desde'),
+                        DatePicker::make('hasta')->label('Hasta'),
+                    ])
+                    ->query(fn (Builder $query, array $data) => $query
+                        ->when($data['desde'] ?? null, fn ($q, $d) => $q->whereDate('published_at', '>=', $d))
+                        ->when($data['hasta'] ?? null, fn ($q, $d) => $q->whereDate('published_at', '<=', $d))),
+            ])
             
             ->recordActions([
                 ViewAction::make(),

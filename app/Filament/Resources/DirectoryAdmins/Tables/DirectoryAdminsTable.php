@@ -35,6 +35,13 @@ class DirectoryAdminsTable
                 ->label('Cargo')
                 ->searchable(),
 
+            TextColumn::make('jerarquia')
+                ->label('Nivel')
+                ->formatStateUsing(fn ($state) => DirectoryAdmin::NIVELES[$state] ?? '—')
+                ->badge()
+                ->color('gray')
+                ->sortable(),
+
             TextColumn::make('departments.name')
                 ->label('Departamento(s)')
                 ->badge(),
@@ -49,7 +56,7 @@ class DirectoryAdminsTable
                 ->toggleable(),
         ])
 
-        ->defaultSort('full_name')
+        ->defaultSort(fn ($query) => $query->orderBy('jerarquia')->orderBy('full_name'))
         ->filters([
             Eliminacion::filtroPapelera(DirectoryAdmin::class),
             SelectFilter::make('departments')

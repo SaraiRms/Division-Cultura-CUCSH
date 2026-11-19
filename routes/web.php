@@ -10,6 +10,7 @@ use App\Http\Controllers\ConversatorioController;
 use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\ContributionController;
 use App\Http\Controllers\GraduateController;
+use App\Http\Controllers\SearchController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/noticias', [NewsController::class, 'index'])->name('noticias.index');
@@ -20,6 +21,7 @@ Route::get('/departamentos', [DepartmentController::class, 'index'])->name('depa
 Route::get('/directorio', [DirectoryController::class, 'index'])->name('directorio.index');
 Route::get('/podcast', [PodcastController::class, 'index'])->name('podcast.index');
 Route::get('/conversatorios', [ConversatorioController::class, 'index'])->name('conversatorios.index');
+Route::get('/buscar', SearchController::class)->name('buscar');
 //
 Route::redirect('/integracion', '/integracion/alumnos');
 Route::prefix('integracion')->name('integracion.')->group(function () {

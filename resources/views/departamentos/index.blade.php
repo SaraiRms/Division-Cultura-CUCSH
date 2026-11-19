@@ -22,7 +22,7 @@
                 División de Estudios de la Cultura
             </p>
             <h1 class="mt-2 text-4xl font-medium tracking-wide md:text-5xl">
-                Participación Académica
+                Departamentos
             </h1>
         </div>
 </section>
@@ -32,9 +32,9 @@
 <section id="presentacion" class="scroll-mt-24 bg-neutral-100">
     <div class="mx-auto max-w-6xl  px-6 py-14 space-y-12">
         <div>
-            <h1 class="flex items-center gap-3 text-4xl text-vino">
+            <h2 class="flex items-center gap-3 text-4xl text-vino">
                 <span class="h-px w-14 bg-vino"></span> Presentación
-            </h1>
+            </h2>
             <div class="contenido mt-5">
                 <p>La División de Estudios de la Cultura fue creada a partir de la Reforma Universitaria de 1994, 
                     cuando la Universidad de Guadalajara se convirtió en una Red Universitaria. <br>
