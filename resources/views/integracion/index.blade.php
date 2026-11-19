@@ -28,11 +28,11 @@
     </video>
     {{-- Imagen de respaldo si el usuario prefiere movimiento reducido --}}
     <img src="{{ asset('images/participacion.jpg') }}" alt=""
-        class="hidden h-full w-full object-cover motion-reduce:block">
+        class="absolute inset-0 hidden h-full w-full object-cover motion-reduce:block">
     <div class="absolute inset-0 bg-gradient-to-r from-marino/70 via-black/55 to-vino/30"></div> {{-- Degradado --}}
     <div class="relative z-10 px-4 text-center text-white">
         <p class="text-xs font-semibold uppercase tracking-[0.25em] text-white/80">
-            "Se parte de nuestra comunidad" 
+            Sé parte de nuestra comunidad 
         </p>
         <h1 class="mt-2 text-4xl font-medium tracking-wide md:text-5xl">
             Participación Académica

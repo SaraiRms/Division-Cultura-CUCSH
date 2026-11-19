@@ -116,6 +116,7 @@
                 <span class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-vino transition-all duration-200
                         md:opacity-0 md:group-hover:translate-x-1 md:group-hover:opacity-100 md:group-focus-visible:opacity-100">
                     Explorar <span aria-hidden="true">→</span>
+                </span>
             </a>
         @endforeach
 

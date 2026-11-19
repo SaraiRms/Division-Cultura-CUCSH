@@ -18,8 +18,11 @@
          class="absolute inset-0 h-full w-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-r from-marino/70 via-black/55 to-vino/40"></div> {{-- Degradado --}}
         <div class="relative z-10 px-4 text-center text-white">
-            <h1 class="text-4xl font-medium tracking-wide md:text-5xl">
-                Departamentos
+            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-white/80">
+                División de Estudios de la Cultura
+            </p>
+            <h1 class="mt-2 text-4xl font-medium tracking-wide md:text-5xl">
+                Participación Académica
             </h1>
         </div>
 </section>

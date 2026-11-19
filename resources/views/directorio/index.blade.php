@@ -56,12 +56,12 @@
                 {{ $departamentoActual?->name ?? 'Todos los departamentos' }}
             </h2>
             <p class="shrink-0 text-sm text-neutral-500">
-                {{ $maestros->count() === 1 ? '1 maestro' : $maestros->count() . ' administrativos' }}
+                {{ $maestros->count() === 1 ? '1 administrativo' : $maestros->count() . ' administrativos' }}
             </p>
         </div>
 
         @if ($maestros->isEmpty())
-            <p class="mt-6 text-neutral-500">No hay maestros registrados en este departamento.</p>
+            <p class="mt-6 text-neutral-500">No hay administrativos registrados en este departamento.</p>
         @else
             <div class="mt-6 grid gap-8 lg:grid-cols-[2fr_3fr]"
                 x-data="{
@@ -78,7 +78,7 @@
                     <div class="relative">
                         <x-heroicon-o-magnifying-glass
                             class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-neutral-400" />
-                        <input type="search" x-model="busqueda" placeholder="Buscar maestro…"
+                        <input type="search" x-model="busqueda" placeholder="Buscar administrativo…"
                             class="w-full border border-neutral-300 bg-white py-2 pl-10 pr-3 text-marino">
                     </div>
 

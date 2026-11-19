@@ -18,7 +18,7 @@
     </video>
     {{-- Imagen de respaldo si el usuario prefiere movimiento reducido --}}
     <img src="{{ asset('images/egresados.jpg') }}" alt=""
-        class="hidden h-full w-full object-cover motion-reduce:block">
+        class="absolute inset-0 hidden h-full w-full object-cover motion-reduce:block">
     <div class="absolute inset-0 bg-gradient-to-r from-marino/70 via-black/55 to-vino/30"></div> {{-- Degradado --}}
     <div class="relative z-10 px-4 text-center text-white">
         <p class="text-xs font-semibold uppercase tracking-[0.25em] text-white/80">
