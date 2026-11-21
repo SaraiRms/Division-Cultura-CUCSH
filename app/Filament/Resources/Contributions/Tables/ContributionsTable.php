@@ -8,6 +8,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Notifications\Notification;
+use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Textarea;
@@ -15,6 +16,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use App\Filament\Support\Eliminacion;
 use Filament\Actions\ActionGroup;
+use PhpParser\Node\Stmt\Label;
 
 class ContributionsTable
 {
@@ -23,43 +25,40 @@ class ContributionsTable
         return $table
             ->columns([
                 TextColumn::make('author_type')
+                
                     ->label('Tipo')
                     ->badge()
                     ->formatStateUsing(fn (string $state) => Contribution::TYPE_LABELS[$state] ?? $state)
                     ->color(fn (string $state) => $state === 'alumno' ? 'info' : 'primary'),
 
-                TextColumn::make('contact_email')
-                    ->label('Correo de contacto')
-                    ->searchable()
-                    ->copyable(),
-
                 TextColumn::make('title')
-                    ->label('Título')
-                    ->placeholder('Sin título')
-                    ->limit(40),
+                    ->label('Aportación')
+                    ->weight(FontWeight::Medium)
+                    ->tooltip(fn ($record) => $record->title)
+                    ->description(fn ($record) => $record->contact_email)
+                    ->searchable(['title', 'contact_email']),
 
                 TextColumn::make('status')
                     ->label('Estado')
                     ->badge()
                     ->formatStateUsing(fn (string $state) => Contribution::STATUS_LABELS[$state] ?? $state)
                     ->color(fn (string $state) => match ($state) {
-                        'received'  => 'warning',
-                        'in_review' => 'info',
+                        'in_review' => 'warning',
                         'published' => 'success',
                         'rejected'  => 'danger',
                         default     => 'gray',
                     }),
 
+                 TextColumn::make('review_note')
+                     ->label('Motivo')
+                     ->limit(40)
+                     ->tooltip(fn (Contribution $record) => $record->review_note)
+                     ->placeholder('—')
+                     ->toggleable(),
+
                 TextColumn::make('reviewer.name')
                     ->label('Revisó')
                     ->placeholder('—'),
-
-                TextColumn::make('review_note')
-                    ->label('Motivo')
-                    ->limit(40)
-                    ->tooltip(fn (Contribution $record) => $record->review_note)
-                    ->placeholder('—')
-                    ->toggleable(),
 
                 TextColumn::make('created_at')
                     ->label('Recibida')
@@ -76,24 +75,25 @@ class ContributionsTable
                     ->label('Tipo')
                     ->options(Contribution::TYPE_LABELS),
             ])
-            ->recordActions([
-                ActionGroup::make([
-                    Action::make('ver_pdf')
-                        ->label('Ver PDF')
-                        ->icon(Heroicon::OutlinedDocumentText)
-                        ->url(fn (Contribution $record) => route('aportaciones.pdf', $record))
-                        ->openUrlInNewTab(),
 
-                    EditAction::make()
-                        ->label('Revisar')
-                        ->icon(Heroicon::OutlinedClipboardDocumentCheck),
+            ->actions([
+                Action::make('revisar')
+                    ->label('Revisar')
+                    ->icon('heroicon-o-clipboard-document-check')
+                    ->color('primary')
+                    ->iconButton()
+                    ->tooltip('Revisar Contenido'),
 
-                    Eliminacion::eliminar('la', 'aportación', 'title', papelera: false),
-                ])
-                    ->label('Acciones')
-                    ->button()
-                    ->color('gray'),
+                Action::make('ver_pdf')
+                    ->label('Ver PDF')
+                    ->icon('heroicon-o-document-text')
+                    ->color('gray')
+                    ->iconButton()
+                    ->tooltip('Ver PDF'),
+
+
             ])
+
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

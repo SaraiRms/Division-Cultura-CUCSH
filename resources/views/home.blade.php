@@ -329,9 +329,6 @@
                     <a href="{{ $p['enlace'] }}"
                     class="group flex aspect-[4/3] flex-col items-center justify-center rounded-xl border-2 border-dashed border-vino/25 bg-vino/[0.03]
                             p-6 text-center transition-colors duration-200 hover:border-vino/60 hover:bg-vino/[0.07]">
-                        <span class="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-vino/10 text-vino transition-transform duration-200 group-hover:scale-110">
-                            <x-heroicon-o-plus class="h-6 w-6" />
-                        </span>
                         <span class="text-base font-semibold text-marino">Aún no hay participaciones</span>
                         <span class="mt-1 text-sm text-marino/70">Sé la primera persona en compartir la tuya.</span>
                         <span class="mt-3 text-sm font-semibold text-vino group-hover:underline">Participar →</span>

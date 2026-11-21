@@ -17,7 +17,7 @@ class Contribution extends Model
 
 
     public const STATUS_LABELS = [
-        'received'  => 'Recibida',
+        // 'received'  => 'Recibida',
         'in_review' => 'En revisión',
         'published' => 'Publicada',
         'rejected'  => 'Rechazada',

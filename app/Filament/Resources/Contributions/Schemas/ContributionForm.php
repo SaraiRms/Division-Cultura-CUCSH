@@ -3,10 +3,12 @@
 namespace App\Filament\Resources\Contributions\Schemas;
 
 use App\Models\Contribution;
+use Faker\Provider\fr_CA\Color;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
@@ -43,11 +45,6 @@ class ContributionForm
                     ->columns(2)
                     ->columnSpanFull()
                     ->schema([
-                        Select::make('status')
-                            ->label('Estado')
-                            ->options(fn () => self::statusOptions())
-                            ->required()
-                            ->live(),
 
                         Textarea::make('review_note')
                             ->label('Motivo del rechazo')
@@ -77,10 +74,35 @@ class ContributionForm
                             ->maxSize(5120)
                             ->required(fn (Get $get): bool => $get('status') === 'published')
                             ->columnSpanFull(),
+
+                    ToggleButtons::make('status')
+                        ->label('Estado')
+                        ->options([
+                            'published' => 'Publicada',
+                            'rejected'  => 'Rechazada',    
+                        ])
+
+                        ->colors([
+                            'in_review' => 'warning',
+                            'published' => 'success',
+                            'rejected'  => 'danger',
+                        ])
+
+                        ->icons([
+                            'in_review' => 'heroicon-o-clock',
+                            'published' => 'heroicon-o-check-circle',
+                            'rejected'  => 'heroicon-o-x-circle',                            
+                        ])
+
+                        ->default('in_review')
+                        ->inline()
+                        ->required()
+                        ->live()
+
                     ]),
             ]);
     }
-
+    
     // Quien solo revisa no puede publicar
     private static function statusOptions(): array
     {
