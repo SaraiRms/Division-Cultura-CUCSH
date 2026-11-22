@@ -61,7 +61,7 @@ class ContributionsTable
                     ->placeholder('—'),
 
                 TextColumn::make('created_at')
-                    ->label('Recibida')
+                    ->label('Fecha de recepción')
                     ->dateTime('d/m/Y H:i')
                     ->sortable(),
             ])
@@ -90,8 +90,6 @@ class ContributionsTable
                     ->color('gray')
                     ->iconButton()
                     ->tooltip('Ver PDF'),
-
-
             ])
 
             ->toolbarActions([
