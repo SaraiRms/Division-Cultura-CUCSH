@@ -39,13 +39,67 @@ class RolesYPermisosTest extends TestCase
         ]);
     }
 
-    public function test_solo_el_administrador_gestiona_usuarios(): void
+    public function test_solo_los_administradores_gestionan_usuarios(): void
     {
-        $this->assertTrue($this->usuario('administrador')->can('create', User::class));
+        foreach (['administrador_tecnico', 'administrador'] as $rol) {
+            $this->assertTrue($this->usuario($rol)->can('create', User::class), $rol);
+        }
 
         foreach (['responsable_institucional', 'editor', 'auxiliar_academico'] as $rol) {
             $this->assertFalse($this->usuario($rol)->can('create', User::class), $rol);
         }
+    }
+
+    public function test_restaurar_y_eliminar_definitivamente_es_de_los_administradores(): void
+    {
+        $noticia = $this->noticia();
+
+        foreach (['administrador_tecnico', 'administrador'] as $rol) {
+            $usuario = $this->usuario($rol);
+            $this->assertTrue($usuario->can('restore', $noticia), $rol);
+            $this->assertTrue($usuario->can('forceDelete', $noticia), $rol);
+        }
+
+        foreach (['responsable_institucional', 'editor', 'auxiliar_academico'] as $rol) {
+            $usuario = $this->usuario($rol);
+            $this->assertFalse($usuario->can('restore', $noticia), $rol);
+            $this->assertFalse($usuario->can('forceDelete', $noticia), $rol);
+        }
+    }
+
+    public function test_el_administrador_solo_gestiona_auxiliares(): void
+    {
+        $admin = $this->usuario('administrador');
+
+        $this->assertTrue($admin->can('update', $this->usuario('auxiliar_academico')));
+
+        foreach (['administrador', 'responsable_institucional', 'editor', 'administrador_tecnico'] as $rol) {
+            $this->assertFalse($admin->can('update', $this->usuario($rol)), $rol);
+        }
+    }
+
+    public function test_el_tecnico_gestiona_a_todos(): void
+    {
+        $tecnico = $this->usuario('administrador_tecnico');
+
+        foreach (['administrador_tecnico', 'administrador', 'responsable_institucional', 'editor', 'auxiliar_academico'] as $rol) {
+            $this->assertTrue($tecnico->can('update', $this->usuario($rol)), $rol);
+        }
+    }
+
+    public function test_el_administrador_desactiva_cuentas_pero_no_tecnicas_ni_la_suya(): void
+    {
+        $admin = $this->usuario('administrador');
+
+        $this->assertTrue($admin->can('toggleActive', $this->usuario('editor')));
+        $this->assertFalse($admin->can('toggleActive', $this->usuario('administrador_tecnico')));
+        $this->assertFalse($admin->can('toggleActive', $admin));
+    }
+
+    public function test_solo_el_tecnico_tiene_permisos_del_sistema(): void
+    {
+        $this->assertTrue($this->usuario('administrador_tecnico')->can('gestionar_sistema'));
+        $this->assertFalse($this->usuario('administrador')->can('gestionar_sistema'));
     }
 
     public function test_departamentos_son_del_administrador_y_el_responsable(): void

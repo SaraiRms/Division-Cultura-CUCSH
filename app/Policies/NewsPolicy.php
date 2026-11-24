@@ -59,10 +59,10 @@ class NewsPolicy
         return $user->can('eliminar_contenido_publicado');
     }
 
-    // Restaurar y eliminar definitivamente: solo el administrador (lo resuelve Gate::before).
-    public function restore(User $user, News $news): bool { return false; }
-    public function restoreAny(User $user): bool { return false; }
-    public function forceDelete(User $user, News $news): bool { return false; }
-    public function forceDeleteAny(User $user): bool { return false; }
+    // Restaurar y eliminar definitivamente: con el permiso gestionar_papelera.
+    public function restore(User $user, News $news): bool { return $user->can('gestionar_papelera'); }
+    public function restoreAny(User $user): bool { return $user->can('gestionar_papelera'); }
+    public function forceDelete(User $user, News $news): bool { return $user->can('gestionar_papelera'); }
+    public function forceDeleteAny(User $user): bool { return $user->can('gestionar_papelera'); }
     
 }

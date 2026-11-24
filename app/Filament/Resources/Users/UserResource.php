@@ -16,6 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserResource extends Resource
 {
@@ -61,5 +62,16 @@ class UserResource extends Resource
             'view' => ViewUser::route('/{record}'),
             'edit' => EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $consulta = parent::getEloquentQuery();
+
+        if (! auth()->user()?->esTecnico()) {
+            $consulta->whereDoesntHave('roles', fn ($r) => $r->where('name', 'administrador_tecnico'));
+        }
+
+        return $consulta;
     }
 }

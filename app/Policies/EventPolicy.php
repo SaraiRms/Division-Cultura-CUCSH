@@ -57,9 +57,9 @@ class EventPolicy
         return $user->can('eliminar_contenido_publicado');
     }
 
-    public function restore(User $user, Event $event): bool { return false; }
-    public function restoreAny(User $user): bool { return false; }
-    public function forceDelete(User $user, Event $event): bool { return false; }
-    public function forceDeleteAny(User $user): bool { return false; }
+    public function restore(User $user, Event $event): bool { return $user->can('gestionar_papelera'); }
+    public function restoreAny(User $user): bool { return $user->can('gestionar_papelera'); }
+    public function forceDelete(User $user, Event $event): bool { return $user->can('gestionar_papelera'); }
+    public function forceDeleteAny(User $user): bool { return $user->can('gestionar_papelera'); }
 
 }

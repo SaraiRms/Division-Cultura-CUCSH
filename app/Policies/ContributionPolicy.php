@@ -33,20 +33,21 @@ class ContributionPolicy
         return $user->can('revisar_contenido') && $contribution->status !== 'published';
     }
 
+    // Borrar una aportación es definitivo: va con el permiso de la papelera.
     public function delete(User $user, Contribution $contribution): bool
     {
-        return false; // solo el administrador (lo resuelve Gate::before)
+        return $user->can('gestionar_papelera');
     }
 
     public function deleteAny(User $user): bool
     {
-        return false;
+        return $user->can('gestionar_papelera');
     }
 
-    // Restaurar y eliminar definitivamente: solo el administrador (lo resuelve Gate::before).
-    public function restore(User $user, Contribution $contribution): bool { return false; }
-    public function restoreAny(User $user): bool { return false; }
-    public function forceDelete(User $user, Contribution $contribution): bool { return false; }
-    public function forceDeleteAny(User $user): bool { return false; }
+    // Restaurar y eliminar definitivamente: con el permiso gestionar_papelera.
+    public function restore(User $user, Contribution $contribution): bool { return $user->can('gestionar_papelera'); }
+    public function restoreAny(User $user): bool { return $user->can('gestionar_papelera'); }
+    public function forceDelete(User $user, Contribution $contribution): bool { return $user->can('gestionar_papelera'); }
+    public function forceDeleteAny(User $user): bool { return $user->can('gestionar_papelera'); }
 
 }

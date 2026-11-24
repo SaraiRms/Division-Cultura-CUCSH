@@ -11,10 +11,11 @@ class UserForm
 {
 
     public const ROLE_LABELS = [
-        'administrador' => 'Administrador técnico',
+        'administrador_tecnico'     => 'Administrador técnico (soporte)',
+        'administrador'             => 'Administrador',
         'responsable_institucional' => 'Responsable institucional',
-        'editor' => 'Editor o coordinador editorial',
-        'auxiliar_academico' => 'Auxiliar académico',
+        'editor'                    => 'Editor o coordinador editorial',
+        'auxiliar_academico'        => 'Auxiliar académico',
     ];
     
     public static function configure(Schema $schema): Schema
@@ -22,6 +23,7 @@ class UserForm
 
         return $schema
             ->components([
+
                 TextInput::make('name')
                     ->label('Nombre')
                     ->required()
@@ -49,7 +51,16 @@ class UserForm
 
                 Select::make('roles')
                     ->label('Rol')
-                    ->relationship('roles', 'name')
+                    ->relationship(
+                        'roles',
+                        'name',
+                        // Cada persona solo ve los roles que puede asignar
+                        modifyQueryUsing: function ($query) {
+                            $permitidos = auth()->user()?->rolesQueAsigna();
+
+                            return $permitidos === null ? $query : $query->whereIn('name', $permitidos);
+                        },
+                    )
                     ->getOptionLabelFromRecordUsing(fn ($record) => self::ROLE_LABELS[$record->name] ?? $record->name)
                     ->multiple()
                     ->preload()

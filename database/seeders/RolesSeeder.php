@@ -7,15 +7,11 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
-// Realizado según la matriz de permisos del cliente en roles (permisos de Spatie).
-// Cada fila de la matriz es un permiso; cada columna es un rol.
-
 class RolesSeeder extends Seeder
 {
     public function run(): void
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
-        Role::where('name', 'admin_tecnico')->update(['name' => 'administrador']);
 
         // Las filas de la matriz.
         $permisos = [
@@ -29,16 +25,20 @@ class RolesSeeder extends Seeder
             'gestionar_directorio',           // maestros y Rectoría
             'gestionar_estructura',           // departamentos y programas
             'gestionar_usuarios', 
+            'gestionar_papelera'
         ];
 
-        foreach ($permisos as $permiso) {
+        //permiso que solo tiene el admin
+        $soloTecnico = ['gestionar_sistema'];
+
+        foreach (array_merge($permisos, $soloTecnico) as $permiso) {
             Permission::firstOrCreate(['name' => $permiso, 'guard_name' => 'web']);
         }
 
         // Qué permiso tiene cada rol.
-
         $roles = [
-            // El dueño: tiene todo.
+            'administrador_tecnico' => array_merge($permisos, $soloTecnico),
+            // El administrador del cliente: todo el contenido, usuarios auxiliares y papelera.
             'administrador' => $permisos,
 
             // El responsable: todo menos usuarios.
