@@ -35,7 +35,7 @@ class ResumenStats extends StatsOverviewWidget
                 ->descriptionIcon(Heroicon::OutlinedCalendarDays)
                 ->color('primary'),
 
-            Stat::make('Aportaciones por revisar', Contribution::where('status', 'received')->count())
+            Stat::make('Aportaciones por revisar', Contribution::where('status', 'in_review')->count())
                 ->description('Recibidas desde el formulario')
                 ->descriptionIcon(Heroicon::OutlinedInboxArrowDown)
                 ->color('info'),

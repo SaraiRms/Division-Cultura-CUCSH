@@ -17,7 +17,6 @@ class Contribution extends Model
 
 
     public const STATUS_LABELS = [
-        // 'received'  => 'Recibida',
         'in_review' => 'En revisión',
         'published' => 'Publicada',
         'rejected'  => 'Rechazada',
@@ -32,7 +31,7 @@ class Contribution extends Model
     {
         // Al cambiar el estado desde el panel, se anota quién lo revisó y cuándo
         static::saving(function (Contribution $c) {
-            if ($c->isDirty('status') && $c->status !== 'received' && auth()->check()) {
+            if ($c->exists && $c->isDirty('status') && auth()->check()) {
                 $c->reviewed_by = auth()->id();
                 $c->reviewed_at = now();
             }

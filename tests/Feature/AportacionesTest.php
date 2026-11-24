@@ -48,7 +48,7 @@ class AportacionesTest extends TestCase
         $this->assertDatabaseHas('contributions', [
             'author_type' => 'alumno',
             'title'       => 'Mi documento de prueba',
-            'status'      => 'received',
+            'status'      => 'in_review',
         ]);
 
         Mail::assertSent(NuevaAportacion::class);

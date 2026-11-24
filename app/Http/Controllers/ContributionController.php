@@ -79,7 +79,7 @@ class ContributionController extends Controller
             'contact_email' => $datos['contact_email'],
             'comentarios'   => $datos['comentarios'] ?? null,
             'pdf_path'      => $ruta,
-            // 'status' queda en 'received' por defecto
+            'status'        => 'in_review',
         ]);
 
         // Avisar al buzón del equipo

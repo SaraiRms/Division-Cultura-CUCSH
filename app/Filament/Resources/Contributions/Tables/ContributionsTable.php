@@ -2,21 +2,18 @@
 
 namespace App\Filament\Resources\Contributions\Tables;
 
+use App\Filament\Support\Eliminacion;
 use App\Models\Contribution;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Notifications\Notification;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\Textarea;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use App\Filament\Support\Eliminacion;
-use Filament\Actions\ActionGroup;
-use PhpParser\Node\Stmt\Label;
 
 class ContributionsTable
 {
@@ -76,25 +73,27 @@ class ContributionsTable
                     ->options(Contribution::TYPE_LABELS),
             ])
 
-            ->actions([
-                Action::make('revisar')
-                    ->label('Revisar')
-                    ->icon('heroicon-o-clipboard-document-check')
-                    ->color('primary')
-                    ->iconButton()
-                    ->tooltip('Revisar Contenido'),
+            ->recordActions([
+                ActionGroup::make([
+                    EditAction::make()
+                        ->label('Revisar')
+                        ->icon(Heroicon::OutlinedClipboardDocumentCheck),
 
-                Action::make('ver_pdf')
-                    ->label('Ver PDF')
-                    ->icon('heroicon-o-document-text')
-                    ->color('gray')
-                    ->iconButton()
-                    ->tooltip('Ver PDF'),
+                    Action::make('ver_pdf')
+                        ->label('Ver PDF')
+                        ->icon(Heroicon::OutlinedDocumentText)
+                        ->url(fn (Contribution $record) => route('aportaciones.pdf', $record))
+                        ->openUrlInNewTab(),
+
+                    Eliminacion::eliminar('la', 'aportación', 'title', papelera: false),
+                ]),
             ])
-
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->modalHeading('Eliminar las aportaciones seleccionadas')
+                        ->modalDescription('Se borrarán DEFINITIVAMENTE, junto con sus PDF. No se podrá recuperar.')
+                        ->modalSubmitActionLabel('Sí, eliminar'),
                 ]),
             ]);
     }

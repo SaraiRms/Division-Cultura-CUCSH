@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Contributions\Schemas;
 
 use App\Models\Contribution;
-use Faker\Provider\fr_CA\Color;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -46,14 +45,6 @@ class ContributionForm
                     ->columnSpanFull()
                     ->schema([
 
-                        Textarea::make('review_note')
-                            ->label('Motivo del rechazo')
-                            ->helperText('Este mensaje se enviará por correo a la persona que envió la participación. Redáctalo de forma clara y respetuosa.')
-                            ->visible(fn (Get $get) => $get('status') === 'rejected')
-                            ->required(fn (Get $get) => $get('status') === 'rejected')
-                            ->maxLength(1000)
-                            ->columnSpanFull(),
-
                         TextInput::make('reviewer_name')
                             ->label('Última revisión por')
                             ->formatStateUsing(fn ($record) => $record?->reviewer?->name)
@@ -75,34 +66,36 @@ class ContributionForm
                             ->required(fn (Get $get): bool => $get('status') === 'published')
                             ->columnSpanFull(),
 
-                    ToggleButtons::make('status')
-                        ->label('Estado')
-                        ->options([
-                            'published' => 'Publicada',
-                            'rejected'  => 'Rechazada',    
-                        ])
+                                                ToggleButtons::make('status')
+                            ->label('Estado')
+                            ->options(self::statusOptions())
+                            ->colors([
+                                'in_review' => 'warning',
+                                'published' => 'success',
+                                'rejected'  => 'danger',
+                            ])
+                            ->icons([
+                                'in_review' => 'heroicon-o-clock',
+                                'published' => 'heroicon-o-check-circle',
+                                'rejected'  => 'heroicon-o-x-circle',
+                            ])
+                            ->default('in_review')
+                            ->inline()
+                            ->required()
+                            ->live()
+                            ->columnSpanFull(),
 
-                        ->colors([
-                            'in_review' => 'warning',
-                            'published' => 'success',
-                            'rejected'  => 'danger',
-                        ])
-
-                        ->icons([
-                            'in_review' => 'heroicon-o-clock',
-                            'published' => 'heroicon-o-check-circle',
-                            'rejected'  => 'heroicon-o-x-circle',                            
-                        ])
-
-                        ->default('in_review')
-                        ->inline()
-                        ->required()
-                        ->live()
-
+                        Textarea::make('review_note')
+                            ->label('Motivo del rechazo')
+                            ->helperText('Este mensaje se enviará por correo a la persona que envió la participación. Redáctalo de forma clara y respetuosa.')
+                            ->visible(fn (Get $get) => $get('status') === 'rejected')
+                            ->required(fn (Get $get) => $get('status') === 'rejected')
+                            ->maxLength(1000)
+                            ->columnSpanFull(),
                     ]),
             ]);
     }
-    
+
     // Quien solo revisa no puede publicar
     private static function statusOptions(): array
     {

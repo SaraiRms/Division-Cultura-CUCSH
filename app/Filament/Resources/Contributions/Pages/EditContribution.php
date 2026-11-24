@@ -29,8 +29,7 @@ class EditContribution extends EditRecord
         ];
     }
 
-    // Al guardar, si la aportación acaba de pasar a "Rechazada", se avisa a quien la envió.
-// Al guardar, si el estado cambió a "Publicada" o "Rechazada", se avisa a quien envió la participación.
+    // Al guardar, si el estado cambió a "Publicada" o "Rechazada", se avisa a quien envió la participación.
     protected function afterSave(): void
     {
         $aportacion = $this->record;

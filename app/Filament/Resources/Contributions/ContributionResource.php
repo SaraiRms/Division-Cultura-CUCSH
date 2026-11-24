@@ -47,7 +47,7 @@ class ContributionResource extends Resource
     // El globito con el número de recibidas
     public static function getNavigationBadge(): ?string
     {
-        $pendientes = static::getModel()::where('status', 'received')->count();
+        $pendientes = static::getModel()::where('status', 'in_review')->count();
 
         return $pendientes > 0 ? (string) $pendientes : null;
     }
