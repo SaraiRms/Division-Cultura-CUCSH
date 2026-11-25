@@ -30,11 +30,12 @@
         @scroll.window.passive="bajo = window.scrollY > 8" :class="{ 'con-sombra': bajo }" @keydown.escape.stop="if (abierto) { abierto = false; $refs.botonMenu.focus(); } buscando = false" @click.outside="abierto = false; buscando = false">
         <div class="mx-auto flex max-w-screen-2xl items-center justify-between gap-4">
             {{-- Identidad institucional --}}
-            <a href="{{ url('/') }}" aria-label="CUCSH Cultura — Inicio" class="flex min-w-0 items-center gap-3 rounded-br-3xl bg-crema px-3 py-4 sm:gap-4 sm:px-6
-                    focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-marino">
-                <img src="{{ asset('images/cucsh_dual.svg') }}" alt="CUCSH" class="h-8 w-auto sm:h-10">
-                <span aria-hidden="true" class="h-8 w-px shrink-0 bg-marino/20"></span>
-                <img src="{{ asset('images/Logo_Div_Cultura.svg') }}" alt="{{ config('site.nombre') }}" class="h-8 w-auto sm:h-10">
+            <a href="{{ url('/') }}" aria-label="CUCSH Cultura — Inicio" 
+                class="flex min-w-0 items-center gap-2 rounded-br-3xl bg-crema px-2 py-4 sm:gap-4 sm:px-6
+                focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-marino">
+                <img src="{{ asset('images/cucsh_dual.svg') }}" alt="CUCSH" class="h-7 w-auto min-w-0 object-contain sm:h-10">
+                <span aria-hidden="true" class="h-7 w-px shrink-0 bg-marino/20 sm:h-8"></span>
+                <img src="{{ asset('images/Logo_Div_Cultura.svg') }}" alt="{{ config('site.nombre') }}" class="h-7 w-auto min-w-0 object-contain object-left sm:h-10">
             </a>
 
             {{-- Navegación de escritorio --}}
@@ -108,7 +109,7 @@
         ]);
     @endphp
 
-    <footer class="mt-16 border-t-4 border-marino/15 bg-vino text-white">
+    <footer class="mt-16 border-t-4 py-2 border-marino/15 bg-vino text-white">
         <div class="mx-auto max-w-7xl px-6 pb-8 pt-12 lg:pt-16">
 
             <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
