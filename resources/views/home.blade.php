@@ -69,7 +69,8 @@
         <div class="absolute bottom-4 right-6 flex gap-2">
             @foreach ($slides as $i => $slide)
                 <button type="button" @click="ir({{ $i }})" aria-label="Imagen {{ $i + 1 }}"
-                        class="h-2.5 w-2.5 rounded-full"
+                        class="relative h-2.5 w-2.5 rounded-full 
+                        before:absolute before:-inset-2 before:content-['']"
                         :class="actual === {{ $i }} ? 'bg-white' : 'bg-white/50'"></button>
             @endforeach
         </div>
@@ -156,7 +157,8 @@
                 <div class="absolute bottom-3 right-3 flex gap-2">
                     @foreach ($destacadas as $i => $n)
                         <button type="button" @click="actual = {{ $i }}"
-                                class="h-2.5 w-2.5 rounded-full"
+                                class="relative h-2.5 w-2.5 rounded-full 
+                                before:absolute before:-inset-2 before:content-['']"
                                 :class="actual === {{ $i }} ? 'bg-vino' : 'bg-white/80'"
                                 aria-label="Noticia {{ $i + 1 }}"></button>
                     @endforeach
@@ -201,7 +203,7 @@
             <p class="mt-3 text-sm text-neutral-500">
                 Un espacio de conversación para conocer las historias, ideas e intereses de quienes forman parte de nuestra comunidad académica.
             </p>
-            <a href="{{ route('podcast.index') }}" class="mt-4 text-xs text-vino underline">Conocer el proyecto →</a>
+            <a href="{{ route('podcast.index') }}" class="mt-4 text-xs py-2 text-vino underline">Conocer el proyecto →</a>
                 <img src="{{ asset('images/microphone.png') }}" alt="" class="mx-auto mt-6 h-32 w-32 object-contain" style="width: 148px; height: 148px; object-fit: contain;">
         </div>
     </div>

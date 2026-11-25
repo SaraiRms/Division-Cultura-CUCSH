@@ -10,16 +10,25 @@
         Participación de {{ $tipo === 'alumnos' ? 'estudiantes' : 'académicos' }}
     </p>
     <br>
-    <h1 class=" text-2xl text-vino">Comparte tu conocimiento con nuestra comunidad</h1> 
+    <h1 class=" text-2xl text-vino text-justify">Comparte tu conocimiento con nuestra comunidad</h1> 
     <p class="mt-3">
         Envía tu investigación, tesis, proyecto u otro documento de interés para la División de Estudios de la Cultura. Adjunta tu trabajo en formato PDF y proporciona un correo de contacto para dar seguimiento a tu envío.
     </p>
     <br>
-    <h2 class="text-xl">Revisión y publicación</h2>
-    <p class="mt-3">Antes de publicarse, el equipo de la División revisará tu documento para comprobar que sea pertinente para este espacio y que no contenga contenido inapropiado ni elementos que puedan comprometer la seguridad de quienes lo consulten. <br>
-        Te contactaremos por el correo que proporciones para informarte sobre el resultado de la revisión, solicitar información adicional o comunicarte cualquier observación relacionada con tu envío. <br>Los trabajos aprobados se compartirán en esta misma página.
-        El envío del documento no garantiza su publicación.</p>
+    <h2 class="text-xl">Aviso de privacidad integral</h2>
+    <p class="mt-3 text-justify">La Universidad de Guadalajara, por conducto de las instancias universitarias competentes y en el ámbito de
+        sus atribuciones, es responsable del tratamiento de los datos personales que se recaben mediante el sitio
+        web de la División de Estudios de la Cultura del Centro Universitario de Ciencias Sociales y Humanidades
+        (CUCSH). Este aviso informa sobre las finalidades y condiciones del tratamiento. La identificación formal del
+        sujeto obligado, domicilio y unidad de transparencia deberá validarse con la instancia institucional competente
+        antes de publicar este documento.</p>
     <br>
+
+    <div class="flex items-start gap-3 text-sm text-marino">
+        <span>Conocer más sobre </span>
+            <a href="{{ route('legal.privacidad') }}" target="_blank" rel="noopener"
+               class="text-vino underline">Términos y Condiciones</a>.
+    </div>
 
 
     <form method="POST" action="{{ route('integracion.store', $tipo) }}" enctype="multipart/form-data"
@@ -65,6 +74,11 @@
             @error('pdf') <p class="mt-1 text-sm text-red-700">{{ $message }}</p> @enderror
         </div>
 
+
+
+
+
+        /////////////////////////////////
         <div>
             <label class="flex items-start gap-3 text-sm text-marino">
                 <input type="checkbox" name="acepto" value="1" required @checked(old('acepto')) class="mt-1">

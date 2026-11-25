@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', config('site.nombre'))</title>
+    <meta name="description" content="@yield('description', 'Sitio de la División de Estudios de la Cultura del CUCSH, Universidad de Guadalajara: noticias, eventos, podcast, conversatorios, egresados y más.')">
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -151,7 +152,7 @@
                                 <a
                                     href="{{ $url }}"
                                     @if ($activo) aria-current="page" @endif
-                                    class="inline-block text-white/80
+                                    class="inline-block py-2 text-white/80
                                         transition-colors duration-200
                                         hover:text-white hover:underline
                                         underline-offset-4
