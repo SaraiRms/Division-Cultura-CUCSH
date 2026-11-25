@@ -28,10 +28,7 @@ class NewsResource extends Resource
     protected static ?string $navigationLabel = 'Noticias';
     protected static string|UnitEnum|null $navigationGroup = 'Contenido';
     protected static ?int $navigationSort = 4;
-
-
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedNewspaper;
-
     protected static ?string $recordTitleAttribute = 'title';
 
     public static function form(Schema $schema): Schema

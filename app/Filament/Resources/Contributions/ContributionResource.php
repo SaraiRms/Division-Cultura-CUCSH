@@ -26,10 +26,7 @@ class ContributionResource extends Resource
     protected static string|UnitEnum|null $navigationGroup = 'Contenido';
     protected static ?int $navigationSort = 1;
     protected static ?string $model = Contribution::class;
-
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    // protected static ?string $recordTitleAttribute = 'Contribuciones';
 
 
     // No se pueden crear desde el panel

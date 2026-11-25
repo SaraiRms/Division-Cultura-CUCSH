@@ -11,7 +11,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesSeeder::class,
             DepartmentsSeeder::class,
-            AdministradorInicialSeeder::class,
         ]);
 
         // Usuarios de prueba solo en local.

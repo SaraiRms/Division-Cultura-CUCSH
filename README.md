@@ -52,14 +52,15 @@ El sitio queda en `http://localhost:8000` y el panel en `http://localhost:8000/a
 
 ### Usuarios iniciales
 
-- **En local** (`APP_ENV=local`) el seeder crea usuarios de demostración, uno por rol.
-- **En producción** se crea un único administrador a partir de estas variables, que se definen solo al momento de sembrar la base y **no** se guardan en el repositorio:
+- **En local** (`APP_ENV=local`) el seeder crea usuarios de demostración, uno por rol (contraseña `password`).
+- **En producción** no hay usuarios por defecto. Las cuentas se crean con un comando que pide la contraseña en pantalla, así nunca queda guardada en un archivo:
 
+  ```bash
+  php artisan admin:crear --tecnico   # administrador técnico (soporte)
+  php artisan admin:crear             # administrador del cliente
   ```
-  ADMIN_NOMBRE="Nombre Apellido"
-  ADMIN_EMAIL=correo@institucion.mx
-  ADMIN_PASSWORD=una-contraseña-segura
-  ```
+
+  Los demás usuarios (responsable, editor, auxiliares) se crean desde el panel.
 
 ## Pruebas
 
