@@ -68,17 +68,14 @@ class ProgramsRelationManager extends RelationManager
 
                 TextEntry::make('description')
                     ->label('Descripción')
-                    ->placeholder('-')
                     ->columnSpanFull(),
 
                 TextEntry::make('updatedBy.name')
-                    ->label('Actualizado por')
-                    ->placeholder('-'),
+                    ->label('Actualizado por'),
 
                 TextEntry::make('updated_at')
                     ->label('Última actualización')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
             ]);
     }
 

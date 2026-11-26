@@ -27,8 +27,7 @@ class EventInfolist
                     ->columnSpanFull(),
 
                 TextEntry::make('location')
-                    ->label('Lugar')
-                    ->placeholder('—'),
+                    ->label('Lugar'),
 
                 TextEntry::make('starts_at')
                     ->label('Fecha de inicio')

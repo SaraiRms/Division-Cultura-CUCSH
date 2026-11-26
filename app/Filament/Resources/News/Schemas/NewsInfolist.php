@@ -21,18 +21,15 @@ class NewsInfolist
                     ->label('Enlace'),
 
                 TextEntry::make('summary')
-                    ->label('Resumen')
-                    ->placeholder('-'),
+                    ->label('Resumen'),
 
                 TextEntry::make('body')
                     ->label('Contenido de la noticia')
                     ->html()
-                    ->placeholder('-')
                     ->columnSpanFull(),
 
                 ImageEntry::make('image_path')
-                    ->label('Imagen')
-                    ->placeholder('-'),
+                    ->label('Imagen'),
 
                 IconEntry::make('is_featured')
                     ->label('Destacada')
@@ -51,31 +48,25 @@ class NewsInfolist
                     
                 TextEntry::make('published_at')
                     ->label('Fecha de publicación')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('author.name')
-                    ->label('Autor')
-                    ->placeholder('-'),
+                    ->label('Autor'),
 
                 TextEntry::make('approver.name')
-                    ->label('Aprobado por')
-                    ->placeholder('-'),
+                    ->label('Aprobado por'),
 
                 TextEntry::make('approved_at')
                     ->label('Aprobado el')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('created_at')
                     ->label('Creado el')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('updated_at')
                     ->label('Actualizado el')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('deleted_at')
                     ->label('Fecha de eliminación')

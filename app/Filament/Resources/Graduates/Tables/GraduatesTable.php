@@ -4,10 +4,8 @@ namespace App\Filament\Resources\Graduates\Tables;
 
 use App\Models\Graduate;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -28,8 +26,7 @@ class GraduatesTable
                     ->wrap(),
 
                 TextColumn::make('title')
-                    ->label('Título')
-                    ->placeholder('—'),
+                    ->label('Título'),
 
                 TextColumn::make('status')
                     ->label('Estado')
@@ -58,11 +55,7 @@ class GraduatesTable
             ])
 
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make()->hidden(fn (Graduate $record) => $record->trashed()),
-                Eliminacion::eliminar('la', 'generación'),
-                Eliminacion::restaurar(),
-                Eliminacion::eliminarDefinitivo(),
+                Eliminacion::grupo('la', 'generación'),
             ])
 
             ->toolbarActions([

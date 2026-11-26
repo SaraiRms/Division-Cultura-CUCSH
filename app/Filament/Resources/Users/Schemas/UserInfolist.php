@@ -28,13 +28,11 @@ class UserInfolist
 
                 TextEntry::make('created_at')
                     ->label('Creado el')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('updated_at')
                     ->label('última modificación')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
             ]);
     }
 }

@@ -14,15 +14,13 @@ class PodcastInfolist
         return $schema
             ->components([
                 ImageEntry::make('image_path')
-                    ->label('Imagen')
-                    ->placeholder('-'),
+                    ->label('Imagen'),
                 
                 TextEntry::make('title')
                     ->label('Título'),
 
                 TextEntry::make('description')
                     ->label('Descripción')
-                    ->placeholder('-')
                     ->columnSpanFull(),
 
                 TextEntry::make('video_url')
@@ -36,22 +34,18 @@ class PodcastInfolist
 
                 TextEntry::make('published_at')
                     ->label('Fecha de publicación')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('creator.name')
-                    ->label('Creado por')
-                    ->placeholder('-'),
+                    ->label('Creado por'),
 
                 TextEntry::make('created_at')
                     ->label('Fecha de creación')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('updated_at')
                     ->label('Última actualización')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('deleted_at')
                     ->label('Fecha de eliminación')

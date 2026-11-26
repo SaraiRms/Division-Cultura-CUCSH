@@ -4,10 +4,9 @@ namespace App\Filament\Resources\DirectoryAdmins\Tables;
 
 use App\Models\DirectoryAdmin;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Actions\ViewAction;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -28,23 +27,16 @@ class DirectoryAdminsTable
 
             TextColumn::make('full_name')
                 ->label('Nombre')
-                ->searchable()
-                ->sortable(),
-
-            TextColumn::make('cargo')
-                ->label('Cargo')
-                ->searchable(),
-
-            TextColumn::make('jerarquia')
-                ->label('Nivel')
-                ->formatStateUsing(fn ($state) => DirectoryAdmin::NIVELES[$state] ?? '—')
-                ->badge()
-                ->color('gray')
+                ->weight(FontWeight::Medium)
+                ->tooltip(fn($record) => $record->full_name)
+                ->description(fn($record) => $record->cargo)
+                ->searchable(['full_name', 'cargo'])
                 ->sortable(),
 
             TextColumn::make('departments.name')
                 ->label('Departamento(s)')
-                ->badge(),
+                ->badge()
+                ->wrap(),
 
             TextColumn::make('email')
                 ->label('Correo')
@@ -68,11 +60,7 @@ class DirectoryAdminsTable
             ])
 
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make()->hidden(fn (DirectoryAdmin $record) => $record->trashed()),
-                Eliminacion::eliminar('el', 'maestro', 'full_name'),
-                Eliminacion::restaurar(),
-                Eliminacion::eliminarDefinitivo(),
+                Eliminacion::grupo('el', 'maestro', 'full_name'),
             ])
             
             ->toolbarActions([

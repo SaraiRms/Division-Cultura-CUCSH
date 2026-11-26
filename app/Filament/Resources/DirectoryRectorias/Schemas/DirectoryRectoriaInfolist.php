@@ -23,26 +23,21 @@ class DirectoryRectoriaInfolist
                     ->label('Nombre Completo'),
 
                 TextEntry::make('cargo')
-                    ->label('Cargo')
-                    ->placeholder('-'),
+                    ->label('Cargo'),
 
                 TextEntry::make('area')
-                    ->label('Área')
-                    ->placeholder('-'),
+                    ->label('Área'),
 
                 TextEntry::make('creator.name')
-                    ->label('Creado por')
-                    ->placeholder('—'),
+                    ->label('Creado por'),
 
                 TextEntry::make('created_at')
                     ->label('Creado el')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('updated_at')
                     ->label('Última actualización')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('deleted_at')
                     ->label('Eliminado el')

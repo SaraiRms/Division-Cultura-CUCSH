@@ -4,15 +4,14 @@ namespace App\Filament\Resources\DirectoryRectorias\Tables;
 
 use App\Models\DirectoryRectoria;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\ImageColumn;
 use App\Filament\Support\Eliminacion;
+use Filament\Support\Enums\FontWeight;
 
 class DirectoryRectoriasTable
 {
@@ -28,12 +27,15 @@ class DirectoryRectoriasTable
 
                 TextColumn::make('full_name')
                     ->label('Nombre')
-                    ->searchable()
+                    ->weight(FontWeight::Medium)
+                    ->tooltip(fn($record) => $record->full_name)
+                    ->description(fn($record) => $record->cargo)
+                    ->searchable(['full_name', 'cargo'])
                     ->sortable(),
 
-                TextColumn::make('cargo')
-                    ->label('Cargo')
-                    ->searchable(),
+                // TextColumn::make('cargo')
+                //     ->label('Cargo')
+                //     ->searchable(),
 
                 TextColumn::make('area')
                     ->label('Área')
@@ -47,11 +49,7 @@ class DirectoryRectoriasTable
             ])
 
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make()->hidden(fn (DirectoryRectoria $record) => $record->trashed()),
-                Eliminacion::eliminar('el', 'integrante de Rectoría', 'full_name'),
-                Eliminacion::restaurar(),
-                Eliminacion::eliminarDefinitivo(),
+                Eliminacion::grupo('el', 'integrante de Rectoría', 'full_name'),
             ])
 
             ->toolbarActions([

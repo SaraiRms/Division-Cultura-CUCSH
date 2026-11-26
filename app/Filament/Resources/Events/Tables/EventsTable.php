@@ -21,7 +21,6 @@ class EventsTable
     {
         return $table
             ->columns([
-
             TextColumn::make('title')
                 ->label('Evento')
                 ->searchable(['title', 'summary', 'body'])
@@ -43,10 +42,8 @@ class EventsTable
                 }),
 
             TextColumn::make('creator.name')
-                ->label('Creado por')
-    
+                ->label('Creado por')    
             ])
-
             ->filters([
                 Eliminacion::filtroPapelera(Event::class),
                 Filter::make('fecha')
@@ -58,14 +55,9 @@ class EventsTable
                     ->query(fn (Builder $query, array $data) => $query
                         ->when($data['desde'] ?? null, fn ($q, $d) => $q->whereDate('published_at', '>=', $d))
                         ->when($data['hasta'] ?? null, fn ($q, $d) => $q->whereDate('published_at', '<=', $d))),
-            ])
-            
+            ])  
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make()->hidden(fn (Event $record) => $record->trashed()),
-                Eliminacion::eliminar('el', 'evento'),
-                Eliminacion::restaurar(),
-                Eliminacion::eliminarDefinitivo(),
+                Eliminacion::grupo('el', 'evento'),
             ])
 
             ->toolbarActions([

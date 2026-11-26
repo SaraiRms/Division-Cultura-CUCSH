@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Users\Tables;
 use App\Filament\Resources\Users\Schemas\UserForm;
 use App\Models\User;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
@@ -39,9 +40,9 @@ class UsersTable
             ])
             ->defaultSort('name')
             ->recordActions([
+                ActionGroup::make([
                 ViewAction::make(),
                 EditAction::make(),
-
                 // Quitar o devolver el acceso sin borrar la cuenta ni su historial
                 Action::make('alternar_activo')
                     ->label(fn (User $record) => $record->is_active ? 'Desactivar' : 'Activar')
@@ -58,12 +59,13 @@ class UsersTable
                         || ($record->is_active && $record->esUltimoAdministrador()))
                     ->action(function (User $record) {
                         $record->update(['is_active' => ! $record->is_active]);
-
+        
                         Notification::make()
                             ->title($record->is_active ? 'Cuenta activada' : 'Cuenta desactivada')
                             ->success()
                             ->send();
                     }),
+                ])
             ]);
     }
 }

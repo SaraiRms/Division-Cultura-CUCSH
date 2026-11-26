@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Departments\Tables;
 
+use Filament\Actions\ActionGroup;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\ImageColumn;
@@ -15,8 +16,7 @@ class DepartmentsTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->columns([
-                
+            ->columns([          
                 ImageColumn::make('image_path')
                     ->label('Imagen')
                     ->disk('public')
@@ -28,8 +28,7 @@ class DepartmentsTable
                     ->wrap(),
             
                 TextColumn::make('updatedBy.name')
-                    ->label('Actualizado por')
-                    ->placeholder('-'),
+                    ->label('Actualizado por'),
 
                 TextColumn::make('updated_at')
                     ->label('Última actualización')
@@ -38,14 +37,15 @@ class DepartmentsTable
             ])
 
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-                Eliminacion::eliminar('el', 'departamento', 'name', papelera: false)
-                    ->disabled(fn (Department $record) => $record->programs()->exists() || $record->directoryMembers()->exists())
-                    ->tooltip(fn (Department $record) => ($record->programs()->exists() || $record->directoryMembers()->exists())
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    Eliminacion::eliminar('el', 'departamento', 'name', papelera: false)
+                        ->disabled(fn (Department $record) => $record->programs()->exists() || $record->directoryMembers()->exists())
+                        ->tooltip(fn (Department $record) => ($record->programs()->exists() || $record->directoryMembers()->exists())
                         ? 'Tiene programas o personas ligadas. Quítalos primero.'
                         : null),
-                
+                ])
             ]);
     }
 }

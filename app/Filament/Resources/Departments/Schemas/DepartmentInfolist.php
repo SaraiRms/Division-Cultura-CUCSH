@@ -19,12 +19,10 @@ class DepartmentInfolist
                     ->square(),
 
                 TextEntry::make('name')
-                    ->label('Nombre')
-                    ->placeholder('-'),
+                    ->label('Nombre'),
 
                 TextEntry::make('description')
                     ->label('Descripción')
-                    ->placeholder('-')
                     ->columnSpanFull(),
 
                 IconEntry::make('show_card')
@@ -33,9 +31,7 @@ class DepartmentInfolist
 
                 TextEntry::make('updated_at')
                     ->label('Ultima actualización')
-                    ->dateTime()
-                    ->placeholder('-'),
-                    
+                    ->dateTime(),
             ]);
     }
 }

@@ -4,10 +4,8 @@ namespace App\Filament\Resources\Podcasts\Tables;
 
 use App\Models\Podcast;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -38,8 +36,7 @@ class PodcastsTable
                 TextColumn::make('published_at')
                     ->label('Publicado')
                     ->dateTime('d/m/Y H:i')
-                    ->sortable()
-                    ->placeholder('—'),
+                    ->sortable(),
             ])
             ->defaultSort('published_at', 'desc')
             ->filters([
@@ -55,11 +52,7 @@ class PodcastsTable
             ])
 
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make()->hidden(fn (Podcast $record) => $record->trashed()),
-                Eliminacion::eliminar('el', 'episodio'),
-                Eliminacion::restaurar(),
-                Eliminacion::eliminarDefinitivo(),
+                Eliminacion::grupo('el', 'episodio'),
             ])
 
             ->toolbarActions([

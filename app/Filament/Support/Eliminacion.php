@@ -8,6 +8,9 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Tables\Filters\TrashedFilter;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 
 // Botones de eliminar, restaurar y papelera con advertencias, iguales en todo el panel.
 class Eliminacion
@@ -34,6 +37,25 @@ class Eliminacion
             })
             ->modalSubmitActionLabel('Sí, eliminar')
             ->failureNotificationTitle('No se pudo eliminar: tiene datos ligados o es el último administrador.');
+    }
+
+        // El menú de tres puntos de cada fila: Ver, Editar y las acciones de eliminar.
+    // $antes: acciones propias del recurso que van arriba de las demás.
+    public static function grupo(string $articulo, string $nombre, string $campo = 'title', bool $papelera = true, array $antes = []): ActionGroup
+    {
+        $acciones = [
+            ...$antes,
+            ViewAction::make(),
+            EditAction::make()->hidden(fn (Model $record) => method_exists($record, 'trashed') && $record->trashed()),
+            self::eliminar($articulo, $nombre, $campo, $papelera),
+        ];
+
+        if ($papelera) {
+            $acciones[] = self::restaurar();
+            $acciones[] = self::eliminarDefinitivo();
+        }
+
+        return ActionGroup::make($acciones);
     }
 
     // Eliminar varios a la vez.

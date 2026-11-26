@@ -50,13 +50,11 @@ class ContributionsTable
                      ->label('Motivo')
                      ->limit(40)
                      ->tooltip(fn (Contribution $record) => $record->review_note)
-                     ->placeholder('—')
                      ->toggleable()
                      ->wrap(),
 
                 TextColumn::make('reviewer.name')
-                    ->label('Revisó')
-                    ->placeholder('—'),
+                    ->label('Revisó'),
 
                 TextColumn::make('created_at')
                     ->label('Fecha de recepción')
@@ -89,6 +87,7 @@ class ContributionsTable
                     Eliminacion::eliminar('la', 'aportación', 'title', papelera: false),
                 ]),
             ])
+            
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()

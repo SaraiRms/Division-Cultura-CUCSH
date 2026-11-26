@@ -16,12 +16,10 @@ class ConversatorioInfolist
                     ->label('Título'),
                 
                 TextEntry::make('speaker')
-                    ->label('Ponente(s)')
-                    ->placeholder('-'),
+                    ->label('Ponente(s)'),
 
                 TextEntry::make('description')
                     ->label('Descripción')
-                    ->placeholder('-')
                     ->columnSpanFull(),
 
                 TextEntry::make('scheduled_at')
@@ -29,8 +27,7 @@ class ConversatorioInfolist
                     ->dateTime(),
 
                 TextEntry::make('stream_url')
-                    ->label('Enlace de la transmisión (YouTube)')
-                    ->placeholder('-'),
+                    ->label('Enlace de la transmisión (YouTube)'),
 
                 TextEntry::make('status')
                     ->label('Estado')
@@ -49,18 +46,15 @@ class ConversatorioInfolist
                     }),
 
                 TextEntry::make('creator.name')
-                    ->label('Creado por')
-                    ->placeholder('—'),
+                    ->label('Creado por'),
 
                 TextEntry::make('created_at')
                     ->label('Creado el')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('updated_at')
                     ->label('Última actualización')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('deleted_at')
                     ->label('Eliminado el')

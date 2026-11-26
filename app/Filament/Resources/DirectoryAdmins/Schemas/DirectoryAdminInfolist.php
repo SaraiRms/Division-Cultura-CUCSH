@@ -20,31 +20,24 @@ class DirectoryAdminInfolist
                     ->circular(),
 
                 TextEntry::make('full_name')
-                    ->label('Nombre Completo')
-                    ->placeholder('-'),
+                    ->label('Nombre Completo'),
 
-                TextEntry::make('cargo')
-                    ->placeholder('-'),
+                TextEntry::make('cargo'),
                 
                 TextEntry::make('email')
-                    ->label('Correo electrónico')
-                    ->placeholder('-'),
+                    ->label('Correo electrónico'),
                 
                 TextEntry::make('phone')
-                    ->label('Teléfono')
-                    ->placeholder('-'),
+                    ->label('Teléfono'),
                 
                 TextEntry::make('phone_ext')
-                    ->label('Extensión')
-                    ->placeholder('-'),
+                    ->label('Extensión'),
 
                 TextEntry::make('materias')
-                    ->placeholder('-')
                     ->columnSpanFull(),
 
                 TextEntry::make('cv_summary')
                     ->label('Resumen del CV')
-                    ->placeholder('-')
                     ->columnSpanFull(),
 
                 TextEntry::make('cv_path')
@@ -56,18 +49,15 @@ class DirectoryAdminInfolist
 
                 TextEntry::make('created_by')
                     ->label('Creado por')
-                    ->numeric()
-                    ->placeholder('-'),
+                    ->numeric(),
 
                 TextEntry::make('created_at')
                     ->label('Creado el')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('updated_at')
                     ->label('Actualizado el')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
                     
                 TextEntry::make('deleted_at')
                     ->label('Eliminado el')

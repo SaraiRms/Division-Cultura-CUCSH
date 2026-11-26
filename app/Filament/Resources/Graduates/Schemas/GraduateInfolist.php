@@ -17,8 +17,7 @@ class GraduateInfolist
                     ->label('Programa'),
 
                 TextEntry::make('title')
-                    ->label('Generación')
-                    ->placeholder('-'),
+                    ->label('Generación'),
 
                 ImageEntry::make('image_path')
                     ->label('Imagen'),
@@ -34,27 +33,22 @@ class GraduateInfolist
                     }),
 
                 TextEntry::make('uploader.name')
-                    ->label('Actualizado por')
-                    ->placeholder('-'),
+                    ->label('Actualizado por'),
 
                 TextEntry::make('approver.name')
-                    ->label('Aprobado por')
-                    ->placeholder('-'),
+                    ->label('Aprobado por'),
                     
                 TextEntry::make('approved_at')
                     ->label('Aprobado el')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('created_at')
                     ->label('Creado el')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('updated_at')
                     ->label('Actualizado')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make('deleted_at')
                     ->label('Fecha de eliminación')

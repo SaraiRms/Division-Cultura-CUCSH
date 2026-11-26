@@ -46,7 +46,7 @@ class NewsTable
                     ->label('Observaciones')
                     ->limit(40)
                     ->tooltip(fn (News $record) => $record->review_note)
-                    ->placeholder('—'),
+                    ->wrap(),
 
                 IconColumn::make('is_featured')
                     ->label('Destacada')
@@ -58,8 +58,7 @@ class NewsTable
                 TextColumn::make('published_at')
                     ->label('Fecha de publicación')
                     ->dateTime('d/m/Y H:i')
-                    ->sortable()
-                    ->placeholder('—'),
+                    ->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
@@ -110,11 +109,7 @@ class NewsTable
                         Notification::make()->title('Noticia devuelta')->warning()->send();
                     }),
 
-                ViewAction::make(),
-                EditAction::make()->hidden(fn (News $record) => $record->trashed()),
-                Eliminacion::eliminar('la', 'noticia'),
-                Eliminacion::restaurar(),
-                Eliminacion::eliminarDefinitivo(),
+                Eliminacion::grupo('la', 'noticia'),
             ])
 
             ->toolbarActions([
