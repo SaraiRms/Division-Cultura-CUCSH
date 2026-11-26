@@ -35,6 +35,14 @@ class DirectoryAdminsTable
 
             TextColumn::make('departments.name')
                 ->label('Departamento(s)')
+                ->color(fn (string $state): string => match ($state) {
+                        'División de Estudios de la Cultura' => 'primary',
+                        'Departamento de Estudios de la Comunicación Social' => 'info',
+                        'Departamento de Estudios en Lenguas Indígenas' => 'success',
+                        'Departamento de Estudios Literarios' => 'warning',
+                        'Departamento de Estudios Mesoamericanos y Mexicanos' => 'gray',
+                        default => 'danger',
+                    })
                 ->badge()
                 ->wrap(),
 

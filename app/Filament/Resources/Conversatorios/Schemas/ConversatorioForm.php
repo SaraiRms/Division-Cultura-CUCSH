@@ -10,6 +10,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
 use Filament\Schemas\Schema;
+use App\Rules\EnlaceDeYoutube;
 
 class ConversatorioForm
 {
@@ -43,6 +44,7 @@ class ConversatorioForm
                         TextInput::make('stream_url')
                             ->label('Enlace de la transmisión (YouTube)')
                             ->url()
+                            ->rule(new EnlaceDeYoutube)
                             ->maxLength(255)
                             ->placeholder('https://www.youtube.com/watch?v=...')
                             ->columnSpanFull(),

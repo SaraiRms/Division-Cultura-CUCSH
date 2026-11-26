@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasYoutubeThumbnail;
+use App\Rules\EnlaceDeYoutube;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,6 +32,11 @@ class Conversatorio extends Model
         return 'stream_url';
     }
 
+    public function getYoutubeIdAttribute(): ?string
+    {
+        return EnlaceDeYoutube::id((string) $this->{$this->youtubeUrlField()});
+    }
+    
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');

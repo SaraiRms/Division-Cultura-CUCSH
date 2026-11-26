@@ -53,11 +53,10 @@ class RolesYPermisosTest extends TestCase
     public function test_restaurar_y_eliminar_definitivamente_es_de_los_administradores(): void
     {
         $noticia = $this->noticia();
-
         foreach (['administrador_tecnico', 'administrador'] as $rol) {
-            $usuario = $this->usuario($rol);
-            $this->assertTrue($usuario->can('restore', $noticia), $rol);
-            $this->assertTrue($usuario->can('forceDelete', $noticia), $rol);
+            $this->assertTrue($this->usuario('administrador_tecnico')->can('forceDelete', $noticia));
+            $this->assertTrue($this->usuario('administrador')->can('restore', $noticia));
+            $this->assertFalse($this->usuario('administrador')->can('forceDelete', $noticia));
         }
 
         foreach (['responsable_institucional', 'editor', 'auxiliar_academico'] as $rol) {

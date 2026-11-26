@@ -37,4 +37,12 @@ class DirectoryAdmin extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    protected static function booted(): void
+    {
+        // El cargo no se escribe a mano: sale del nivel elegido.
+        static::saving(function (DirectoryAdmin $persona) {
+            $persona->cargo = self::NIVELES[$persona->jerarquia] ?? $persona->cargo;
+        });
+    }
 }

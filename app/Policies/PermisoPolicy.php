@@ -22,9 +22,9 @@ abstract class PermisoPolicy
     public function delete(User $user, Model $model): bool { return $this->puede($user); }
     public function deleteAny(User $user): bool { return $this->puede($user); }
 
-    // Restaurar y eliminar definitivamente: con el permiso gestionar_papelera.
+    // Restaurar: con el permiso gestionar_papelera. Eliminar definitivamente: solo el técnico (lo resuelve Gate::before).
     public function restore(User $user, Model $model): bool { return $user->can('gestionar_papelera'); }
     public function restoreAny(User $user): bool { return $user->can('gestionar_papelera'); }
-    public function forceDelete(User $user, Model $model): bool { return $user->can('gestionar_papelera'); }
-    public function forceDeleteAny(User $user): bool { return $user->can('gestionar_papelera'); }
+    public function forceDelete(User $user, Model $model): bool { return false; }
+    public function forceDeleteAny(User $user): bool { return false; }
 }

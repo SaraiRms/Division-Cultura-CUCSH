@@ -60,10 +60,10 @@ class GraduatePolicy
         return $user->can('eliminar_contenido_publicado');
     }
 
-    // Restaurar y eliminar definitivamente: con el permiso gestionar_papelera.
+    // Restaurar: con el permiso gestionar_papelera. Eliminar definitivamente: solo el técnico (lo resuelve Gate::before).
     public function restore(User $user, Graduate $graduate): bool { return $user->can('gestionar_papelera'); }
     public function restoreAny(User $user): bool { return $user->can('gestionar_papelera'); }
-    public function forceDelete(User $user, Graduate $graduate): bool { return $user->can('gestionar_papelera'); }
-    public function forceDeleteAny(User $user): bool { return $user->can('gestionar_papelera'); }
+    public function forceDelete(User $user, Graduate $graduate): bool { return false; }
+    public function forceDeleteAny(User $user): bool { return false; }
 
 }

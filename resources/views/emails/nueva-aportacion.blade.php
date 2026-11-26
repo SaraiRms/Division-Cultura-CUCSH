@@ -11,7 +11,7 @@ Se recibió una nueva participación desde la página de la División. El docume
 
 **Comentarios:** {{ $aportacion->comentarios ?: 'Sin comentarios' }}
 
-<x-mail::button :url="url('/admin')">
+<x-mail::button :url="route('integracion.index', $aportacion->author_type === 'alumno' ? 'alumnos' : 'profesores')">
 Revisar en el panel
 </x-mail::button>
 </x-mail::message>

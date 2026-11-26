@@ -17,7 +17,6 @@ class DirectoryAdminForm
     {
         return $schema
             ->components([
-            
             // Sección de información personal del administrador
             Section::make('Datos del Administrador')
                 ->columnSpanFull()
@@ -39,11 +38,13 @@ class DirectoryAdminForm
                         ->label('Teléfono')
                         ->tel()
                         ->required()
-                        ->maxLength(20),
+                        ->maxLength(10)
+                        ->telRegex('/\A[0-9]{10}\z/'),
 
                     TextInput::make('phone_ext')
                         ->label('Extensión')
-                        ->maxLength(10),
+                        ->maxLength(5)
+                        ->telRegex('/\A[0-9]{10}\z/'),
 
                     FileUpload::make('photo_path')
                         ->label('Foto')
@@ -53,35 +54,29 @@ class DirectoryAdminForm
                         ->visibility('public')
                         ->maxSize(5120),
                 ]),
-
                 // Sección de información profesional del administrador
                 Section::make('Cargo y Departamento(s)')
                 ->columnSpanFull()
                 ->columns(2)
                 ->schema([
                     Select::make('jerarquia')
-                        ->label('Nivel en el organigrama')
+                        ->label('Cargo')
                         ->options(DirectoryAdmin::NIVELES)
                         ->default(6)
                         ->required()
                         ->native(false)
-                        ->helperText('Define el orden en el directorio público: primero la dirección, luego jefaturas, secretaría, coordinaciones, asistentes y personal académico.'),
-
-                    TextInput::make('cargo')
-                        ->label('Cargo')
-                        ->required()
-                        ->maxLength(100),
+                        ->helperText('Elige el cargo. Con esto también se ordena el directorio público: 
+                            primero la dirección, luego jefaturas, secretaría, coordinaciones, 
+                            asistentes y personal académico.'),
 
                     Select::make('departments')
                         ->label('Departamento(s)')
                         ->relationship('departments', 'name')
                         ->multiple()
                         ->preload()
-                        ->helperText('Puedes elegir más de uno si la persona está en varios departamentos.')
-                        ->columnSpanFull(),
+                        ->helperText('Puedes elegir más de uno si la persona está en varios departamentos.'),
                 
                 ]),
-
                 // Sección de información académica del administrador
                 Section::make('Perfil académico')
                     ->columnSpanFull()
@@ -116,10 +111,8 @@ class DirectoryAdminForm
                         ->columnSpanFull(),
 
                 ]),
-
                     // Guarda automáticamente quién registró a la persona.
                      Hidden::make('created_by')->default(fn () => auth()->id()),
-
             ]);
     }
 }

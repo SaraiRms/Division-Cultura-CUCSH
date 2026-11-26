@@ -13,7 +13,7 @@ class EditDirectoryAdmin extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Eliminacion::eliminar('la', 'noticia'),
+            Eliminacion::eliminar('el', 'maestro', 'full_name'),
             Eliminacion::restaurar(),
             Eliminacion::eliminarDefinitivo(),
         ];

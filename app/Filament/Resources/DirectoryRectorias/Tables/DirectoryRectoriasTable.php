@@ -7,7 +7,6 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\ImageColumn;
 use App\Filament\Support\Eliminacion;
@@ -33,10 +32,6 @@ class DirectoryRectoriasTable
                     ->searchable(['full_name', 'cargo'])
                     ->sortable(),
 
-                // TextColumn::make('cargo')
-                //     ->label('Cargo')
-                //     ->searchable(),
-
                 TextColumn::make('area')
                     ->label('Área')
                     ->searchable(),
@@ -45,7 +40,6 @@ class DirectoryRectoriasTable
             ->defaultSort('full_name')        
             ->filters([
                 Eliminacion::filtroPapelera(DirectoryRectoria::class),
-                TrashedFilter::make(),
             ])
 
             ->recordActions([
