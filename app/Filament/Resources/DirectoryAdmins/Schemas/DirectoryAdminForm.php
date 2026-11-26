@@ -52,7 +52,6 @@ class DirectoryAdminForm
                         ->directory('directory_admins/photos')
                         ->visibility('public')
                         ->maxSize(5120),
-
                 ]),
 
                 // Sección de información profesional del administrador

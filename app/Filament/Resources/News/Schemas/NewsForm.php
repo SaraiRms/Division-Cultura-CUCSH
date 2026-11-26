@@ -52,49 +52,15 @@ class NewsForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
+
             Section::make('Contenido de la noticia')
                 ->columnSpanFull()
+                ->columns(2)
                 ->schema([
-
                     TextInput::make('title')
                         ->label('Título')
                         ->required()
                         ->maxLength(200),
-
-                    TextInput::make('slug')
-                        ->label('Enlace')
-                        ->helperText('Déjalo vacío: se genera solo a partir del título.')
-                        ->maxLength(220)
-                        ->unique(ignoreRecord: true),
-
-                    Textarea::make('summary')
-                        ->label('Resumen corto')
-                        ->maxLength(500)
-                        ->rows(3),
-
-                    Section::make('Corrección solicitada')
-                        ->columnSpanFull()
-                        ->visible(fn (?Model $record) => $record?->status === 'rejected' && filled($record?->review_note))
-                        ->schema([
-                            Textarea::make('review_note')
-                                ->label('Observaciones de quien revisó')
-                                ->disabled()
-                                ->dehydrated(false)
-                                ->rows(3),
-
-                            TextInput::make('reviewer_name')
-                                ->label('Devuelta por')
-                                ->formatStateUsing(fn (?Model $record) => $record?->reviewer?->name)
-                                ->disabled()
-                                ->dehydrated(false),
-                        ]),
-
-                    RichEditor::make('body')
-                        ->label('Contenido de la noticia')
-                        ->helperText('Aquí puedes poner enlaces, negritas e imágenes adicionales.')
-                        ->fileAttachmentsDisk('public')
-                        ->fileAttachmentsDirectory('news/body')
-                        ->columnSpanFull(),
 
                     FileUpload::make('image_path')
                         ->label('Imagen principal')
@@ -110,10 +76,51 @@ class NewsForm
                         ->maxSize(5120)
                         ->helperText('Se recorta en formato horizontal 16:9. Usa una imagen horizontal para mejores resultados.')
                         ->required(),
+
+                    TextInput::make('slug')
+                        ->label('Enlace')
+                        ->helperText('Déjalo vacío: se genera solo a partir del título.')
+                        ->maxLength(220)
+                        ->unique(ignoreRecord: true)
+                        ->columnSpanFull(),
+
+                    Textarea::make('summary')
+                        ->label('Resumen corto')
+                        ->maxLength(500)
+                        ->rows(3)
+                        ->columnSpanFull(),
+
+                    Section::make('Corrección solicitada')
+                        ->columnSpanFull()
+                        ->visible(fn (?Model $record) => $record?->status === 'rejected' && filled($record?->review_note))
+                        ->schema([
+                            Textarea::make('review_note')
+                                ->label('Observaciones de quien revisó')
+                                ->disabled()
+                                ->dehydrated(false)
+                                ->rows(3)
+                                ->columnSpanFull(),
+
+                            TextInput::make('reviewer_name')
+                                ->label('Devuelta por')
+                                ->formatStateUsing(fn (?Model $record) => $record?->reviewer?->name)
+                                ->disabled()
+                                ->dehydrated(false),
+                        ]),
+
+                    RichEditor::make('body')
+                        ->label('Contenido de la noticia')
+                        ->helperText('Aquí puedes poner enlaces, negritas e imágenes adicionales.')
+                        ->fileAttachmentsDisk('public')
+                        ->fileAttachmentsDirectory('news/body')
+                        ->columnSpanFull(),
+
+
                 ]),
  
                 Section::make('Publicación')
                     ->columnSpanFull()
+                    ->columns(2)
                     ->schema([
                         Select::make('status')
                             ->label('Estado')

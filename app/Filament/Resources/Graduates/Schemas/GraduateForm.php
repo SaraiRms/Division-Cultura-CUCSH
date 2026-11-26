@@ -14,12 +14,20 @@ use Illuminate\Database\Eloquent\Model;
 class GraduateForm
 {
     public static function configure(Schema $schema): Schema
-    {
-        
+    {     
         return $schema->components([
             Section::make('Egresados')
                 ->columnSpanFull()
                 ->schema([
+                    FileUpload::make('image_path')
+                        ->label('Imagen')
+                        ->image()
+                        ->disk('public')
+                        ->directory('graduates')
+                        ->visibility('public')
+                        ->maxSize(5120)
+                        ->required(),
+
                     Select::make('program_id')
                         ->label('Programa')
                         ->relationship('program', 'name')
@@ -31,15 +39,6 @@ class GraduateForm
                         ->label('Título')
                         ->placeholder('Ej. Generación 2020-2024')
                         ->maxLength(200),
-
-                    FileUpload::make('image_path')
-                        ->label('Imagen')
-                        ->image()
-                        ->disk('public')
-                        ->directory('graduates')
-                        ->visibility('public')
-                        ->maxSize(5120)
-                        ->required(),
 
                     Select::make('status')
                         ->label('Estado')

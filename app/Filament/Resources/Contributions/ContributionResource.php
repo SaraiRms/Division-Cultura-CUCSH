@@ -20,9 +20,9 @@ use UnitEnum;
 class ContributionResource extends Resource
 {
 
-    protected static ?string $modelLabel = 'aportación académica';
-    protected static ?string $pluralModelLabel = 'Aportaciones Académicas';
-    protected static ?string $navigationLabel = 'Aportaciones';
+    protected static ?string $modelLabel = 'participación académica';
+    protected static ?string $pluralModelLabel = 'Participaciones Académicas';
+    protected static ?string $navigationLabel = 'Participación Académica';
     protected static string|UnitEnum|null $navigationGroup = 'Contenido';
     protected static ?int $navigationSort = 1;
     protected static ?string $model = Contribution::class;

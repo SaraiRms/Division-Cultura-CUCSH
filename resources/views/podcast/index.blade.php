@@ -151,7 +151,7 @@
                     <div class="mt-auto flex items-center justify-between gap-3 border-t border-marino/10 pt-4 text-xs">
                         <button type="button"
                                 @click="abrir(@js($payload))"
-                                class="inline-flex items-center gap-1 font-semibold text-vino underline-offset-4 hover:underline">
+                                class="inline-flex py-2 items-center gap-1 font-semibold text-vino underline-offset-4 hover:underline">
                             {{ $p->video_url ? ($ytId ? 'Reproducir y leer más' : 'Ver detalles') : 'Leer sinopsis' }}
                             <span aria-hidden="true">→</span>
                         </button>

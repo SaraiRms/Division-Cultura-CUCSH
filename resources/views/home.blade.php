@@ -70,7 +70,7 @@
             @foreach ($slides as $i => $slide)
                 <button type="button" @click="ir({{ $i }})" aria-label="Imagen {{ $i + 1 }}"
                         class="relative h-2.5 w-2.5 rounded-full 
-                        before:absolute before:-inset-2 before:content-['']"
+                        before:absolute before:-inset-3 before:content-['']"
                         :class="actual === {{ $i }} ? 'bg-white' : 'bg-white/50'"></button>
             @endforeach
         </div>
@@ -158,7 +158,7 @@
                     @foreach ($destacadas as $i => $n)
                         <button type="button" @click="actual = {{ $i }}"
                                 class="relative h-2.5 w-2.5 rounded-full 
-                                before:absolute before:-inset-2 before:content-['']"
+                                before:absolute before:-inset-3 before:content-['']"
                                 :class="actual === {{ $i }} ? 'bg-vino' : 'bg-white/80'"
                                 aria-label="Noticia {{ $i + 1 }}"></button>
                     @endforeach

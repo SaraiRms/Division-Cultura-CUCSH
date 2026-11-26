@@ -182,7 +182,7 @@
 
                     <a
                         href="{{ route('legal.contacto') }}"
-                        class="mt-4 inline-flex items-center gap-2 text-sm
+                        class="mt-2 inline-flex items-center gap-2 py-2 text-sm
                             font-semibold underline underline-offset-4
                             transition-colors hover:text-white/75"
                     >
@@ -239,7 +239,7 @@
                     <li>
                         <a
                             href="{{ route('legal.privacidad') }}"
-                            class="transition-colors hover:text-white hover:underline underline-offset-4"
+                            class="inline-block py-2 transition-colors hover:text-white hover:underline underline-offset-4"
                         >
                             Aviso de privacidad
                         </a>
@@ -248,7 +248,7 @@
                     <li>
                         <a
                             href="{{ route('legal.terminos') }}"
-                            class="transition-colors hover:text-white hover:underline underline-offset-4"
+                            class="inline-block py-2 transition-colors hover:text-white hover:underline underline-offset-4"
                         >
                             Términos y condiciones
                         </a>

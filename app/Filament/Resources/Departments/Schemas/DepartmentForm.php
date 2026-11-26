@@ -15,10 +15,16 @@ class DepartmentForm
     {
         return $schema
             ->components([
-
                 Section::make('Departamentos')
                     ->columnSpanFull()
                     ->schema([
+                        FileUpload::make('image_path')
+                            ->label('Imagen')
+                            ->image()
+                            ->disk('public')
+                            ->directory('departments/images')
+                            ->visibility('public')
+                            ->maxSize(5120),
 
                         TextInput::make('name')
                             ->label('Nombre')
@@ -30,20 +36,10 @@ class DepartmentForm
                             ->rows(6)
                             ->helperText('Breve descripción del departamento'),
 
-                        FileUpload::make('image_path')
-                            ->label('Imagen')
-                            ->image()
-                            ->disk('public')
-                            ->directory('departments/images')
-                            ->visibility('public')
-                            ->maxSize(5120),
-
                         Hidden::make('updated_by')
                         ->default(fn () => auth()->id())
                         ->dehydrateStateUsing(fn () => auth()->id()),
-
                     ]),
-
             ]);
     }
 }

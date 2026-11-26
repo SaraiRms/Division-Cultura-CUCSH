@@ -16,6 +16,11 @@ class EventInfolist
                 TextEntry::make('title')
                     ->label('Título'),
 
+                ImageEntry::make('image_path')
+                    ->label('Imagen')
+                    ->disk('public')
+                    ->square(),
+
                 TextEntry::make('description')
                     ->label('Descripción')
                     ->html()
@@ -24,11 +29,6 @@ class EventInfolist
                 TextEntry::make('location')
                     ->label('Lugar')
                     ->placeholder('—'),
-
-                ImageEntry::make('image_path')
-                    ->label('Imagen')
-                    ->disk('public')
-                    ->square(),
 
                 TextEntry::make('starts_at')
                     ->label('Fecha de inicio')

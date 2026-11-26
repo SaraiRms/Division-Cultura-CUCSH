@@ -13,6 +13,11 @@ class DepartmentInfolist
     {
         return $schema
             ->components([
+                ImageEntry::make('image_path')
+                    ->label('Imagen')
+                    ->disk('public')
+                    ->square(),
+
                 TextEntry::make('name')
                     ->label('Nombre')
                     ->placeholder('-'),
@@ -21,11 +26,6 @@ class DepartmentInfolist
                     ->label('Descripción')
                     ->placeholder('-')
                     ->columnSpanFull(),
-
-                ImageEntry::make('image_path')
-                    ->label('Imagen')
-                    ->disk('public')
-                    ->square(),
 
                 IconEntry::make('show_card')
                     ->label('Vista de tarjeta')

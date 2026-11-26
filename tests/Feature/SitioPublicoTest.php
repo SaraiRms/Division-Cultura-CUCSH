@@ -71,4 +71,11 @@ class SitioPublicoTest extends TestCase
             ->assertDontSee('<script>alert("xss")</script>', false)
             ->assertDontSee('onerror', false);
     }
+
+    public function test_la_pagina_404_tiene_el_diseno_del_sitio(): void
+    {
+        $this->get('/esta-pagina-no-existe')
+            ->assertNotFound()
+            ->assertSee('No encontramos esa página');
+    }
 }

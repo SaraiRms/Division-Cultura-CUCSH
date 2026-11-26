@@ -14,7 +14,6 @@ class DirectoryAdminInfolist
     {
         return $schema
             ->components([
-
                 ImageEntry::make('photo_path')
                     ->label('Imagen')
                     ->disk('public')

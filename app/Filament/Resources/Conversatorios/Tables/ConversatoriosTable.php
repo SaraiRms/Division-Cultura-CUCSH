@@ -3,8 +3,11 @@
 namespace App\Filament\Resources\Conversatorios\Tables;
 
 use App\Models\Conversatorio;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Enums\FontWeight;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -19,14 +22,12 @@ class ConversatoriosTable
     {
         return $table
             ->columns([
-
                 TextColumn::make('title')
                     ->label('Título')
-                    ->searchable()
-                    ->limit(100),
-
-                TextColumn::make('speaker')
-                    ->label('Ponente(s)')
+                    ->weight(FontWeight::Medium)
+                    ->tooltip(fn($record) => $record->title)
+                    ->description(fn($record) => $record->speaker)
+                    ->searchable(['title', 'speaker'])
                     ->limit(100),
 
                 TextColumn::make('scheduled_at')
@@ -39,34 +40,44 @@ class ConversatoriosTable
                     ->badge()
                     ->formatStateUsing(fn (string $state) => Conversatorio::STATUS_LABELS[$state] ?? $state)
                     ->color(fn (string $state) => match ($state) {
+                        'scheduleb' => 'warning',
                         'live' => 'success',
-                        'scheduleb' => 'info',
+                        'finished' => 'danger',
                         default => 'gray'
                     }),
 
             ])
-                    ->defaultSort('scheduled_at', 'desc')
-                    ->filters([
-                        Eliminacion::filtroPapelera(Conversatorio::class),
-                        SelectFilter::make('status')
-                            ->label('Estado')
-                            ->options(Conversatorio::STATUS_LABELS),
-                    ])
-                    
-                    ->recordActions([
-                        ViewAction::make(),
-                        EditAction::make()->hidden(fn (Conversatorio $record) => $record->trashed()),
-                        Eliminacion::eliminar('el', 'conversatorio'),
-                        Eliminacion::restaurar(),
-                        Eliminacion::eliminarDefinitivo(),
-                    ])
 
-                    ->toolbarActions([
-                        BulkActionGroup::make([
-                            Eliminacion::eliminarVarios(),
-                            RestoreBulkAction::make(),
-                            ForceDeleteBulkAction::make(),
-                        ]),
+            ->defaultSort('scheduled_at', 'desc')
+            ->filters([
+                Eliminacion::filtroPapelera(Conversatorio::class),
+                SelectFilter::make('status')
+                    ->label('Estado')
+                    ->options(Conversatorio::STATUS_LABELS),
+            ])
+                    
+            ->recordActions([
+                ActionGroup::make([
+                    EditAction::make()
+                        ->label('Editar')
+                        ->icon(Heroicon::Eye),
+                ]),
+
+                    // Terminar recordActions
+
+            ViewAction::make(),
+                EditAction::make()->hidden(fn (Conversatorio $record) => $record->trashed()),
+                Eliminacion::eliminar('el', 'conversatorio'),
+                Eliminacion::restaurar(),
+                Eliminacion::eliminarDefinitivo(),
+            ])
+
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    Eliminacion::eliminarVarios(),
+                    RestoreBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                ]),
             ]);
     }
 }

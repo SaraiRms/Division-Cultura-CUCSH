@@ -7,6 +7,8 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Gate;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,5 +36,15 @@ class AppServiceProvider extends ServiceProvider
             return $user->hasRole('administrador_tecnico') ? true : null;
         });
 
+        Table::configureUsing(function (Table $table): void {
+            $table
+                ->defaultDateTimeDisplayFormat('d/m/Y H:i')
+                ->paginated([10, 25, 50])
+                ->striped(); // Opcional: ayuda mucho a leer filas con mucha info
+        });
+
+        TextColumn::configureUsing(function (TextColumn $column): void {
+            $column->placeholder('—');
+        });
     }
 }

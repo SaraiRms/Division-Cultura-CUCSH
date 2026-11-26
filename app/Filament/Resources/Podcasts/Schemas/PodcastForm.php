@@ -18,7 +18,6 @@ class PodcastForm
     {
         return $schema
             ->components([
-
                 Section::make('Episodio')
                     ->columnSpanFull()
                     ->columns(2)
@@ -27,8 +26,15 @@ class PodcastForm
                         TextInput::make('title')
                             ->label('Titulo del Episodio')
                             ->required()
-                            ->maxLength(255)
-                            ->columnSpanFull(),
+                            ->maxLength(255),
+
+                        FileUpload::make('image_path')
+                            ->label('Imagen de la tarjeta')
+                            ->image()
+                            ->disk('public')
+                            ->directory('podcasts')
+                            ->visibility('public')
+                            ->maxSize(5120),
 
                         TextInput::make('video_url')
                             ->label('Enlace del video')
@@ -42,14 +48,6 @@ class PodcastForm
                             ->rows(5)
                             ->columnSpanFull(),
 
-                        FileUpload::make('image_path')
-                            ->label('Imagen de la tarjeta')
-                            ->image()
-                            ->disk('public')
-                            ->directory('podcasts')
-                            ->visibility('public')
-                            ->maxSize(5120),
-
                         Select::make('status')
                             ->label('Estado')
                             ->options(Podcast::STATUS_LABELS)
@@ -61,9 +59,6 @@ class PodcastForm
                             ->default(fn () => auth()->id()),
 
                     ])
-                
-            
-
             ]);
     }
 }

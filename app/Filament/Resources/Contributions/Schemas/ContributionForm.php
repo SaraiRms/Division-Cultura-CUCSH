@@ -45,13 +45,15 @@ class ContributionForm
                     ->columnSpanFull()
                     ->schema([
 
-                        Textarea::make('review_note')
-                            ->label('Motivo del rechazo')
-                            ->helperText('Este mensaje se enviará por correo a la persona que envió la participación. Redáctalo de forma clara y respetuosa.')
-                            ->visible(fn (Get $get) => $get('status') === 'rejected')
-                            ->required(fn (Get $get) => $get('status') === 'rejected')
-                            ->maxLength(1000)
-                            ->columnSpanFull(),
+                        FileUpload::make('banner_path')
+                            ->label('Banner')
+                            ->image()
+                            ->disk('public')
+                            ->directory('aportaciones/banners')
+                            ->maxSize(5120)
+                            ->required(fn (Get $get): bool => $get('status') === 'published')
+                            ->columnSpanFull()
+                            ->imagePreviewHeight('200'),
 
                         TextInput::make('reviewer_name')
                             ->label('Última revisión por')
@@ -84,15 +86,15 @@ class ContributionForm
                             ->live()
                             ->columnSpanFull(),
 
-                        FileUpload::make('banner_path')
-                            ->label('Banner')
-                            ->image()
-                            ->disk('public')
-                            ->directory('aportaciones/banners')
-                            ->maxSize(5120)
-                            ->required(fn (Get $get): bool => $get('status') === 'published')
-                            ->columnSpanFull()
-                            ->imagePreviewHeight('200'),
+                        Textarea::make('review_note')
+                            ->label('Motivo del rechazo')
+                            ->helperText('Este mensaje se enviará por correo a la persona que envió la participación. Redáctalo de forma clara y respetuosa.')
+                            ->visible(fn (Get $get) => $get('status') === 'rejected')
+                            ->required(fn (Get $get) => $get('status') === 'rejected')
+                            ->maxLength(1000)
+                            ->columnSpanFull(),
+
+
                     ]),
             ]);
     }

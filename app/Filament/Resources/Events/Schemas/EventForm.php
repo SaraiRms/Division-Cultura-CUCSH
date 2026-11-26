@@ -24,27 +24,31 @@ class EventForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            
                 TextInput::make('title')
                     ->label('Titulo del evento')
                     ->required()
                     ->maxLength(200),
+
+                FileUpload::make('image_path')
+                    ->label('Imagen principal')
+                    ->image()
+                    ->imageEditor()
+                    ->imageEditorAspectRatios(['16:9'])
+                    ->imageCropAspectRatio('16:9')
+                    ->imageResizeTargetWidth('1280')
+                    ->imageResizeTargetHeight('720')
+                    ->disk('public')
+                    ->directory('events')
+                    ->visibility('public')
+                    ->maxSize(5120)
+                    ->helperText('Se recorta en formato horizontal 16:9. Usa una imagen horizontal para mejores resultados.')
+                    ->required(),
 
                 RichEditor::make('description')
                     ->label('Descripción del evento')
                     ->placeholder('Incluye información relevante sobre el evento')
                     ->required()
                     ->columnSpanFull(),
-
-                Select::make('status')
-                    ->label('Estado')
-                    ->options(fn () => static::canReview()
-                     ? Event::STATUS_LABELS
-                      : ['draft' => Event::STATUS_LABELS['draft']])
-                    ->default('draft')
-                    ->disabled(fn () => ! static::canReview())
-                    ->dehydrated()
-                    ->required(),
 
                     Hidden::make('created_by')
                     ->default(fn () => auth()->id()),
@@ -62,19 +66,14 @@ class EventForm
                     ->displayFormat('d/m/Y H:i')
                     ->required(),
 
-                FileUpload::make('image_path')
-                    ->label('Imagen principal')
-                    ->image()
-                    ->imageEditor()
-                    ->imageEditorAspectRatios(['16:9'])
-                    ->imageCropAspectRatio('16:9')
-                    ->imageResizeTargetWidth('1280')
-                    ->imageResizeTargetHeight('720')
-                    ->disk('public')
-                    ->directory('events')
-                    ->visibility('public')
-                    ->maxSize(5120)
-                    ->helperText('Se recorta en formato horizontal 16:9. Usa una imagen horizontal para mejores resultados.')
+                Select::make('status')
+                    ->label('Estado')
+                    ->options(fn () => static::canReview()
+                     ? Event::STATUS_LABELS
+                      : ['draft' => Event::STATUS_LABELS['draft']])
+                    ->default('draft')
+                    ->disabled(fn () => ! static::canReview())
+                    ->dehydrated()
                     ->required(),
 
                 Toggle::make('is_featured')

@@ -16,12 +16,20 @@ class DirectoryRectoriaForm
        
     return $schema->
         components([
-
             Section::make('Datos de la persona')
                 ->columnSpanFull()
                 ->columns(2)
                 ->schema([
             
+                    FileUpload::make('photo_path')
+                        ->label('Fotografía')
+                        ->image()
+                        ->disk('public')
+                        ->directory('directory_rectoria')
+                        ->visibility('public')
+                        ->maxSize(5120)
+                        ->columnSpanFull(),
+
                     TextInput::make('full_name')
                         ->label('Nombre completo')
                         ->required()
@@ -35,15 +43,6 @@ class DirectoryRectoriaForm
                     TextInput::make('area')
                         ->label('Área')
                         ->maxLength(150),
-
-                    FileUpload::make('photo_path')
-                        ->label('Fotografía')
-                        ->image()
-                        ->disk('public')
-                        ->directory('directory_rectoria')
-                        ->visibility('public')
-                        ->maxSize(5120)
-                        ->columnSpanFull(),
 
                     Hidden::make('created_by')
                         ->default(fn () => auth()->id()),

@@ -51,7 +51,8 @@ class ContributionsTable
                      ->limit(40)
                      ->tooltip(fn (Contribution $record) => $record->review_note)
                      ->placeholder('—')
-                     ->toggleable(),
+                     ->toggleable()
+                     ->wrap(),
 
                 TextColumn::make('reviewer.name')
                     ->label('Revisó')
